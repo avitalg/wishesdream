@@ -4,6 +4,7 @@
   --surface: #ffffff;
   --text: #3a3632;
   --muted: #8c857d;
+  --placeholder: #b8b1a9;
   --primary: #c4a494;
   --primary-hover: #b08f7f;
   --primary-soft: rgba(196, 164, 148, 0.14);
@@ -408,6 +409,14 @@ h3 {
 .hero-card-preview__image {
   aspect-ratio: 1;
   background: linear-gradient(145deg, #f0ebe5, #e8dfd6);
+  overflow: hidden;
+}
+
+.hero-card-preview__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .hero-card-preview__body {
@@ -670,6 +679,14 @@ input[type='url'] {
   background: var(--bg);
   color: var(--text);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type='text']::placeholder,
+input[type='email']::placeholder,
+input[type='password']::placeholder,
+input[type='url']::placeholder {
+  color: var(--placeholder);
+  opacity: 1;
 }
 
 input:focus {

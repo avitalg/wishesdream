@@ -40,7 +40,7 @@ export const faqItems = [
       'Yes. When someone claims or unclaims a gift, other open list pages update automatically without refreshing.',
   },
   {
-    question: 'Can I export my list after the shower?',
+    question: 'Can I export my list after the event?',
     answer:
       'Yes. Hosts can export a PDF from the manage page with every item, claim status, guest name, and claim date — handy for thank-you notes.',
   },

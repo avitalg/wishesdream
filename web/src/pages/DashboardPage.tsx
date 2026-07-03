@@ -50,7 +50,7 @@ export function DashboardPage() {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Baby Shower Gift List"
+          placeholder="Sarah's Birthday Wish List"
           required
         />
         <button type="submit" className="btn-primary" disabled={createList.isPending}>

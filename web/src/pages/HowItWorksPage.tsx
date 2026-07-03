@@ -11,8 +11,9 @@ export function HowItWorksPage() {
         <p className="eyebrow">How It Works</p>
         <h1>Simple for hosts. Private for guests.</h1>
         <p className="content-lead">
-          WishesDream helps you build a baby shower registry from any store, share one link with
-          guests, and keep claim details private until you need them.
+          WishesDream helps you build a gift registry from any store for birthdays, baby showers,
+          and other events — share one link with guests and keep claim details private until you
+          need them.
         </p>
 
         <section className="content-section">
@@ -21,7 +22,7 @@ export function HowItWorksPage() {
             <li>Create a free account and start a new gift list.</li>
             <li>Paste product links — we fetch the title, image, and price automatically.</li>
             <li>Share your list link with guests. You see who claimed what; they don&apos;t.</li>
-            <li>Export a PDF after the shower for thank-you notes.</li>
+            <li>Export a PDF after your event for thank-you notes.</li>
           </ol>
         </section>
 

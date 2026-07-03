@@ -27,7 +27,7 @@ export function RegisterPage() {
     <Layout>
       <div className="auth-card">
         <h1>Create Host Account</h1>
-        <p className="form-hint">Start building your baby shower gift list.</p>
+        <p className="form-hint">Start building your gift list for any celebration.</p>
 
         <form onSubmit={handleSubmit}>
           <label>

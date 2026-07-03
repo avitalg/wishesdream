@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import screenshot from '../assets/Screenshot1.png';
+import dollImage from '../assets/doll.png';
 
 export function HomePage() {
   const { user } = useAuth();
@@ -10,11 +11,12 @@ export function HomePage() {
     <Layout>
       <section className="hero">
         <div className="hero-content">
-          <p className="eyebrow">Baby Shower Registry</p>
+          <p className="eyebrow">Gift Registry for Every Celebration</p>
           <h1>Curated gifts.<br />Private claims.</h1>
           <p className="hero-text">
-            Build a beautiful wish list from any store. Guests see what&apos;s available —
-            never who claimed what — while you stay informed for every thank-you note.
+            Build a beautiful wish list for birthdays, baby showers, weddings, and more.
+            Guests see what&apos;s available — never who claimed what — while you stay
+            informed for every thank-you note.
           </p>
           <div className="hero-actions">
             <Link to="/register" className="btn-primary">
@@ -38,10 +40,12 @@ export function HomePage() {
             <div className="hero-orb hero-orb--1" />
             <div className="hero-orb hero-orb--2" />
             <div className="hero-card-preview">
-              <div className="hero-card-preview__image" />
+              <div className="hero-card-preview__image">
+                <img src={dollImage} alt="" />
+              </div>
               <div className="hero-card-preview__body">
                 <span className="status-badge available">Available</span>
-                <p className="hero-card-preview__title">Organic Muslin Blanket</p>
+                <p className="hero-card-preview__title">Cherished Ballerina Doll</p>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
-# WishesDream — Baby Shower Gift List
+# WishesDream — Gift Registry
 
-A privacy-conscious collaborative gift registry. Hosts import product links, guests claim items anonymously, and real-time updates keep everyone in sync.
+A privacy-conscious collaborative gift registry for birthdays, baby showers, weddings, and other celebrations. Hosts import product links, guests claim items anonymously, and real-time updates keep everyone in sync.
 
 ## Features
 
