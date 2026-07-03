@@ -8,7 +8,7 @@ import {
   buildWebSiteJsonLd,
 } from '../lib/seoJsonLd.js';
 import screenshot from '../assets/Screenshot1.png';
-import dollImage from '../assets/doll.png';
+import dollImage from '../assets/doll.jpg';
 
 export function HomePage() {
   const { user } = useAuth();
@@ -52,7 +52,14 @@ export function HomePage() {
             <div className="hero-orb hero-orb--2" />
             <div className="hero-card-preview">
               <div className="hero-card-preview__image">
-                <img src={dollImage} alt="" />
+                <img
+                  src={dollImage}
+                  alt=""
+                  width={600}
+                  height={327}
+                  fetchPriority="high"
+                  decoding="async"
+                />
               </div>
               <div className="hero-card-preview__body">
                 <span className="status-badge available">Available</span>
