@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function CookiePolicyPage() {
+  useSeo({
+    title: 'Cookie Policy',
+    description:
+      'How WishesDream uses cookies and browser storage for sign-in and guest gift claims — no advertising trackers.',
+    path: '/cookies',
+  });
+
   return (
     <Layout>
       <article className="content-page">

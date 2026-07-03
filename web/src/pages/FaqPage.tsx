@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
 import { faqItems } from '../content/faqItems.js';
+import { useSeo } from '../hooks/useSeo.js';
+import { buildFaqPageJsonLd } from '../lib/seoJsonLd.js';
 
 export function FaqPage() {
+  useSeo({
+    title: 'FAQ',
+    description:
+      'Answers about WishesDream gift registries — guest privacy, product imports, unclaiming gifts, and sharing your list.',
+    path: '/faq',
+    jsonLd: buildFaqPageJsonLd(),
+  });
   return (
     <Layout>
       <article className="content-page">

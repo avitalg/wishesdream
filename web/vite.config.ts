@@ -18,6 +18,14 @@ export default defineConfig({
         target: 'ws://localhost:3010',
         ws: true,
       },
+      '/robots.txt': {
+        target: 'http://localhost:3010',
+        changeOrigin: true,
+      },
+      '/sitemap.xml': {
+        target: 'http://localhost:3010',
+        changeOrigin: true,
+      },
     },
   },
 });

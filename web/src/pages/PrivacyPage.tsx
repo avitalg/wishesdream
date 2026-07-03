@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function PrivacyPage() {
+  useSeo({
+    title: 'Privacy Policy',
+    description:
+      'How WishesDream handles your data — what we collect for gift registries, guest privacy, and your rights.',
+    path: '/privacy',
+  });
+
   return (
     <Layout>
       <article className="content-page">

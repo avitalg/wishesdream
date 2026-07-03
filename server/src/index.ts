@@ -8,6 +8,7 @@ import listRoutes from './routes/lists.js';
 import { getWebDistPath, isWebDistAvailable } from './lib/webDistPath.js';
 import { wsManager } from './services/websocket.js';
 import './db/database.js';
+import { registerSeoRoutes } from './lib/seoRoutes.js';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3010;
@@ -22,6 +23,8 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/lists', listRoutes);
+
+registerSeoRoutes(app);
 
 if (isWebDistAvailable()) {
   const webDist = getWebDistPath();

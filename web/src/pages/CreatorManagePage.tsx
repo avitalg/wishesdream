@@ -11,6 +11,7 @@ import { useClaimItem } from '../hooks/mutations/useClaimItem.js';
 import { useDeleteItem } from '../hooks/mutations/useDeleteItem.js';
 import { useUnclaimItem } from '../hooks/mutations/useUnclaimItem.js';
 import { useGiftList } from '../hooks/queries/useGiftList.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function CreatorManagePage() {
   const { listId } = useParams<{ listId: string }>();
@@ -23,6 +24,12 @@ export function CreatorManagePage() {
   const claimItem = useClaimItem();
   const unclaimItem = useUnclaimItem();
   const deleteItem = useDeleteItem();
+
+  useSeo({
+    title: 'Manage List',
+    path: listId ? `/lists/${listId}/manage` : '/lists',
+    noindex: true,
+  });
 
   useEffect(() => {
     if (!user) {

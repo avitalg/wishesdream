@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function RegisterPage() {
   const { register, isLoading } = useAuth();
@@ -10,6 +11,13 @@ export function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  useSeo({
+    title: 'Create Account',
+    description: 'Create a free WishesDream account and start your gift registry.',
+    path: '/register',
+    noindex: true,
+  });
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();

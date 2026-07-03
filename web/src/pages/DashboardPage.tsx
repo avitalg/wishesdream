@@ -4,6 +4,7 @@ import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import { useCreateList } from '../hooks/mutations/useCreateList.js';
 import { useMyLists } from '../hooks/queries/useMyLists.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function DashboardPage() {
   const { user } = useAuth();
@@ -11,6 +12,12 @@ export function DashboardPage() {
   const [title, setTitle] = useState('');
   const { data: lists = [], isLoading, error } = useMyLists(Boolean(user));
   const createList = useCreateList();
+
+  useSeo({
+    title: 'Dashboard',
+    path: '/dashboard',
+    noindex: true,
+  });
 
   useEffect(() => {
     if (!user) {

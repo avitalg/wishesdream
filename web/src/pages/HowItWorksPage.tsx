@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function HowItWorksPage() {
   const { user } = useAuth();
+
+  useSeo({
+    title: 'How It Works',
+    description:
+      'Learn how WishesDream gift registries work for hosts and guests — create a list, share one link, and keep claims private.',
+    path: '/how-it-works',
+  });
 
   return (
     <Layout>

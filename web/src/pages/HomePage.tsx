@@ -1,11 +1,22 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
+import { useSeo } from '../hooks/useSeo.js';
+import {
+  buildOrganizationJsonLd,
+  buildWebApplicationJsonLd,
+  buildWebSiteJsonLd,
+} from '../lib/seoJsonLd.js';
 import screenshot from '../assets/Screenshot1.png';
 import dollImage from '../assets/doll.png';
 
 export function HomePage() {
   const { user } = useAuth();
+
+  useSeo({
+    path: '/',
+    jsonLd: [buildOrganizationJsonLd(), buildWebSiteJsonLd(), buildWebApplicationJsonLd()],
+  });
 
   return (
     <Layout>

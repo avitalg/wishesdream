@@ -7,6 +7,7 @@ import { useListWebSocket } from '../hooks/useListWebSocket.js';
 import { useClaimItem } from '../hooks/mutations/useClaimItem.js';
 import { useUnclaimItem } from '../hooks/mutations/useUnclaimItem.js';
 import { useGiftList } from '../hooks/queries/useGiftList.js';
+import { useSeo } from '../hooks/useSeo.js';
 
 export function PublicListPage() {
   const { listId } = useParams<{ listId: string }>();
@@ -15,6 +16,13 @@ export function PublicListPage() {
   const { data, isLoading, error } = useGiftList(listId, { viewAsGuest: true });
   const claimItem = useClaimItem();
   const unclaimItem = useUnclaimItem();
+
+  useSeo({
+    title: data?.list.title ?? 'Gift Registry',
+    description: 'View and claim gifts from a shared WishesDream registry.',
+    path: listId ? `/lists/${listId}` : '/lists',
+    noindex: true,
+  });
 
   useListWebSocket(listId);
 
