@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import { useCreateList } from '../hooks/mutations/useCreateList.js';
@@ -9,12 +10,13 @@ import { useSeo } from '../hooks/useSeo.js';
 export function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [title, setTitle] = useState('');
   const { data: lists = [], isLoading, error } = useMyLists(Boolean(user));
   const createList = useCreateList();
 
   useSeo({
-    title: 'Dashboard',
+    title: t('seo.dashboard.title'),
     path: '/dashboard',
     noindex: true,
   });
@@ -43,12 +45,14 @@ export function DashboardPage() {
     (error instanceof Error ? error.message : null) ??
     (createList.error instanceof Error ? createList.error.message : null);
 
+  const dateLocale = i18n.language.startsWith('he') ? 'he-IL' : 'en-US';
+
   return (
     <Layout>
       <div className="page-header">
         <div>
-          <h1>My Gift Lists</h1>
-          <p className="form-hint">Welcome back, {user?.name}!</p>
+          <h1>{t('dashboard.title')}</h1>
+          <p className="form-hint">{t('dashboard.welcome', { name: user?.name })}</p>
         </div>
       </div>
 
@@ -57,32 +61,36 @@ export function DashboardPage() {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Sarah's Birthday Wish List"
+          placeholder={t('dashboard.placeholder')}
           required
         />
         <button type="submit" className="btn-primary" disabled={createList.isPending}>
-          {createList.isPending ? 'Creating…' : 'New List'}
+          {createList.isPending ? t('common.creating') : t('dashboard.newList')}
         </button>
       </form>
 
       {errorMessage && <p className="error-text">{errorMessage}</p>}
 
       {isLoading ? (
-        <p className="loading-text">Loading your lists…</p>
+        <p className="loading-text">{t('common.loadingLists')}</p>
       ) : lists.length === 0 ? (
-        <p className="empty-state">No lists yet. Create your first one above!</p>
+        <p className="empty-state">{t('dashboard.empty')}</p>
       ) : (
         <ul className="list-grid">
           {lists.map((list) => (
             <li key={list.public_id} className="list-card">
               <h3>{list.title}</h3>
-              <p className="list-meta">Created {new Date(list.created_at).toLocaleDateString()}</p>
+              <p className="list-meta">
+                {t('dashboard.created', {
+                  date: new Date(list.created_at).toLocaleDateString(dateLocale),
+                })}
+              </p>
               <div className="list-card-actions">
                 <Link to={`/lists/${list.public_id}/manage`} className="btn-primary btn-sm">
-                  Manage
+                  {t('nav.manage')}
                 </Link>
                 <Link to={`/lists/${list.public_id}`} className="btn-outline btn-sm">
-                  Guest View
+                  {t('nav.guestView')}
                 </Link>
               </div>
             </li>

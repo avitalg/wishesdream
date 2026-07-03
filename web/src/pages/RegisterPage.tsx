@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import { useSeo } from '../hooks/useSeo.js';
@@ -7,14 +8,15 @@ import { useSeo } from '../hooks/useSeo.js';
 export function RegisterPage() {
   const { register, isLoading } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   useSeo({
-    title: 'Create Account',
-    description: 'Create a free WishesDream account and start your gift registry.',
+    title: t('seo.register.title'),
+    description: t('seo.register.description'),
     path: '/register',
     noindex: true,
   });
@@ -27,27 +29,27 @@ export function RegisterPage() {
       await register(email, name, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      setError(err instanceof Error ? err.message : t('common.registrationFailed'));
     }
   }
 
   return (
     <Layout>
       <div className="auth-card">
-        <h1>Create Host Account</h1>
-        <p className="form-hint">Start building your gift list for any celebration.</p>
+        <h1>{t('auth.createHostAccount')}</h1>
+        <p className="form-hint">{t('auth.registerHint')}</p>
 
         <form onSubmit={handleSubmit}>
           <label>
-            Your Name
+            {t('common.yourName')}
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           </label>
           <label>
-            Email
+            {t('common.email')}
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </label>
           <label>
-            Password
+            {t('common.password')}
             <input
               type="password"
               value={password}
@@ -60,12 +62,12 @@ export function RegisterPage() {
           {error && <p className="error-text">{error}</p>}
 
           <button type="submit" className="btn-primary btn-full" disabled={isLoading}>
-            {isLoading ? 'Creating account…' : 'Sign Up'}
+            {isLoading ? t('common.creatingAccount') : t('auth.signUp')}
           </button>
         </form>
 
         <p className="auth-footer">
-          Already have an account? <Link to="/login">Log in</Link>
+          {t('auth.alreadyHaveAccount')} <Link to="/login">{t('auth.logInLink')}</Link>
         </p>
       </div>
     </Layout>

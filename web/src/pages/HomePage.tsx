@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import { useSeo } from '../hooks/useSeo.js';
@@ -12,8 +13,10 @@ import dollImage from '../assets/doll.jpg';
 
 export function HomePage() {
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   useSeo({
+    description: t('seo.home.description'),
     path: '/',
     jsonLd: [buildOrganizationJsonLd(), buildWebSiteJsonLd(), buildWebApplicationJsonLd()],
   });
@@ -22,19 +25,17 @@ export function HomePage() {
     <Layout>
       <section className="hero">
         <div className="hero-content">
-          <p className="eyebrow">Gift Registry for Every Celebration</p>
-          <h1>Curated gifts.<br />Private claims.</h1>
-          <p className="hero-text">
-            Build a beautiful wish list for birthdays, baby showers, weddings, and more.
-            Guests see what&apos;s available — never who claimed what — while you stay
-            informed for every thank-you note.
-          </p>
+          <p className="eyebrow">{t('home.eyebrow')}</p>
+          <h1>
+            <Trans i18nKey="home.title" components={{ br: <br /> }} />
+          </h1>
+          <p className="hero-text">{t('home.heroText')}</p>
           <div className="hero-actions">
             <Link to="/register" className="btn-primary">
-              Create Your List
+              {t('nav.createYourList')}
             </Link>
             <Link to="/login" className="btn-outline">
-              Host Login
+              {t('nav.hostLogin')}
             </Link>
           </div>
         </div>
@@ -42,7 +43,7 @@ export function HomePage() {
           <div className="hero-visual">
             <img
               src={screenshot}
-              alt="WishesDream gift list showing add gift form and product cards"
+              alt={t('home.screenshotAlt')}
               className="hero-screenshot"
             />
           </div>
@@ -62,8 +63,8 @@ export function HomePage() {
                 />
               </div>
               <div className="hero-card-preview__body">
-                <span className="status-badge available">Available</span>
-                <p className="hero-card-preview__title">Cherished Ballerina Doll</p>
+                <span className="status-badge available">{t('common.available')}</span>
+                <p className="hero-card-preview__title">{t('home.previewTitle')}</p>
               </div>
             </div>
           </div>
@@ -74,12 +75,9 @@ export function HomePage() {
         <section className="guest-claim" id="for-guests">
           <div className="guest-claim__inner">
             <div className="guest-claim__intro">
-              <p className="eyebrow">For Guests</p>
-              <h2>Claim a gift in seconds</h2>
-              <p className="guest-claim__lead">
-                No account, no app download. Open the list link your host shared, pick an available
-                gift, and enter your name — that&apos;s it.
-              </p>
+              <p className="eyebrow">{t('home.guestEyebrow')}</p>
+              <h2>{t('home.guestTitle')}</h2>
+              <p className="guest-claim__lead">{t('home.guestLead')}</p>
               <div className="guest-claim__preview" aria-hidden="true">
                 <article className="guest-claim__card item-card">
                   <div className="item-image-wrap">
@@ -93,23 +91,23 @@ export function HomePage() {
                       decoding="async"
                     />
                     <div className="item-image-badge">
-                      <span className="status-badge available">Available</span>
+                      <span className="status-badge available">{t('common.available')}</span>
                     </div>
                   </div>
                   <div className="item-body">
-                    <p className="item-number">Gift 1</p>
-                    <h3 className="item-title">Cherished Ballerina Doll</h3>
+                    <p className="item-number">{t('common.giftNumber', { number: 1 })}</p>
+                    <h3 className="item-title">{t('home.previewTitle')}</h3>
                     <div className="item-actions">
-                      <span className="item-view-link">View product →</span>
+                      <span className="item-view-link">{t('common.viewProduct')}</span>
                       <div className="item-action-buttons">
-                        <span className="btn-primary btn-sm">Claim Gift</span>
+                        <span className="btn-primary btn-sm">{t('common.claimGift')}</span>
                       </div>
                     </div>
                   </div>
                 </article>
               </div>
               <Link to="/how-it-works" className="btn-outline">
-                See Full Guide
+                {t('nav.seeFullGuide')}
               </Link>
             </div>
 
@@ -117,38 +115,31 @@ export function HomePage() {
               <li className="guest-claim__step">
                 <span className="guest-claim__step-number">1</span>
                 <div>
-                  <h3>Open the shared link</h3>
-                  <p>Tap the list URL from a text, email, or invitation. No sign-up required.</p>
+                  <h3>{t('home.step1Title')}</h3>
+                  <p>{t('home.step1Text')}</p>
                 </div>
               </li>
               <li className="guest-claim__step">
                 <span className="guest-claim__step-number">2</span>
                 <div>
-                  <h3>Choose an available gift</h3>
+                  <h3>{t('home.step2Title')}</h3>
                   <p>
-                    Browse the registry and hit <strong>Claim Gift</strong> on something you&apos;d
-                    like to give.
+                    <Trans i18nKey="home.step2Text" components={{ strong: <strong /> }} />
                   </p>
                 </div>
               </li>
               <li className="guest-claim__step">
                 <span className="guest-claim__step-number">3</span>
                 <div>
-                  <h3>Enter your name</h3>
-                  <p>
-                    Your name is private — other guests only see &ldquo;Already Selected,&rdquo; not
-                    who claimed it.
-                  </p>
+                  <h3>{t('home.step3Title')}</h3>
+                  <p>{t('home.step3Text')}</p>
                 </div>
               </li>
               <li className="guest-claim__step">
                 <span className="guest-claim__step-number">4</span>
                 <div>
-                  <h3>Changed your mind?</h3>
-                  <p>
-                    Unclaim anytime from the same browser. The gift opens back up for everyone
-                    instantly.
-                  </p>
+                  <h3>{t('home.step4Title')}</h3>
+                  <p>{t('home.step4Text')}</p>
                 </div>
               </li>
             </ol>
@@ -158,24 +149,24 @@ export function HomePage() {
 
       <section className="features" id="features">
         <div className="section-intro">
-          <p className="eyebrow">Why WishesDream</p>
-          <h2>Designed for modern celebrations</h2>
+          <p className="eyebrow">{t('home.featuresEyebrow')}</p>
+          <h2>{t('home.featuresTitle')}</h2>
         </div>
         <div className="features-grid">
           <article className="feature-card">
             <span className="feature-icon">🤍</span>
-            <h3>Privacy-first</h3>
-            <p>Guests only see Available or Already Selected — never each other&apos;s names.</p>
+            <h3>{t('home.privacyTitle')}</h3>
+            <p>{t('home.privacyText')}</p>
           </article>
           <article className="feature-card">
             <span className="feature-icon">🔗</span>
-            <h3>Smart import</h3>
-            <p>Paste any product link and we fetch the title, image, and price for you.</p>
+            <h3>{t('home.importTitle')}</h3>
+            <p>{t('home.importText')}</p>
           </article>
           <article className="feature-card">
             <span className="feature-icon">✨</span>
-            <h3>Live updates</h3>
-            <p>When someone claims a gift, every guest&apos;s screen updates instantly.</p>
+            <h3>{t('home.liveTitle')}</h3>
+            <p>{t('home.liveText')}</p>
           </article>
         </div>
       </section>

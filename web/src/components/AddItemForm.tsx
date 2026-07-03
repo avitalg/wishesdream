@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAddItem } from '../hooks/mutations/useAddItem.js';
 import { useParseUrl } from '../hooks/mutations/useParseUrl.js';
 
@@ -7,6 +8,7 @@ interface AddItemFormProps {
 }
 
 export function AddItemForm({ listId }: AddItemFormProps) {
+  const { t } = useTranslation();
   const [url, setUrl] = useState('');
   const parseUrl = useParseUrl();
   const addItem = useAddItem();
@@ -40,8 +42,8 @@ export function AddItemForm({ listId }: AddItemFormProps) {
 
   return (
     <form className="add-item-form" onSubmit={handleSubmit}>
-      <h3>Add a Gift</h3>
-      <p className="form-hint">Paste a product link and we'll fetch the details automatically.</p>
+      <h3>{t('list.addGift')}</h3>
+      <p className="form-hint">{t('list.addGiftHint')}</p>
 
       <div className="url-input-row">
         <input
@@ -51,11 +53,11 @@ export function AddItemForm({ listId }: AddItemFormProps) {
             setUrl(e.target.value);
             parseUrl.reset();
           }}
-          placeholder="https://example.com/product"
+          placeholder={t('list.urlPlaceholder')}
           required
         />
         <button type="button" className="btn-outline btn-sm" onClick={handlePreview} disabled={loading || !url.trim()}>
-          Preview
+          {t('common.preview')}
         </button>
       </div>
 
@@ -69,7 +71,7 @@ export function AddItemForm({ listId }: AddItemFormProps) {
       {errorMessage && <p className="error-text">{errorMessage}</p>}
 
       <button type="submit" className="btn-primary" disabled={loading || !url.trim()}>
-        {addItem.isPending ? 'Adding…' : 'Add to List'}
+        {addItem.isPending ? t('common.adding') : t('list.addToList')}
       </button>
     </form>
   );

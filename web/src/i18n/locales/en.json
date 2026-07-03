@@ -1,0 +1,292 @@
+{
+  "common": {
+    "siteName": "WishesDream",
+    "available": "Available",
+    "claimedByYou": "Claimed by You",
+    "claimedBy": "Claimed by {{name}}",
+    "alreadySelected": "Already Selected",
+    "claimGift": "Claim Gift",
+    "unclaim": "Unclaim",
+    "remove": "Remove",
+    "viewProduct": "View product →",
+    "giftNumber": "Gift {{number}}",
+    "cancel": "Cancel",
+    "copy": "Copy",
+    "preview": "Preview",
+    "loading": "Loading…",
+    "loadingList": "Loading gift list…",
+    "loadingLists": "Loading your lists…",
+    "loadingManage": "Loading list…",
+    "listNotFound": "List not found",
+    "loginFailed": "Login failed",
+    "registrationFailed": "Registration failed",
+    "claimFailed": "Failed to claim item",
+    "confirming": "Confirming…",
+    "creating": "Creating…",
+    "creatingAccount": "Creating account…",
+    "signingIn": "Signing in…",
+    "adding": "Adding…",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "yourName": "Your Name",
+    "item": "item",
+    "items": "items",
+    "dash": "—"
+  },
+  "nav": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "faq": "FAQ",
+    "myLists": "My Lists",
+    "logOut": "Log Out",
+    "logIn": "Log In",
+    "signUp": "Sign Up",
+    "createList": "Create a List",
+    "privacy": "Privacy",
+    "cookiePolicy": "Cookie Policy",
+    "topBar": "Soft, thoughtful gifting — keep every claim private",
+    "footerTagline": "Celebrate with grace. Gift with privacy.",
+    "product": "Product",
+    "account": "Account",
+    "legal": "Legal",
+    "languageSwitch": "Switch language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "manage": "Manage",
+    "guestView": "Guest View",
+    "goToMyLists": "Go to My Lists",
+    "createYourList": "Create Your List",
+    "hostLogin": "Host Login",
+    "seeFullGuide": "See Full Guide"
+  },
+  "home": {
+    "eyebrow": "Gift Registry for Every Celebration",
+    "title": "Curated gifts.<br/>Private claims.",
+    "heroText": "Build a beautiful wish list for birthdays, baby showers, weddings, and more. Guests see what's available — never who claimed what — while you stay informed for every thank-you note.",
+    "screenshotAlt": "WishesDream gift list showing add gift form and product cards",
+    "previewTitle": "Cherished Ballerina Doll",
+    "guestEyebrow": "For Guests",
+    "guestTitle": "Claim a gift in seconds",
+    "guestLead": "No account, no app download. Open the list link your host shared, pick an available gift, and enter your name — that's it.",
+    "step1Title": "Open the shared link",
+    "step1Text": "Tap the list URL from a text, email, or invitation. No sign-up required.",
+    "step2Title": "Choose an available gift",
+    "step2Text": "Browse the registry and hit <strong>Claim Gift</strong> on something you'd like to give.",
+    "step3Title": "Enter your name",
+    "step3Text": "Your name is private — other guests only see \"Already Selected,\" not who claimed it.",
+    "step4Title": "Changed your mind?",
+    "step4Text": "Unclaim anytime from the same browser. The gift opens back up for everyone instantly.",
+    "featuresEyebrow": "Why WishesDream",
+    "featuresTitle": "Designed for modern celebrations",
+    "privacyTitle": "Privacy-first",
+    "privacyText": "Guests only see Available or Already Selected — never each other's names.",
+    "importTitle": "Smart import",
+    "importText": "Paste any product link and we fetch the title, image, and price for you.",
+    "liveTitle": "Live updates",
+    "liveText": "When someone claims a gift, every guest's screen updates instantly."
+  },
+  "auth": {
+    "hostLogin": "Host Login",
+    "hostLoginHint": "Sign in to manage your gift lists.",
+    "logIn": "Log In",
+    "newHere": "New here?",
+    "createAccount": "Create an account",
+    "createHostAccount": "Create Host Account",
+    "registerHint": "Start building your gift list for any celebration.",
+    "signUp": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "logInLink": "Log in",
+    "namePlaceholder": "Sarah Johnson"
+  },
+  "dashboard": {
+    "title": "My Gift Lists",
+    "welcome": "Welcome back, {{name}}!",
+    "placeholder": "Sarah's Birthday Wish List",
+    "newList": "New List",
+    "empty": "No lists yet. Create your first one above!",
+    "created": "Created {{date}}"
+  },
+  "list": {
+    "giftRegistry": "Gift Registry",
+    "hostDashboard": "Host Dashboard",
+    "availableCount": "{{count}} available",
+    "selectedCount": "{{count}} selected",
+    "totalCount": "{{count}} total",
+    "yourSelections": "Your selections ({{count}})",
+    "unclaimHint": "You can unclaim any of your items if you change your mind.",
+    "emptyPublic": "This list doesn't have any gifts yet. Check back soon!",
+    "shareLabel": "Share link with guests",
+    "giftCollection": "Gift Collection",
+    "emptyManage": "No items yet. Add your first gift above.",
+    "exportPdf": "Export PDF",
+    "previewGuestView": "Preview Guest View",
+    "removeConfirm": "Remove this item from the list?",
+    "claimModalTitle": "Claim This Gift",
+    "claimOnBehalfTitle": "Claim on Behalf of Guest",
+    "claimModalSubtitle": "You're reserving \"{{title}}\". Your name won't be visible to other guests.",
+    "claimOnBehalfSubtitle": "Mark \"{{title}}\" as claimed for an offline guest.",
+    "confirmClaim": "Confirm Claim",
+    "addGift": "Add a Gift",
+    "addGiftHint": "Paste a product link and we'll fetch the details automatically.",
+    "urlPlaceholder": "https://example.com/product",
+    "addToList": "Add to List"
+  },
+  "content": {
+    "howItWorks": {
+      "eyebrow": "How It Works",
+      "title": "Simple for hosts. Private for guests.",
+      "lead": "WishesDream helps you build a gift registry from any store for birthdays, baby showers, and other events — share one link with guests and keep claim details private until you need them.",
+      "hostsTitle": "For hosts",
+      "hostsStep1": "Create a free account and start a new gift list.",
+      "hostsStep2": "Paste product links — we fetch the title, image, and price automatically.",
+      "hostsStep3": "Share your list link with guests. You see who claimed what; they don't.",
+      "hostsStep4": "Export a PDF after your event for thank-you notes.",
+      "guestsTitle": "For guests",
+      "guestsStep1": "Open the shared list link — no account needed.",
+      "guestsStep2": "Browse available gifts and pick one to claim.",
+      "guestsStep3": "Enter your name. Other guests only see \"Already Selected.\"",
+      "guestsStep4": "Changed your mind? Unclaim your gift from the same browser session.",
+      "privacyTitle": "Privacy by design",
+      "privacyText": "Guests never see each other's names. Hosts get full visibility for coordination and thank-yous. Live updates keep everyone on the same page without refreshing."
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Frequently asked questions",
+      "lead": "Quick answers about creating lists, sharing with guests, and keeping claims private.",
+      "items": [
+        {
+          "question": "Do guests need to create an account?",
+          "answer": "No. Guests open the shared list link, pick a gift, and enter their name. No sign-up required."
+        },
+        {
+          "question": "Can guests see who claimed each gift?",
+          "answer": "No. Guests only see whether an item is available or already selected. Only the list host sees claimer names."
+        },
+        {
+          "question": "Which stores can I import products from?",
+          "answer": "Paste a link from most online stores. Amazon and Next are supported with dedicated parsers; other sites use standard product metadata when available."
+        },
+        {
+          "question": "What if a product link fails to import?",
+          "answer": "Some retailers block automated fetching. Try the direct product page URL, or add the item details manually after creating the list."
+        },
+        {
+          "question": "Can a guest unclaim a gift?",
+          "answer": "Yes. From the same browser they used to claim, they can unclaim their selection. The gift becomes available again for others."
+        },
+        {
+          "question": "Can the host claim a gift on behalf of someone?",
+          "answer": "Yes. From the manage view, hosts can claim items on behalf of a guest — useful when coordinating in person or by phone."
+        },
+        {
+          "question": "How do I share my list with guests?",
+          "answer": "Copy the guest link from your manage page and send it by text, email, or invitation. Guests use that link — not the manage URL."
+        },
+        {
+          "question": "Do lists update in real time?",
+          "answer": "Yes. When someone claims or unclaims a gift, other open list pages update automatically without refreshing."
+        },
+        {
+          "question": "Can I export my list after the event?",
+          "answer": "Yes. Hosts can export a PDF from the manage page with every item, claim status, guest name, and claim date — handy for thank-you notes."
+        },
+        {
+          "question": "Is WishesDream free?",
+          "answer": "Yes. Create a list, share it with guests, and manage claims at no cost."
+        }
+      ]
+    },
+    "privacy": {
+      "eyebrow": "Privacy",
+      "title": "Your data, handled with care",
+      "lead": "WishesDream is built for private gifting. We collect only what's needed to run your registry and never sell guest information.",
+      "collectTitle": "What we collect",
+      "collectHosts": "Hosts: name, email, and password (hashed) when you create an account.",
+      "collectGuests": "Guests: first name when claiming a gift, plus an anonymous browser token so you can unclaim your own selection.",
+      "collectLists": "Lists: gift titles, links, images, prices, and claim status.",
+      "visibilityTitle": "What guests can see",
+      "visibilityText": "On the public list, guests see whether each item is available or already selected. They do not see who claimed an item or when it was claimed. Only the list host sees claimer names and timestamps.",
+      "linksTitle": "Product links",
+      "linksText": "When you paste a product URL, our server fetches public product metadata (title, image, price) to populate your list. We do not store your shopping credentials or purchase history.",
+      "retentionTitle": "Data retention",
+      "retentionText": "Your lists and claims remain until you delete them or close your account. Guest tokens are stored in the browser's local storage on the guest's device.",
+      "questionsTitle": "Questions",
+      "questionsText": "For privacy questions about your registry, contact the host who shared the list with you. Hosts manage their own gift lists and exported reports. See also our <cookieLink>Cookie Policy</cookieLink>."
+    },
+    "cookies": {
+      "eyebrow": "Cookie Policy",
+      "title": "How we use cookies and browser storage",
+      "lead": "WishesDream uses a small amount of browser storage to keep you signed in and to remember guest claims. We do not use advertising or tracking cookies.",
+      "whatTitle": "What are cookies?",
+      "whatText": "Cookies are small text files stored by your browser. Similar technologies — such as local storage — can also save data on your device. This policy covers both cookies and the browser storage WishesDream uses.",
+      "storageTitle": "Storage we use",
+      "storageHost": "Host login (local storage): When you sign in, your session token and basic profile are stored in local storage so you stay logged in on that browser.",
+      "storageGuest": "Guest claims (local storage): When a guest claims a gift, an anonymous token is saved in local storage so they can unclaim their selection from the same browser.",
+      "notUsedTitle": "Cookies we do not use",
+      "notUsedText": "WishesDream does not set marketing, analytics, or social-media tracking cookies. Host authentication is handled with a token in local storage, not a login cookie.",
+      "thirdPartyTitle": "Third-party content",
+      "thirdPartyText": "Gift lists may display product images loaded from retailer CDNs (for example Amazon or Next). Those providers may use their own cookies if you follow a product link to their site. Fonts are loaded from Google Fonts when you visit WishesDream.",
+      "managingTitle": "Managing storage",
+      "managingText": "You can clear WishesDream data by signing out (hosts), clearing site data in your browser settings, or using a private browsing window. Clearing storage will sign you out and remove guest claim tokens on that device.",
+      "moreTitle": "More information",
+      "moreText": "For details on what personal data we collect and how it is used, see our <privacyLink>Privacy Policy</privacyLink>."
+    }
+  },
+  "seo": {
+    "defaultTitle": "Gift Registry",
+    "defaultDescription": "Create a free, privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what.",
+    "home": {
+      "description": "Create a free, privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "description": "Learn how WishesDream gift registries work for hosts and guests — create a list, share one link, and keep claims private."
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Answers about WishesDream gift registries — guest privacy, product imports, unclaiming gifts, and sharing your list."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "How WishesDream handles your data — what we collect for gift registries, guest privacy, and your rights."
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "description": "How WishesDream uses cookies and browser storage for sign-in and guest gift claims — no advertising trackers."
+    },
+    "login": {
+      "title": "Host Login",
+      "description": "Sign in to manage your WishesDream gift registry."
+    },
+    "register": {
+      "title": "Create Account",
+      "description": "Create a free WishesDream account and start your gift registry."
+    },
+    "dashboard": {
+      "title": "Dashboard"
+    },
+    "manageList": {
+      "title": "Manage List"
+    },
+    "publicList": {
+      "title": "Gift Registry",
+      "description": "View and claim gifts from a shared WishesDream registry."
+    }
+  },
+  "export": {
+    "exported": "Exported {{date}}",
+    "summary": "{{total}} items · {{claimed}} claimed",
+    "columns": {
+      "number": "#",
+      "item": "Item",
+      "price": "Price",
+      "status": "Status",
+      "guest": "Guest",
+      "claimed": "Claimed"
+    },
+    "statusClaimed": "Claimed",
+    "statusAvailable": "Available",
+    "filename": "gift-list"
+  }
+}

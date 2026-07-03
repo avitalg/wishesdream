@@ -1,25 +1,29 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
-import { faqItems } from '../content/faqItems.js';
 import { useSeo } from '../hooks/useSeo.js';
 import { buildFaqPageJsonLd } from '../lib/seoJsonLd.js';
 
 export function FaqPage() {
+  const { t } = useTranslation();
+  const faqItems = t('content.faq.items', { returnObjects: true }) as Array<{
+    question: string;
+    answer: string;
+  }>;
+
   useSeo({
-    title: 'FAQ',
-    description:
-      'Answers about WishesDream gift registries — guest privacy, product imports, unclaiming gifts, and sharing your list.',
+    title: t('seo.faq.title'),
+    description: t('seo.faq.description'),
     path: '/faq',
     jsonLd: buildFaqPageJsonLd(),
   });
+
   return (
     <Layout>
       <article className="content-page">
-        <p className="eyebrow">FAQ</p>
-        <h1>Frequently asked questions</h1>
-        <p className="content-lead">
-          Quick answers about creating lists, sharing with guests, and keeping claims private.
-        </p>
+        <p className="eyebrow">{t('content.faq.eyebrow')}</p>
+        <h1>{t('content.faq.title')}</h1>
+        <p className="content-lead">{t('content.faq.lead')}</p>
 
         <div className="faq-list">
           {faqItems.map((item) => (
@@ -32,10 +36,10 @@ export function FaqPage() {
 
         <div className="content-actions">
           <Link to="/how-it-works" className="btn-outline">
-            How It Works
+            {t('nav.howItWorks')}
           </Link>
           <Link to="/register" className="btn-primary">
-            Create Your List
+            {t('nav.createYourList')}
           </Link>
         </div>
       </article>

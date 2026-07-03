@@ -1,31 +1,29 @@
 export interface NavItem {
-  label: string;
+  labelKey: string;
   to: string;
   end?: boolean;
 }
 
 export const mainNavItems: NavItem[] = [
-  { label: 'Home', to: '/', end: true },
-  { label: 'How It Works', to: '/how-it-works' },
-  { label: 'FAQ', to: '/faq' },
+  { labelKey: 'nav.home', to: '/', end: true },
+  { labelKey: 'nav.howItWorks', to: '/how-it-works' },
+  { labelKey: 'nav.faq', to: '/faq' },
 ];
 
 export const footerNavGroups = {
   product: [
-    { label: 'Home', to: '/' },
-    { label: 'How It Works', to: '/how-it-works' },
-    { label: 'FAQ', to: '/faq' },
-    { label: 'Create a List', to: '/register' },
+    { labelKey: 'nav.home', to: '/' },
+    { labelKey: 'nav.howItWorks', to: '/how-it-works' },
+    { labelKey: 'nav.faq', to: '/faq' },
+    { labelKey: 'nav.createList', to: '/register' },
   ],
   accountGuest: [
-    { label: 'Log In', to: '/login' },
-    { label: 'Sign Up', to: '/register' },
+    { labelKey: 'nav.logIn', to: '/login' },
+    { labelKey: 'nav.signUp', to: '/register' },
   ],
-  accountHost: [
-    { label: 'My Lists', to: '/dashboard' },
-  ],
+  accountHost: [{ labelKey: 'nav.myLists', to: '/dashboard' }],
   legal: [
-    { label: 'Privacy', to: '/privacy' },
-    { label: 'Cookie Policy', to: '/cookies' },
+    { labelKey: 'nav.privacy', to: '/privacy' },
+    { labelKey: 'nav.cookiePolicy', to: '/cookies' },
   ],
 };

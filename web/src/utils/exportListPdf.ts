@@ -1,6 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import type { ExportRow } from '../types/index.js';
+import i18n from '../i18n/index.js';
 import { formatShortDate, slugify } from './stringUtils.js';
 
 interface ExportListData {
@@ -10,7 +11,8 @@ interface ExportListData {
 
 export function downloadListPdf(data: ExportListData): void {
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  const exportedAt = new Date().toLocaleDateString(undefined, {
+  const locale = i18n.language.startsWith('he') ? 'he-IL' : 'en-US';
+  const exportedAt = new Date().toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -22,19 +24,26 @@ export function downloadListPdf(data: ExportListData): void {
 
   doc.setFontSize(10);
   doc.setTextColor(100, 100, 100);
-  doc.text(`Exported ${exportedAt}`, 14, 26);
-  doc.text(`${data.items.length} items · ${claimedCount} claimed`, 14, 32);
+  doc.text(i18n.t('export.exported', { date: exportedAt }), 14, 26);
+  doc.text(i18n.t('export.summary', { total: data.items.length, claimed: claimedCount }), 14, 32);
   doc.setTextColor(0, 0, 0);
 
   autoTable(doc, {
     startY: 38,
-    head: [['#', 'Item', 'Price', 'Status', 'Guest', 'Claimed']],
+    head: [[
+      i18n.t('export.columns.number'),
+      i18n.t('export.columns.item'),
+      i18n.t('export.columns.price'),
+      i18n.t('export.columns.status'),
+      i18n.t('export.columns.guest'),
+      i18n.t('export.columns.claimed'),
+    ]],
     body: data.items.map((item) => [
       String(item.item_number),
       item.title,
-      item.price ?? '—',
-      item.status,
-      item.guest_name ?? '—',
+      item.price ?? i18n.t('common.dash'),
+      item.status === 'Claimed' ? i18n.t('export.statusClaimed') : i18n.t('export.statusAvailable'),
+      item.guest_name ?? i18n.t('common.dash'),
       formatShortDate(item.claimed_at),
     ]),
     styles: {
@@ -61,5 +70,6 @@ export function downloadListPdf(data: ExportListData): void {
     margin: { left: 14, right: 14 },
   });
 
-  doc.save(`${slugify(data.list.title) || 'gift-list'}-export.pdf`);
+  const filename = slugify(data.list.title) || i18n.t('export.filename');
+  doc.save(`${filename}-export.pdf`);
 }

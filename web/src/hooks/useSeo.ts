@@ -1,14 +1,7 @@
 import { useEffect } from 'react';
-import {
-  DEFAULT_DESCRIPTION,
-  DEFAULT_TITLE,
-  GEO_PLACENAME,
-  GEO_REGION,
-  SITE_LANGUAGE,
-  SITE_LOCALE,
-  SITE_NAME,
-  absoluteUrl,
-} from '../config/site.js';
+import { useTranslation } from 'react-i18next';
+import { GEO_PLACENAME, GEO_REGION, SITE_NAME, absoluteUrl } from '../config/site.js';
+import { getOgLocale } from '../i18n/index.js';
 
 export interface SeoOptions {
   title?: string;
@@ -20,6 +13,7 @@ export interface SeoOptions {
 }
 
 const JSON_LD_ID = 'wishesdream-jsonld';
+const HREFLANGS = ['en', 'he'] as const;
 
 function upsertMeta(attribute: 'name' | 'property', key: string, content: string): void {
   let element = document.head.querySelector<HTMLMetaElement>(
@@ -49,6 +43,7 @@ function upsertHreflang(lang: string, href: string): void {
   element.href = href;
   element.hreflang = lang;
 }
+
 function upsertLink(rel: string, href: string): void {
   let element = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
 
@@ -78,16 +73,20 @@ function setJsonLd(data: SeoOptions['jsonLd']): void {
 
 export function useSeo({
   title,
-  description = DEFAULT_DESCRIPTION,
+  description,
   path = '/',
   noindex = false,
   type = 'website',
   jsonLd,
 }: SeoOptions = {}): void {
+  const { t, i18n } = useTranslation();
   const jsonLdSerialized = jsonLd ? JSON.stringify(jsonLd) : '';
+  const language = i18n.language.startsWith('he') ? 'he' : 'en';
 
   useEffect(() => {
-    const pageTitle = title ? `${title} — ${SITE_NAME}` : DEFAULT_TITLE;
+    const resolvedDescription = description ?? t('seo.defaultDescription');
+    const resolvedTitle = title ?? t('seo.defaultTitle');
+    const pageTitle = `${resolvedTitle} — ${SITE_NAME}`;
     const canonical = absoluteUrl(path);
     const robots = noindex ? 'noindex, nofollow' : 'index, follow';
     const parsedJsonLd = jsonLdSerialized
@@ -96,32 +95,33 @@ export function useSeo({
 
     document.title = pageTitle;
 
-    upsertMeta('name', 'description', description);
+    upsertMeta('name', 'description', resolvedDescription);
     upsertMeta('name', 'robots', robots);
     upsertMeta('name', 'geo.region', GEO_REGION);
     upsertMeta('name', 'geo.placename', GEO_PLACENAME);
-    upsertMeta('name', 'language', SITE_LANGUAGE);
+    upsertMeta('name', 'language', language);
 
     upsertMeta('property', 'og:title', pageTitle);
-    upsertMeta('property', 'og:description', description);
+    upsertMeta('property', 'og:description', resolvedDescription);
     upsertMeta('property', 'og:type', type);
     upsertMeta('property', 'og:site_name', SITE_NAME);
-    upsertMeta('property', 'og:locale', SITE_LOCALE);
+    upsertMeta('property', 'og:locale', getOgLocale(language));
     upsertMeta('property', 'og:url', canonical);
 
     upsertMeta('name', 'twitter:card', 'summary_large_image');
     upsertMeta('name', 'twitter:title', pageTitle);
-    upsertMeta('name', 'twitter:description', description);
+    upsertMeta('name', 'twitter:description', resolvedDescription);
 
     upsertLink('canonical', canonical);
-    upsertHreflang(SITE_LANGUAGE, canonical);
+    for (const hreflang of HREFLANGS) {
+      upsertHreflang(hreflang, canonical);
+    }
     upsertHreflang('x-default', canonical);
-    document.documentElement.lang = SITE_LANGUAGE;
 
     setJsonLd(parsedJsonLd);
 
     return () => {
       document.getElementById(JSON_LD_ID)?.remove();
     };
-  }, [title, description, path, noindex, type, jsonLdSerialized]);
+  }, [title, description, path, noindex, type, jsonLdSerialized, t, language]);
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import { api, getGuestToken } from '../api/client.js';
@@ -17,6 +18,7 @@ export function CreatorManagePage() {
   const { listId } = useParams<{ listId: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [claimItemId, setClaimItemId] = useState<number | null>(null);
   const [claimOnBehalf, setClaimOnBehalf] = useState(false);
 
@@ -26,7 +28,7 @@ export function CreatorManagePage() {
   const deleteItem = useDeleteItem();
 
   useSeo({
-    title: 'Manage List',
+    title: t('seo.manageList.title'),
     path: listId ? `/lists/${listId}/manage` : '/lists',
     noindex: true,
   });
@@ -70,7 +72,7 @@ export function CreatorManagePage() {
     if (!listId) {
       return;
     }
-    if (!window.confirm('Remove this item from the list?')) {
+    if (!window.confirm(t('list.removeConfirm'))) {
       return;
     }
     await deleteItem.mutateAsync({ publicId: listId, itemId });
@@ -96,7 +98,7 @@ export function CreatorManagePage() {
   if (isLoading) {
     return (
       <Layout>
-        <p className="loading-text">Loading list…</p>
+        <p className="loading-text">{t('common.loadingManage')}</p>
       </Layout>
     );
   }
@@ -104,7 +106,7 @@ export function CreatorManagePage() {
   if (errorMessage || !list) {
     return (
       <Layout>
-        <p className="error-text">{errorMessage ?? 'List not found'}</p>
+        <p className="error-text">{errorMessage ?? t('common.listNotFound')}</p>
       </Layout>
     );
   }
@@ -114,20 +116,20 @@ export function CreatorManagePage() {
   return (
     <Layout>
       <section className="list-hero list-hero--manage">
-        <p className="eyebrow">Host Dashboard</p>
+        <p className="eyebrow">{t('list.hostDashboard')}</p>
         <h1>{list.title}</h1>
         <div className="header-actions">
           <button type="button" className="btn-outline btn-sm" onClick={handleExport}>
-            Export PDF
+            {t('list.exportPdf')}
           </button>
           <Link to={`/lists/${listId}`} className="btn-outline btn-sm">
-            Preview Guest View
+            {t('list.previewGuestView')}
           </Link>
         </div>
       </section>
 
       <div className="share-box">
-        <label>Share link with guests</label>
+        <label>{t('list.shareLabel')}</label>
         <div className="share-row">
           <input type="text" readOnly value={shareUrl} />
           <button
@@ -135,7 +137,7 @@ export function CreatorManagePage() {
             className="btn-primary btn-sm"
             onClick={() => navigator.clipboard.writeText(shareUrl)}
           >
-            Copy
+            {t('common.copy')}
           </button>
         </div>
       </div>
@@ -144,11 +146,13 @@ export function CreatorManagePage() {
 
       <section className="items-section">
         <div className="section-intro section-intro--left">
-          <h2>Gift Collection</h2>
-          <p className="form-hint">{items.length} {items.length === 1 ? 'item' : 'items'}</p>
+          <h2>{t('list.giftCollection')}</h2>
+          <p className="form-hint">
+            {items.length} {items.length === 1 ? t('common.item') : t('common.items')}
+          </p>
         </div>
         {items.length === 0 ? (
-          <p className="empty-state">No items yet. Add your first gift above.</p>
+          <p className="empty-state">{t('list.emptyManage')}</p>
         ) : (
           <div className="items-grid">
             {items.map((item, index) => (

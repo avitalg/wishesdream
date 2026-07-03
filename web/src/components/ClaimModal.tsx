@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ClaimModalProps {
   itemTitle: string;
@@ -8,6 +9,7 @@ interface ClaimModalProps {
 }
 
 export function ClaimModal({ itemTitle, onConfirm, onClose, onBehalf = false }: ClaimModalProps) {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -21,7 +23,7 @@ export function ClaimModal({ itemTitle, onConfirm, onClose, onBehalf = false }: 
       await onConfirm(name.trim());
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to claim item');
+      setError(err instanceof Error ? err.message : t('common.claimFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -30,23 +32,23 @@ export function ClaimModal({ itemTitle, onConfirm, onClose, onBehalf = false }: 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h2>{onBehalf ? 'Claim on Behalf of Guest' : 'Claim This Gift'}</h2>
+        <h2>{onBehalf ? t('list.claimOnBehalfTitle') : t('list.claimModalTitle')}</h2>
         <p className="modal-subtitle">
           {onBehalf
-            ? `Mark "${itemTitle}" as claimed for an offline guest.`
-            : `You're reserving "${itemTitle}". Your name won't be visible to other guests.`}
+            ? t('list.claimOnBehalfSubtitle', { title: itemTitle })
+            : t('list.claimModalSubtitle', { title: itemTitle })}
         </p>
 
         <form onSubmit={handleSubmit}>
           <label>
-            Name
+            {t('common.name')}
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
               autoFocus
-              placeholder="Sarah Johnson"
+              placeholder={t('auth.namePlaceholder')}
             />
           </label>
 
@@ -54,10 +56,10 @@ export function ClaimModal({ itemTitle, onConfirm, onClose, onBehalf = false }: 
 
           <div className="modal-actions">
             <button type="button" className="btn-secondary" onClick={onClose}>
-              Cancel
+              {t('common.cancel')}
             </button>
             <button type="submit" className="btn-primary" disabled={submitting}>
-              {submitting ? 'Confirming…' : 'Confirm Claim'}
+              {submitting ? t('common.confirming') : t('list.confirmClaim')}
             </button>
           </div>
         </form>

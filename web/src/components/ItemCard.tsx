@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { GiftItem } from '../types/index.js';
 import { isCreatorItem } from '../types/index.js';
 
@@ -11,33 +12,34 @@ interface ItemCardProps {
 }
 
 export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete }: ItemCardProps) {
+  const { t } = useTranslation();
   const creatorItem = isCreatorItem(item) ? item : null;
 
   function renderStatus() {
     if (!item.is_claimed) {
-      return <span className="status-badge available">Available</span>;
+      return <span className="status-badge available">{t('common.available')}</span>;
     }
 
     if (item.claimed_by_you) {
-      return <span className="status-badge yours">Claimed by You</span>;
+      return <span className="status-badge yours">{t('common.claimedByYou')}</span>;
     }
 
     if (isCreator && creatorItem?.guest_name) {
       return (
         <span className="status-badge claimed">
-          Claimed by {creatorItem.guest_name}
+          {t('common.claimedBy', { name: creatorItem.guest_name })}
         </span>
       );
     }
 
-    return <span className="status-badge claimed">Already Selected</span>;
+    return <span className="status-badge claimed">{t('common.alreadySelected')}</span>;
   }
 
   function renderActions() {
     if (item.claimed_by_you && onUnclaim) {
       return (
         <button type="button" className="btn-outline btn-sm" onClick={onUnclaim}>
-          Unclaim
+          {t('common.unclaim')}
         </button>
       );
     }
@@ -45,7 +47,7 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
     if (isCreator && item.is_claimed && onUnclaim) {
       return (
         <button type="button" className="btn-outline btn-sm" onClick={onUnclaim}>
-          Unclaim
+          {t('common.unclaim')}
         </button>
       );
     }
@@ -53,7 +55,7 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
     if (!item.is_claimed && onClaim) {
       return (
         <button type="button" className="btn-primary btn-sm" onClick={onClaim}>
-          Claim Gift
+          {t('common.claimGift')}
         </button>
       );
     }
@@ -61,7 +63,7 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
     if (item.is_claimed && !item.claimed_by_you && !isCreator) {
       return (
         <button type="button" className="btn-disabled btn-sm" disabled>
-          Already Selected
+          {t('common.alreadySelected')}
         </button>
       );
     }
@@ -83,7 +85,7 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
       </div>
 
       <div className="item-body">
-        <p className="item-number">Gift {index + 1}</p>
+        <p className="item-number">{t('common.giftNumber', { number: index + 1 })}</p>
         <h3 className="item-title">{item.title}</h3>
         {item.price && <p className="item-price">{item.price}</p>}
 
@@ -94,13 +96,13 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
             rel="noopener noreferrer"
             className="item-view-link"
           >
-            View product →
+            {t('common.viewProduct')}
           </a>
           <div className="item-action-buttons">
             {renderActions()}
             {isCreator && onDelete && (
               <button type="button" className="btn-text-danger btn-sm" onClick={onDelete}>
-                Remove
+                {t('common.remove')}
               </button>
             )}
           </div>
