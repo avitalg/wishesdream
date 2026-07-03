@@ -13,7 +13,7 @@ export function useAddItem() {
   return useMutation({
     mutationFn: ({ publicId, productUrl }: AddItemInput) => api.addItem(publicId, productUrl),
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: listKeys.detail(variables.publicId) });
+      queryClient.invalidateQueries({ queryKey: listKeys.detailPrefix(variables.publicId) });
     },
   });
 }

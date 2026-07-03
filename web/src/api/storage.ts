@@ -40,3 +40,14 @@ export function getGuestToken(): string | null {
 export function setGuestToken(token: string): void {
   localStorage.setItem(GUEST_TOKEN_KEY, token);
 }
+
+export function ensureGuestToken(): string {
+  const existing = getGuestToken();
+  if (existing) {
+    return existing;
+  }
+
+  const token = crypto.randomUUID();
+  setGuestToken(token);
+  return token;
+}

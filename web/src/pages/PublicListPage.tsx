@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Layout } from '../components/Layout.js';
-import { getGuestToken } from '../api/client.js';
 import { ItemCard } from '../components/ItemCard.js';
 import { ClaimModal } from '../components/ClaimModal.js';
 import { useListWebSocket } from '../hooks/useListWebSocket.js';
@@ -13,7 +12,7 @@ export function PublicListPage() {
   const { listId } = useParams<{ listId: string }>();
   const [claimItemId, setClaimItemId] = useState<number | null>(null);
 
-  const { data, isLoading, error } = useGiftList(listId);
+  const { data, isLoading, error } = useGiftList(listId, { viewAsGuest: true });
   const claimItem = useClaimItem();
   const unclaimItem = useUnclaimItem();
 
@@ -28,7 +27,7 @@ export function PublicListPage() {
       publicId: listId,
       item_id: claimItemId,
       guest_name: name,
-      guest_token: getGuestToken() ?? undefined,
+      viewAsGuest: true,
     });
   }
 

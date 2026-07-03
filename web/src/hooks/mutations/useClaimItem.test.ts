@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { api, setGuestToken } from '../../api/client.js';
+import { api, ensureGuestToken, setGuestToken } from '../../api/client.js';
 import { listKeys } from '../../lib/queryKeys.js';
 import { useClaimItem } from './useClaimItem.js';
 import { createQueryWrapper, createTestQueryClient } from '../../test/queryWrapper.js';
@@ -10,12 +10,15 @@ vi.mock('../../api/client.js', () => ({
   api: {
     claimItem: vi.fn(),
   },
+  ensureGuestToken: vi.fn(() => 'generated-guest-token'),
   setGuestToken: vi.fn(),
 }));
 
 describe('useClaimItem', () => {
   beforeEach(() => {
     vi.mocked(api.claimItem).mockReset();
+    vi.mocked(ensureGuestToken).mockReset();
+    vi.mocked(ensureGuestToken).mockReturnValue('generated-guest-token');
     vi.mocked(setGuestToken).mockReset();
   });
 
@@ -45,7 +48,7 @@ describe('useClaimItem', () => {
       },
     ];
 
-    queryClient.setQueryData(listKeys.detail(publicId), {
+    queryClient.setQueryData(listKeys.detail(publicId, 'guest'), {
       list: { id: publicId, title: 'Shower', is_creator: false, created_at: '2026-01-01' },
       items: initialItems,
     });
@@ -63,12 +66,14 @@ describe('useClaimItem', () => {
       publicId,
       item_id: 1,
       guest_name: 'Sarah',
+      viewAsGuest: true,
     });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
+    expect(ensureGuestToken).toHaveBeenCalled();
     expect(setGuestToken).toHaveBeenCalledWith('guest-token-123');
-    expect(queryClient.getQueryData(listKeys.detail(publicId))).toEqual({
+    expect(queryClient.getQueryData(listKeys.detail(publicId, 'guest'))).toEqual({
       list: { id: publicId, title: 'Shower', is_creator: false, created_at: '2026-01-01' },
       items: updatedItems,
     });

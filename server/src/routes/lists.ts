@@ -28,6 +28,7 @@ import {
   respondForbidden,
   routeParam,
 } from './listRouteHelpers.js';
+import { parsePositiveInt } from '../lib/validators.js';
 
 const router = Router();
 
@@ -71,13 +72,14 @@ router.get('/:id', optionalAuth, (req: AuthenticatedRequest, res) => {
     return;
   }
 
-  const role = resolveViewerRole(req, list);
+  const forceGuestView = req.query.view === 'guest';
+  const role = forceGuestView ? 'guest' : resolveViewerRole(req, list);
   res.json({
     list: {
       id: list.public_id,
       title: list.title,
       created_at: list.created_at,
-      is_creator: role === 'creator',
+      is_creator: !forceGuestView && role === 'creator',
     },
     items: getItemsForViewer(list.id, role, getGuestToken(req)),
   });
@@ -127,7 +129,12 @@ router.delete('/:id/items/:itemId', requireAuth, (req: AuthenticatedRequest, res
     return;
   }
 
-  const itemId = Number(req.params.itemId);
+  const itemId = parsePositiveInt(req.params.itemId);
+  if (itemId === null) {
+    res.status(400).json({ error: 'Item id must be a positive integer' });
+    return;
+  }
+
   if (!deleteGiftItem(itemId, list.id)) {
     res.status(404).json({ error: 'Item not found' });
     return;
@@ -169,6 +176,12 @@ router.post('/:id/claim', optionalAuth, (req: AuthenticatedRequest, res) => {
     return;
   }
 
+  const parsedItemId = parsePositiveInt(item_id);
+  if (parsedItemId === null) {
+    res.status(400).json({ error: 'item_id must be a positive integer' });
+    return;
+  }
+
   const creator = isListCreator(list, req.user?.userId);
   if (on_behalf && !creator) {
     respondForbidden(res, 'Only the list creator can claim on behalf of guests');
@@ -183,12 +196,14 @@ router.post('/:id/claim', optionalAuth, (req: AuthenticatedRequest, res) => {
   const token = on_behalf ? uuidv4() : (guest_token ?? uuidv4());
 
   try {
-    const claim = claimItem(item_id, list.id, guest_name, token);
-    broadcastClaimStatus(list.public_id, item_id, true);
+    const claim = claimItem(parsedItemId, list.id, guest_name, token);
+    broadcastClaimStatus(list.public_id, parsedItemId, true);
+
+    const viewerRole = on_behalf && creator ? 'creator' : 'guest';
 
     res.status(201).json({
       claim: { id: claim.id, guest_token: token },
-      items: getItemsForViewer(list.id, creator ? 'creator' : 'guest', token),
+      items: getItemsForViewer(list.id, viewerRole, token),
     });
   } catch (error) {
     if (error instanceof ClaimConflictError) {
@@ -209,7 +224,12 @@ router.delete('/:id/claim/:itemId', optionalAuth, (req: AuthenticatedRequest, re
     return;
   }
 
-  const itemId = Number(req.params.itemId);
+  const itemId = parsePositiveInt(req.params.itemId);
+  if (itemId === null) {
+    res.status(400).json({ error: 'Item id must be a positive integer' });
+    return;
+  }
+
   const result = unclaimItemIfAuthorized(
     itemId,
     list.id,

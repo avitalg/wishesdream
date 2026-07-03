@@ -2,6 +2,7 @@ import type { ExportRow, GiftItem, GiftListSummary, ParsedProduct, User } from '
 import {
   clearAuthToken,
   getAuthToken,
+  ensureGuestToken,
   getGuestToken,
   getStoredUser,
   setAuthToken,
@@ -11,6 +12,7 @@ import {
 
 export {
   clearAuthToken,
+  ensureGuestToken,
   getAuthToken,
   getGuestToken,
   getStoredUser,
@@ -104,8 +106,9 @@ export const api = {
     });
   },
 
-  getList(publicId: string) {
-    return request<{ list: GiftListSummary; items: GiftItem[] }>(`/api/lists/${publicId}`, {
+  getList(publicId: string, options?: { viewAsGuest?: boolean }) {
+    const query = options?.viewAsGuest ? '?view=guest' : '';
+    return request<{ list: GiftListSummary; items: GiftItem[] }>(`/api/lists/${publicId}${query}`, {
       auth: true,
       guest: true,
     });

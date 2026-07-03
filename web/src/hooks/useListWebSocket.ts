@@ -18,7 +18,7 @@ export function useListWebSocket(listId: string | undefined): void {
           listId: string;
         };
         if (message.type === 'item_status_changed' && message.listId === listId) {
-          queryClient.invalidateQueries({ queryKey: listKeys.detail(listId) });
+          queryClient.invalidateQueries({ queryKey: listKeys.detailPrefix(listId) });
         }
       } catch {
         // Ignore malformed messages.

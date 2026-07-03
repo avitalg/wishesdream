@@ -1,5 +1,6 @@
 import type { Response } from 'express';
 import type { GiftList } from '../types/index.js';
+import { isPublicId } from '../lib/validators.js';
 import { findListByPublicId } from '../services/listService.js';
 
 export function routeParam(value: string | string[]): string {
@@ -7,6 +8,11 @@ export function routeParam(value: string | string[]): string {
 }
 
 export function findListOrRespond(publicId: string, res: Response): GiftList | null {
+  if (!isPublicId(publicId)) {
+    res.status(404).json({ error: 'List not found' });
+    return null;
+  }
+
   const list = findListByPublicId(publicId);
   if (!list) {
     res.status(404).json({ error: 'List not found' });

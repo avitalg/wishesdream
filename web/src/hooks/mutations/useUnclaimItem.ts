@@ -13,7 +13,7 @@ export function useUnclaimItem() {
   return useMutation({
     mutationFn: ({ publicId, itemId }: UnclaimItemInput) => api.unclaimItem(publicId, itemId),
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: listKeys.detail(variables.publicId) });
+      queryClient.invalidateQueries({ queryKey: listKeys.detailPrefix(variables.publicId) });
     },
   });
 }

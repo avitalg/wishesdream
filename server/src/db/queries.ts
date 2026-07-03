@@ -1,5 +1,6 @@
 import db from './database.js';
 
+// All queries must use ? placeholders — never interpolate user input into SQL strings.
 export const stmts = {
   createUser: db.prepare(
     'INSERT INTO users (email, name, password_hash) VALUES (?, ?, ?) RETURNING *',

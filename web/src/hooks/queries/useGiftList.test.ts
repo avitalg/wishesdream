@@ -34,7 +34,7 @@ describe('useGiftList', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data?.list.title).toBe('Baby Shower');
-    expect(api.getList).toHaveBeenCalledWith('abc123');
+    expect(api.getList).toHaveBeenCalledWith('abc123', { viewAsGuest: undefined });
   });
 
   it('does not fetch without a public id', () => {
