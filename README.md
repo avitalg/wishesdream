@@ -29,6 +29,37 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173).
 
+## Production
+
+```bash
+npm run build
+npm start
+```
+
+Open [http://localhost:3010](http://localhost:3010) (or your configured `PORT`). Express serves the built React app and API on a single port.
+
+Development (`npm run dev`) still uses Vite on port 5173 with API/WebSocket proxied to 3010.
+
+## Railway deployment
+
+Use the **repo root** as the service root (do not set Root Directory to `server/`).
+
+[`railway.json`](railway.json) configures:
+
+| Step | Command |
+|------|---------|
+| Build | `npm run build` (compiles server + `web/dist`) |
+| Start | `npm start` |
+
+Required variables in Railway:
+
+| Variable | Value |
+|----------|--------|
+| `JWT_SECRET` | Long random string |
+| `DATABASE_PATH` | `/data/wishesdream.db` (with a Volume mounted at `/data`) |
+
+After deploy, logs should include `Serving web app from .../web/dist`. If you see `Cannot GET /`, the build did not produce `web/dist` or static serving code is missing.
+
 ## Scripts
 
 | Command | Description |
@@ -36,7 +67,7 @@ Open [http://localhost:5173](http://localhost:5173).
 | `npm run dev` | Start API + frontend in development |
 | `npm test` | Run server and web test suites |
 | `npm run build` | Compile server and web for production |
-| `npm start` | Start the API server (production) |
+| `npm start` | Start the server (API + built web app in production) |
 
 ## Project Structure
 
@@ -69,6 +100,7 @@ Copy [`.env.example`](.env.example) to `.env` and adjust as needed. Variables ar
 | `DATABASE_PATH` | `server/data/wishesdream.db` | SQLite database file |
 | `SCRAPERAPI_KEY` | — | Optional Amazon import fallback |
 | `MICROLINK_API_KEY` | — | Optional Amazon metadata fallback |
+| `WEB_DIST_PATH` | `web/dist` | Path to built frontend (relative to repo root by default) |
 
 ## CI
 
