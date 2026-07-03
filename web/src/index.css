@@ -483,6 +483,101 @@ h3 {
   font-size: 0.95rem;
 }
 
+/* ── Guest claim ── */
+.guest-claim {
+  background: var(--surface);
+  padding: 3rem 0 4rem;
+  margin-inline: calc(50% - 50vw);
+  padding-inline: calc(50vw - 50% + 2rem);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.guest-claim__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.guest-claim__intro h2 {
+  margin: 0 0 1rem;
+}
+
+.guest-claim__lead {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 36ch;
+}
+
+.guest-claim__preview {
+  margin-bottom: 1.5rem;
+}
+
+.guest-claim__card {
+  max-width: 300px;
+  pointer-events: none;
+}
+
+.guest-claim__card .item-image-wrap {
+  aspect-ratio: 4 / 3;
+}
+
+.guest-claim__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.guest-claim__step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 1.35rem 1.5rem;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.guest-claim__step:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.guest-claim__step-number {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-hover);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.guest-claim__step h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.guest-claim__step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.guest-claim__step strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 /* ── List hero ── */
 .list-hero {
   text-align: center;
@@ -1006,6 +1101,15 @@ input:focus {
 
   .features-grid {
     grid-template-columns: 1fr;
+  }
+
+  .guest-claim__inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .guest-claim {
+    padding-inline: calc(50vw - 50% + 1.25rem);
   }
 
   .site-header {

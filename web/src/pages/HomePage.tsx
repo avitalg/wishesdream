@@ -70,6 +70,92 @@ export function HomePage() {
         )}
       </section>
 
+      {!user && (
+        <section className="guest-claim" id="for-guests">
+          <div className="guest-claim__inner">
+            <div className="guest-claim__intro">
+              <p className="eyebrow">For Guests</p>
+              <h2>Claim a gift in seconds</h2>
+              <p className="guest-claim__lead">
+                No account, no app download. Open the list link your host shared, pick an available
+                gift, and enter your name — that&apos;s it.
+              </p>
+              <div className="guest-claim__preview" aria-hidden="true">
+                <article className="guest-claim__card item-card">
+                  <div className="item-image-wrap">
+                    <img
+                      src={dollImage}
+                      alt=""
+                      className="item-image"
+                      width={600}
+                      height={327}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="item-image-badge">
+                      <span className="status-badge available">Available</span>
+                    </div>
+                  </div>
+                  <div className="item-body">
+                    <p className="item-number">Gift 1</p>
+                    <h3 className="item-title">Cherished Ballerina Doll</h3>
+                    <div className="item-actions">
+                      <span className="item-view-link">View product →</span>
+                      <div className="item-action-buttons">
+                        <span className="btn-primary btn-sm">Claim Gift</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <Link to="/how-it-works" className="btn-outline">
+                See Full Guide
+              </Link>
+            </div>
+
+            <ol className="guest-claim__steps">
+              <li className="guest-claim__step">
+                <span className="guest-claim__step-number">1</span>
+                <div>
+                  <h3>Open the shared link</h3>
+                  <p>Tap the list URL from a text, email, or invitation. No sign-up required.</p>
+                </div>
+              </li>
+              <li className="guest-claim__step">
+                <span className="guest-claim__step-number">2</span>
+                <div>
+                  <h3>Choose an available gift</h3>
+                  <p>
+                    Browse the registry and hit <strong>Claim Gift</strong> on something you&apos;d
+                    like to give.
+                  </p>
+                </div>
+              </li>
+              <li className="guest-claim__step">
+                <span className="guest-claim__step-number">3</span>
+                <div>
+                  <h3>Enter your name</h3>
+                  <p>
+                    Your name is private — other guests only see &ldquo;Already Selected,&rdquo; not
+                    who claimed it.
+                  </p>
+                </div>
+              </li>
+              <li className="guest-claim__step">
+                <span className="guest-claim__step-number">4</span>
+                <div>
+                  <h3>Changed your mind?</h3>
+                  <p>
+                    Unclaim anytime from the same browser. The gift opens back up for everyone
+                    instantly.
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </section>
+      )}
+
       <section className="features" id="features">
         <div className="section-intro">
           <p className="eyebrow">Why WishesDream</p>

@@ -10,7 +10,7 @@
     "dev:server": "npm run dev --prefix server",
     "dev:web": "npm run dev --prefix web",
     "build": "npm run build --prefix server && npm run build --prefix web",
-    "start": "npm run start --prefix server",
+    "start": "npm run build && npm run start --prefix server",
     "test": "npm run test --prefix server && npm run test --prefix web",
     "postinstall": "npm install --prefix server && npm install --prefix web"
   },
