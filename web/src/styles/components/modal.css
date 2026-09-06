@@ -1,0 +1,44 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(58, 54, 50, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--surface);
+  padding: 2rem;
+  width: min(100%, 440px);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.modal--wide {
+  width: min(100%, 560px);
+}
+
+.modal--wide .gift-details-fields {
+  margin-top: 1rem;
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 1.75rem;
+}
+
+.modal-subtitle {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}

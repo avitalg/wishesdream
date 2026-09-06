@@ -62,6 +62,13 @@ export const stmts = {
 
   deleteGiftItem: db.prepare('DELETE FROM gift_items WHERE id = ? AND list_id = ?'),
 
+  updateGiftItem: db.prepare(`
+    UPDATE gift_items
+    SET title = ?, image_url = ?, price = ?, product_url = ?
+    WHERE id = ? AND list_id = ?
+    RETURNING *
+  `),
+
   findClaimByItemId: db.prepare('SELECT * FROM claims WHERE item_id = ?'),
 
   findItemInList: db.prepare(

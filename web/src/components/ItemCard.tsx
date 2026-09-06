@@ -9,10 +9,11 @@ interface ItemCardProps {
   isCreator: boolean;
   onClaim?: () => void;
   onUnclaim?: () => void;
+  onEdit?: () => void;
   onDelete?: () => void;
 }
 
-export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete }: ItemCardProps) {
+export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onEdit, onDelete }: ItemCardProps) {
   const { t } = useTranslation();
   const creatorItem = isCreatorItem(item) ? item : null;
   const productUrl = isSafeHttpUrl(item.product_url) ? item.product_url : null;
@@ -74,6 +75,8 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
     return null;
   }
 
+  const primaryAction = renderActions();
+
   return (
     <article className={`item-card ${item.is_claimed ? 'is-claimed' : ''}`}>
       <div className="item-image-wrap">
@@ -101,18 +104,35 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
               className="item-view-link"
             >
               {t('common.viewProduct')}
+              <span className="item-view-link__arrow" aria-hidden="true">
+                →
+              </span>
             </a>
           ) : (
-            <span className="item-view-link item-view-link--unavailable">{t('common.viewProduct')}</span>
+            <span className="item-view-link item-view-link--unavailable">
+              {t('common.viewProduct')}
+              <span className="item-view-link__arrow" aria-hidden="true">
+                →
+              </span>
+            </span>
           )}
-          <div className="item-action-buttons">
-            {renderActions()}
-            {isCreator && onDelete && (
-              <button type="button" className="btn-text-danger btn-sm" onClick={onDelete}>
-                {t('common.remove')}
-              </button>
-            )}
-          </div>
+
+          {primaryAction && <div className="item-action-primary">{primaryAction}</div>}
+
+          {isCreator && (onEdit || onDelete) && (
+            <div className="item-creator-actions">
+              {onEdit && (
+                <button type="button" className="item-action-btn" onClick={onEdit}>
+                  {t('common.edit')}
+                </button>
+              )}
+              {onDelete && (
+                <button type="button" className="item-action-btn item-action-btn--danger" onClick={onDelete}>
+                  {t('common.remove')}
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </article>

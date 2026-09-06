@@ -13,6 +13,7 @@ import {
   getItemsForViewer,
   addGiftItem,
   deleteGiftItem,
+  updateGiftItem,
   claimItem,
   unclaimItemIfAuthorized,
   ClaimConflictError,
@@ -173,6 +174,62 @@ router.post('/:id/items', requireAuth, async (req: AuthenticatedRequest, res) =>
   });
 
   res.status(201).json({ item });
+});
+
+router.patch('/:id/items/:itemId', requireAuth, (req: AuthenticatedRequest, res) => {
+  const list = findListOrRespond(routeParam(req.params.id), res);
+  if (!list || !respondCreatorRequired(res, list, req.user!.userId)) {
+    return;
+  }
+
+  const itemId = parsePositiveInt(req.params.itemId);
+  if (itemId === null) {
+    res.status(400).json({ error: 'Item id must be a positive integer' });
+    return;
+  }
+
+  const { product_url, title, image_url, price } = req.body as {
+    product_url?: string;
+    title?: string;
+    image_url?: string | null;
+    price?: string | null;
+  };
+
+  if (!product_url?.trim()) {
+    res.status(400).json({ error: 'Product URL is required' });
+    return;
+  }
+
+  const trimmedProductUrl = product_url.trim();
+  if (!isSafeHttpUrl(trimmedProductUrl)) {
+    res.status(400).json({ error: 'Only HTTP and HTTPS product URLs are allowed' });
+    return;
+  }
+
+  if (image_url?.trim() && !isSafeHttpUrl(image_url.trim())) {
+    res.status(400).json({ error: 'Image URL must use HTTP or HTTPS' });
+    return;
+  }
+
+  const trimmedTitle = title?.trim() ?? '';
+  if (!trimmedTitle) {
+    res.status(400).json({ error: 'Gift name is required' });
+    return;
+  }
+
+  const item = updateGiftItem(itemId, list.id, {
+    title: trimmedTitle,
+    image_url: sanitizeHttpUrl(image_url),
+    price: price?.trim() || null,
+    product_url: trimmedProductUrl,
+  });
+
+  if (!item) {
+    res.status(404).json({ error: 'Item not found' });
+    return;
+  }
+
+  res.json({ item });
 });
 
 router.delete('/:id/items/:itemId', requireAuth, (req: AuthenticatedRequest, res) => {

@@ -6,10 +6,13 @@ import { useAuth } from '../hooks/useAuth.js';
 import { api, getGuestToken } from '../api/client.js';
 import { AddItemForm } from '../components/AddItemForm.js';
 import { ItemCard } from '../components/ItemCard.js';
+import { EditItemModal } from '../components/EditItemModal.js';
 import { ClaimModal } from '../components/ClaimModal.js';
+import { RemoveItemModal } from '../components/RemoveItemModal.js';
 import { useListWebSocket } from '../hooks/useListWebSocket.js';
 import { useClaimItem } from '../hooks/mutations/useClaimItem.js';
 import { useDeleteItem } from '../hooks/mutations/useDeleteItem.js';
+import { useUpdateItem } from '../hooks/mutations/useUpdateItem.js';
 import { useUnclaimItem } from '../hooks/mutations/useUnclaimItem.js';
 import { useGiftList } from '../hooks/queries/useGiftList.js';
 import { useSeo } from '../hooks/useSeo.js';
@@ -21,11 +24,14 @@ export function CreatorManagePage() {
   const { t } = useTranslation();
   const [claimItemId, setClaimItemId] = useState<number | null>(null);
   const [claimOnBehalf, setClaimOnBehalf] = useState(false);
+  const [editItemId, setEditItemId] = useState<number | null>(null);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
 
   const { data, isLoading, error } = useGiftList(listId);
   const claimItem = useClaimItem();
   const unclaimItem = useUnclaimItem();
   const deleteItem = useDeleteItem();
+  const updateItem = useUpdateItem();
 
   useSeo({
     title: t('seo.manageList.title'),
@@ -68,14 +74,31 @@ export function CreatorManagePage() {
     await unclaimItem.mutateAsync({ publicId: listId, itemId });
   }
 
-  async function handleDelete(itemId: number) {
-    if (!listId) {
+  async function handleDelete() {
+    if (!listId || deleteItemId === null) {
       return;
     }
-    if (!window.confirm(t('list.removeConfirm'))) {
+    await deleteItem.mutateAsync({ publicId: listId, itemId: deleteItemId });
+  }
+
+  async function handleEdit(payload: {
+    productUrl: string;
+    title: string;
+    imageUrl: string | null;
+    price: string | null;
+  }) {
+    if (!listId || editItemId === null) {
       return;
     }
-    await deleteItem.mutateAsync({ publicId: listId, itemId });
+
+    await updateItem.mutateAsync({
+      publicId: listId,
+      itemId: editItemId,
+      productUrl: payload.productUrl,
+      title: payload.title,
+      imageUrl: payload.imageUrl,
+      price: payload.price,
+    });
   }
 
   async function handleExport() {
@@ -112,6 +135,8 @@ export function CreatorManagePage() {
   }
 
   const claimTarget = items.find((item) => item.id === claimItemId);
+  const editTarget = items.find((item) => item.id === editItemId);
+  const deleteTarget = items.find((item) => item.id === deleteItemId);
 
   return (
     <Layout>
@@ -166,12 +191,21 @@ export function CreatorManagePage() {
                   setClaimItemId(item.id);
                 }}
                 onUnclaim={() => handleUnclaim(item.id)}
-                onDelete={() => handleDelete(item.id)}
+                onEdit={() => setEditItemId(item.id)}
+                onDelete={() => setDeleteItemId(item.id)}
               />
             ))}
           </div>
         )}
       </section>
+
+      {editTarget && (
+        <EditItemModal
+          item={editTarget}
+          onClose={() => setEditItemId(null)}
+          onConfirm={handleEdit}
+        />
+      )}
 
       {claimTarget && (
         <ClaimModal
@@ -182,6 +216,14 @@ export function CreatorManagePage() {
             setClaimOnBehalf(false);
           }}
           onConfirm={handleClaim}
+        />
+      )}
+
+      {deleteTarget && (
+        <RemoveItemModal
+          itemTitle={deleteTarget.title}
+          onClose={() => setDeleteItemId(null)}
+          onConfirm={handleDelete}
         />
       )}
     </Layout>

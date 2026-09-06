@@ -13,6 +13,7 @@ const {
   createUser,
   createGiftList,
   addGiftItem,
+  updateGiftItem,
   claimItem,
   unclaimItemIfAuthorized,
   ClaimConflictError,
@@ -59,5 +60,43 @@ describe('listService claims', () => {
   it('allows the host to unclaim any item', () => {
     const result = unclaimItemIfAuthorized(item.id, list.id, true, null);
     assert.deepEqual(result, { ok: true });
+  });
+});
+
+describe('listService item updates', () => {
+  const passwordHash = bcrypt.hashSync('password123', 4);
+  const host = createUser('editor@example.com', 'Editor', passwordHash);
+  const list = createGiftList('Edit List', host.id);
+  const item = addGiftItem(list.id, {
+    title: 'Original Title',
+    image_url: 'https://cdn.example.com/old.jpg',
+    price: '$50',
+    product_url: 'https://example.com/original',
+  });
+
+  it('updates gift item fields', () => {
+    const updated = updateGiftItem(item.id, list.id, {
+      title: 'Updated Title',
+      image_url: 'https://cdn.example.com/new.jpg',
+      price: '$75',
+      product_url: 'https://example.com/updated',
+    });
+
+    assert.ok(updated);
+    assert.equal(updated.title, 'Updated Title');
+    assert.equal(updated.image_url, 'https://cdn.example.com/new.jpg');
+    assert.equal(updated.price, '$75');
+    assert.equal(updated.product_url, 'https://example.com/updated');
+  });
+
+  it('returns null when item is not in the list', () => {
+    const updated = updateGiftItem(item.id, list.id + 999, {
+      title: 'Missing',
+      image_url: null,
+      price: null,
+      product_url: 'https://example.com/missing',
+    });
+
+    assert.equal(updated, null);
   });
 });

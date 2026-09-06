@@ -147,6 +147,23 @@ export const api = {
     });
   },
 
+  updateItem(
+    publicId: string,
+    itemId: number,
+    payload: {
+      product_url: string;
+      title: string;
+      image_url?: string | null;
+      price?: string | null;
+    },
+  ) {
+    return request<{ item: GiftItem }>(`/api/lists/${publicId}/items/${itemId}`, {
+      method: 'PATCH',
+      body: payload,
+      auth: true,
+    });
+  },
+
   claimItem(
     publicId: string,
     payload: {

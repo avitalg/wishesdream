@@ -1,0 +1,35 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  background: var(--text);
+  color: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  padding: 0.55rem 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+@media (max-width: 900px) {
+  .site-main {
+    padding: 0 1.25rem 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-bar {
+    font-size: 0.68rem;
+  }
+}

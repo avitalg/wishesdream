@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { ApiError } from '../api/client.js';
 import { useAddItem } from '../hooks/mutations/useAddItem.js';
 import { useParseUrl } from '../hooks/mutations/useParseUrl.js';
+import { GiftPriceField } from './GiftPriceField.js';
+import { applyParsedGiftPrice, formatGiftPrice } from '../utils/giftPrice.js';
 
 interface AddItemFormProps {
   listId: string;
@@ -10,7 +12,8 @@ interface AddItemFormProps {
 
 interface GiftDetails {
   title: string;
-  price: string;
+  priceAmount: string;
+  priceCurrency: string;
   imageUrl: string;
 }
 
@@ -25,7 +28,7 @@ const PARSE_ERROR_KEYS: Record<string, string> = {
 };
 
 function emptyDetails(): GiftDetails {
-  return { title: '', price: '', imageUrl: '' };
+  return { title: '', priceAmount: '', priceCurrency: '', imageUrl: '' };
 }
 
 export function AddItemForm({ listId }: AddItemFormProps) {
@@ -44,9 +47,11 @@ export function AddItemForm({ listId }: AddItemFormProps) {
   }
 
   function applyParsedDetails(title: string, price: string | null, imageUrl: string | null) {
+    const parsedPrice = applyParsedGiftPrice(price);
     setDetails({
       title,
-      price: price ?? '',
+      priceAmount: parsedPrice.amount,
+      priceCurrency: parsedPrice.currency,
       imageUrl: imageUrl ?? '',
     });
     setShowDetails(true);
@@ -94,7 +99,7 @@ export function AddItemForm({ listId }: AddItemFormProps) {
       productUrl: url.trim(),
       title,
       imageUrl: details.imageUrl.trim() || null,
-      price: details.price.trim() || null,
+      price: formatGiftPrice(details.priceAmount, details.priceCurrency),
     });
     resetForm();
   }
@@ -148,15 +153,16 @@ export function AddItemForm({ listId }: AddItemFormProps) {
             required
           />
 
-          <label className="field-label" htmlFor="gift-price">
-            {t('list.giftPriceLabel')}
-          </label>
-          <input
-            id="gift-price"
-            type="text"
-            value={details.price}
-            onChange={(e) => setDetails((current) => ({ ...current, price: e.target.value }))}
-            placeholder={t('list.giftPricePlaceholder')}
+          <GiftPriceField
+            idPrefix="gift-price"
+            amount={details.priceAmount}
+            currency={details.priceCurrency}
+            onAmountChange={(priceAmount) =>
+              setDetails((current) => ({ ...current, priceAmount }))
+            }
+            onCurrencyChange={(priceCurrency) =>
+              setDetails((current) => ({ ...current, priceCurrency }))
+            }
           />
 
           <label className="field-label" htmlFor="gift-image">

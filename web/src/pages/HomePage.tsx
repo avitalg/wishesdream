@@ -98,8 +98,13 @@ export function HomePage() {
                     <p className="item-number">{t('common.giftNumber', { number: 1 })}</p>
                     <h3 className="item-title">{t('home.previewTitle')}</h3>
                     <div className="item-actions">
-                      <span className="item-view-link">{t('common.viewProduct')}</span>
-                      <div className="item-action-buttons">
+                      <span className="item-view-link">
+                        {t('common.viewProduct')}
+                        <span className="item-view-link__arrow" aria-hidden="true">
+                          →
+                        </span>
+                      </span>
+                      <div className="item-action-primary">
                         <span className="btn-primary btn-sm">{t('common.claimGift')}</span>
                       </div>
                     </div>

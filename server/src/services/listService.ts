@@ -66,6 +66,23 @@ export function deleteGiftItem(itemId: number, listId: number): boolean {
   return result.changes > 0;
 }
 
+export function updateGiftItem(
+  itemId: number,
+  listId: number,
+  data: { title: string; image_url: string | null; price: string | null; product_url: string },
+): GiftItem | null {
+  const item = stmts.updateGiftItem.get(
+    data.title,
+    data.image_url,
+    data.price,
+    data.product_url,
+    itemId,
+    listId,
+  ) as GiftItem | undefined;
+
+  return item ?? null;
+}
+
 export class ClaimConflictError extends Error {
   constructor(message = 'Sorry, this item was just selected by someone else.') {
     super(message);
