@@ -272,7 +272,17 @@
     "publicList": {
       "title": "רשימת מתנות",
       "description": "צפייה וסימון מתנות מרשימה משותפת ב-WishesDream."
-    }
+    },
+    "notFound": {
+      "title": "הדף לא נמצא",
+      "description": "הדף שביקשתם לא קיים ב-WishesDream."
+    },
+    "defaultImageAlt": "רשימת מתנות ב-WishesDream — מתנות נבחרות עם סימון פרטי לאורחים"
+  },
+  "notFound": {
+    "title": "הדף לא נמצא",
+    "description": "לא מצאנו את הדף הזה. ייתכן שהוא הועבר או שהקישור שגוי.",
+    "backHome": "חזרה לדף הבית"
   },
   "export": {
     "exported": "יוצא {{date}}",

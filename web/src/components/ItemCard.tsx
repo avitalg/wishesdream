@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { GiftItem } from '../types/index.js';
 import { isCreatorItem } from '../types/index.js';
+import { isSafeHttpUrl } from '../utils/safeUrl.js';
 
 interface ItemCardProps {
   item: GiftItem;
@@ -14,6 +15,8 @@ interface ItemCardProps {
 export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete }: ItemCardProps) {
   const { t } = useTranslation();
   const creatorItem = isCreatorItem(item) ? item : null;
+  const productUrl = isSafeHttpUrl(item.product_url) ? item.product_url : null;
+  const imageUrl = item.image_url && isSafeHttpUrl(item.image_url) ? item.image_url : null;
 
   function renderStatus() {
     if (!item.is_claimed) {
@@ -74,8 +77,8 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
   return (
     <article className={`item-card ${item.is_claimed ? 'is-claimed' : ''}`}>
       <div className="item-image-wrap">
-        {item.image_url ? (
-          <img src={item.image_url} alt={item.title} className="item-image" loading="lazy" />
+        {imageUrl ? (
+          <img src={imageUrl} alt={item.title} className="item-image" loading="lazy" />
         ) : (
           <div className="item-image-placeholder">
             <span aria-hidden="true">🎁</span>
@@ -90,14 +93,18 @@ export function ItemCard({ item, index, isCreator, onClaim, onUnclaim, onDelete 
         {item.price && <p className="item-price">{item.price}</p>}
 
         <div className="item-actions">
-          <a
-            href={item.product_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="item-view-link"
-          >
-            {t('common.viewProduct')}
-          </a>
+          {productUrl ? (
+            <a
+              href={productUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="item-view-link"
+            >
+              {t('common.viewProduct')}
+            </a>
+          ) : (
+            <span className="item-view-link item-view-link--unavailable">{t('common.viewProduct')}</span>
+          )}
           <div className="item-action-buttons">
             {renderActions()}
             {isCreator && onDelete && (

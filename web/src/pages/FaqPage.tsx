@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useSeo } from '../hooks/useSeo.js';
-import { buildFaqPageJsonLd } from '../lib/seoJsonLd.js';
+import { buildBreadcrumbJsonLd, buildFaqPageJsonLd, buildJsonLdGraph } from '../lib/seoJsonLd.js';
 
 export function FaqPage() {
   const { t } = useTranslation();
@@ -15,7 +15,13 @@ export function FaqPage() {
     title: t('seo.faq.title'),
     description: t('seo.faq.description'),
     path: '/faq',
-    jsonLd: buildFaqPageJsonLd(),
+    jsonLd: buildJsonLdGraph([
+      buildBreadcrumbJsonLd([
+        { name: t('nav.home'), path: '/' },
+        { name: t('seo.faq.title'), path: '/faq' },
+      ]),
+      buildFaqPageJsonLd(),
+    ]),
   });
 
   return (

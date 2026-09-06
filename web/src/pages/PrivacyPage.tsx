@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { buildBreadcrumbJsonLd, buildJsonLdGraph } from '../lib/seoJsonLd.js';
 
 export function PrivacyPage() {
   const { t } = useTranslation();
@@ -10,6 +11,12 @@ export function PrivacyPage() {
     title: t('seo.privacy.title'),
     description: t('seo.privacy.description'),
     path: '/privacy',
+    jsonLd: buildJsonLdGraph([
+      buildBreadcrumbJsonLd([
+        { name: t('nav.home'), path: '/' },
+        { name: t('seo.privacy.title'), path: '/privacy' },
+      ]),
+    ]),
   });
 
   return (

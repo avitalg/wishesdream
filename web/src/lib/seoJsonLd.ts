@@ -8,8 +8,33 @@ function areaServedNodes() {
   }));
 }
 
-function currentLanguage(): string {
-  return i18n.language.startsWith('he') ? 'he' : 'en';
+function stripContext(node: Record<string, unknown>): Record<string, unknown> {
+  const { '@context': _context, ...rest } = node;
+  return rest;
+}
+
+export function buildJsonLdGraph(nodes: Array<Record<string, unknown>>) {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': nodes.map(stripContext),
+  };
+}
+
+export interface BreadcrumbItem {
+  name: string;
+  path: string;
+}
+
+export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
 }
 
 export function buildOrganizationJsonLd() {
@@ -18,6 +43,7 @@ export function buildOrganizationJsonLd() {
     '@type': 'Organization',
     name: SITE_NAME,
     url: absoluteUrl('/'),
+    logo: absoluteUrl('/og-image.png'),
     description: i18n.t('seo.defaultDescription'),
     areaServed: areaServedNodes(),
   };
@@ -29,7 +55,7 @@ export function buildWebSiteJsonLd() {
     '@type': 'WebSite',
     name: SITE_NAME,
     url: absoluteUrl('/'),
-    inLanguage: currentLanguage(),
+    inLanguage: ['en', 'he'],
     description: i18n.t('seo.defaultDescription'),
     publisher: {
       '@type': 'Organization',

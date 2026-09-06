@@ -1,0 +1,17 @@
+{
+  "name": "WishesDream",
+  "short_name": "WishesDream",
+  "description": "Privacy-first gift registry for every celebration.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f5f2",
+  "theme_color": "#c4a494",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { buildBreadcrumbJsonLd, buildJsonLdGraph } from '../lib/seoJsonLd.js';
 
 export function CookiePolicyPage() {
   const { t } = useTranslation();
@@ -10,6 +11,12 @@ export function CookiePolicyPage() {
     title: t('seo.cookies.title'),
     description: t('seo.cookies.description'),
     path: '/cookies',
+    jsonLd: buildJsonLdGraph([
+      buildBreadcrumbJsonLd([
+        { name: t('nav.home'), path: '/' },
+        { name: t('seo.cookies.title'), path: '/cookies' },
+      ]),
+    ]),
   });
 
   return (

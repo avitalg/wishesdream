@@ -1,13 +1,14 @@
-import type { Express, Request, Response } from 'express';
+import { DISALLOWED_PATHS, INDEXABLE_PATHS } from './seoConfig.js';
+import { getSiteUrl } from './envConfig.js';
 
-const INDEXABLE_PATHS = ['/', '/how-it-works', '/faq', '/privacy', '/cookies'] as const;
-
-const DISALLOWED_PATHS = ['/dashboard', '/login', '/register', '/lists/'] as const;
-
-function resolveSiteUrl(req: Request): string {
-  const configured = process.env.SITE_URL?.replace(/\/$/, '');
+function resolveSiteUrl(req: import('express').Request): string {
+  const configured = getSiteUrl();
   if (configured) {
     return configured;
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('SITE_URL is required in production');
   }
 
   const protocol = req.get('x-forwarded-proto') ?? req.protocol;
@@ -18,7 +19,6 @@ function resolveSiteUrl(req: Request): string {
 function buildRobotsTxt(siteUrl: string): string {
   const lines = [
     'User-agent: *',
-    ...INDEXABLE_PATHS.map((path) => `Allow: ${path === '/' ? '/' : path}`),
     ...DISALLOWED_PATHS.map((path) => `Disallow: ${path}`),
     '',
     `Sitemap: ${siteUrl}/sitemap.xml`,
@@ -49,7 +49,7 @@ ${urls.join('\n')}
 `;
 }
 
-export function registerSeoRoutes(app: Express): void {
+export function registerSeoRoutes(app: import('express').Express): void {
   app.get('/robots.txt', (req, res) => {
     const siteUrl = resolveSiteUrl(req);
     res.type('text/plain').send(buildRobotsTxt(siteUrl));

@@ -27,6 +27,9 @@ export const INDEXABLE_PATHS = [
   '/cookies',
 ] as const;
 
+/** Default Open Graph / Twitter share image (1200×630 recommended). */
+export const DEFAULT_OG_IMAGE_PATH = '/og-image.png';
+
 export function getSiteUrl(): string {
   const configured = import.meta.env.VITE_SITE_URL as string | undefined;
   if (configured) {

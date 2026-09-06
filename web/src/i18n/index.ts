@@ -25,6 +25,10 @@ export function getOgLocale(language: string): string {
   return LOCALE_MAP.en;
 }
 
+export function getAlternateOgLocale(language: string): string {
+  return language.startsWith('he') ? LOCALE_MAP.en : LOCALE_MAP.he;
+}
+
 export function applyDocumentLanguage(language: string): void {
   const lang = language.startsWith('he') ? 'he' : 'en';
   document.documentElement.lang = lang;

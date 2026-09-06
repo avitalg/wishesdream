@@ -29,6 +29,7 @@ import {
   routeParam,
 } from './listRouteHelpers.js';
 import { parsePositiveInt } from '../lib/validators.js';
+import { assertSafeFetchUrl, isSafeHttpUrl, sanitizeHttpUrl } from '../lib/safeUrl.js';
 
 const router = Router();
 
@@ -58,8 +59,19 @@ router.post('/parse-url', requireAuth, async (req, res) => {
     return;
   }
 
+  const trimmedUrl = url.trim();
+  if (!isSafeHttpUrl(trimmedUrl)) {
+    res.status(400).json({ error: 'Only HTTP and HTTPS product URLs are allowed' });
+    return;
+  }
+
   try {
-    res.json(await parseProductUrl(url.trim()));
+    await assertSafeFetchUrl(trimmedUrl);
+    const parsed = await parseProductUrl(trimmedUrl);
+    res.json({
+      ...parsed,
+      image_url: sanitizeHttpUrl(parsed.image_url),
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to parse URL';
     res.status(422).json({ error: message });
@@ -103,11 +115,31 @@ router.post('/:id/items', requireAuth, async (req: AuthenticatedRequest, res) =>
     return;
   }
 
-  let parsed = { title: title?.trim() ?? '', image_url: image_url ?? null, price: price ?? null };
+  const trimmedProductUrl = product_url.trim();
+  if (!isSafeHttpUrl(trimmedProductUrl)) {
+    res.status(400).json({ error: 'Only HTTP and HTTPS product URLs are allowed' });
+    return;
+  }
+
+  if (image_url?.trim() && !isSafeHttpUrl(image_url.trim())) {
+    res.status(400).json({ error: 'Image URL must use HTTP or HTTPS' });
+    return;
+  }
+
+  let parsed = {
+    title: title?.trim() ?? '',
+    image_url: sanitizeHttpUrl(image_url),
+    price: price ?? null,
+  };
   if (!parsed.title) {
     try {
-      const metadata = await parseProductUrl(product_url.trim());
-      parsed = { title: metadata.title, image_url: metadata.image_url, price: metadata.price };
+      await assertSafeFetchUrl(trimmedProductUrl);
+      const metadata = await parseProductUrl(trimmedProductUrl);
+      parsed = {
+        title: metadata.title,
+        image_url: sanitizeHttpUrl(metadata.image_url),
+        price: metadata.price,
+      };
     } catch {
       parsed.title = 'Gift Item';
     }
@@ -117,7 +149,7 @@ router.post('/:id/items', requireAuth, async (req: AuthenticatedRequest, res) =>
     title: parsed.title,
     image_url: parsed.image_url,
     price: parsed.price,
-    product_url: product_url.trim(),
+    product_url: trimmedProductUrl,
   });
 
   res.status(201).json({ item });

@@ -1,6 +1,7 @@
 import { isAmazonUrl, parseAmazonProductUrl } from './amazonParser.js';
 import { parseGenericProductHtml } from './genericParser.js';
 import { isNextUrl, parseNextProductUrl } from './nextParser.js';
+import { safeFetch } from '../lib/safeUrl.js';
 
 export type { ParsedProduct } from './parsedProduct.js';
 
@@ -20,7 +21,7 @@ export async function parseProductUrl(url: string) {
     return parseNextProductUrl(url);
   }
 
-  const response = await fetch(url, {
+  const response = await safeFetch(url, {
     headers: BROWSER_HEADERS,
     signal: AbortSignal.timeout(15000),
   });

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../context/AuthContext.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { buildBreadcrumbJsonLd, buildJsonLdGraph } from '../lib/seoJsonLd.js';
 
 export function HowItWorksPage() {
   const { user } = useAuth();
@@ -12,6 +13,12 @@ export function HowItWorksPage() {
     title: t('seo.howItWorks.title'),
     description: t('seo.howItWorks.description'),
     path: '/how-it-works',
+    jsonLd: buildJsonLdGraph([
+      buildBreadcrumbJsonLd([
+        { name: t('nav.home'), path: '/' },
+        { name: t('seo.howItWorks.title'), path: '/how-it-works' },
+      ]),
+    ]),
   });
 
   return (

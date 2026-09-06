@@ -1,6 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.js';
 import { queryClient } from './lib/queryClient.js';
 import { HomePage } from './pages/HomePage.js';
@@ -13,6 +13,7 @@ import { RegisterPage } from './pages/RegisterPage.js';
 import { DashboardPage } from './pages/DashboardPage.js';
 import { CreatorManagePage } from './pages/CreatorManagePage.js';
 import { PublicListPage } from './pages/PublicListPage.js';
+import { NotFoundPage } from './pages/NotFoundPage.js';
 
 export default function App() {
   return (
@@ -30,7 +31,7 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/lists/:listId/manage" element={<CreatorManagePage />} />
             <Route path="/lists/:listId" element={<PublicListPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

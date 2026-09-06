@@ -1,8 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import type { AuthPayload, GiftList } from '../types/index.js';
+import { getJwtSecret } from '../lib/envConfig.js';
 
-const JWT_SECRET = process.env.JWT_SECRET ?? 'dev-secret-change-in-production';
+const JWT_SECRET = getJwtSecret();
 
 export function signToken(payload: AuthPayload): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
@@ -64,5 +65,3 @@ export function resolveViewerRole(req: AuthenticatedRequest, list: GiftList): 'c
 
   return 'guest';
 }
-
-export { JWT_SECRET };

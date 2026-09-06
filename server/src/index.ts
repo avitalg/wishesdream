@@ -8,6 +8,7 @@ import listRoutes from './routes/lists.js';
 import { getWebDistPath, isWebDistAvailable } from './lib/webDistPath.js';
 import { wsManager } from './services/websocket.js';
 import './db/database.js';
+import { isKnownClientRoute } from './lib/seoConfig.js';
 import { registerSeoRoutes } from './lib/seoRoutes.js';
 
 const app = express();
@@ -31,8 +32,9 @@ if (isWebDistAvailable()) {
 
   app.use(express.static(webDist, { index: false }));
 
-  app.get(/^(?!\/api\/|\/api$|\/ws).*/, (_req, res) => {
-    res.sendFile(path.join(webDist, 'index.html'));
+  app.get(/^(?!\/api\/|\/api$|\/ws).*/, (req, res) => {
+    const status = isKnownClientRoute(req.path) ? 200 : 404;
+    res.status(status).sendFile(path.join(webDist, 'index.html'));
   });
 
   console.log(`Serving web app from ${webDist}`);

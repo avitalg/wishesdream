@@ -272,7 +272,17 @@
     "publicList": {
       "title": "Gift Registry",
       "description": "View and claim gifts from a shared WishesDream registry."
-    }
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you requested does not exist on WishesDream."
+    },
+    "defaultImageAlt": "WishesDream gift registry — curated gifts with private guest claims"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "We couldn't find that page. It may have moved or the link might be incorrect.",
+    "backHome": "Back to home"
   },
   "export": {
     "exported": "Exported {{date}}",
