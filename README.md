@@ -49,13 +49,15 @@ Use the **repo root** as the service root (do not set Root Directory to `server/
 | Step | Command |
 |------|---------|
 | Build | `npm run build` (compiles server + `web/dist`) |
-| Start | `npm start` |
+| Start | `node server/dist/index.js` |
 
 Required variables in Railway:
 
 | Variable | Value |
 |----------|--------|
+| `NODE_ENV` | `production` |
 | `JWT_SECRET` | Long random string |
+| `SITE_URL` | Your public app URL (e.g. `https://your-app.up.railway.app`) |
 | `DATABASE_PATH` | `/data/wishesdream.db` (with a Volume mounted at `/data`) |
 
 After deploy, logs should include `Serving web app from .../web/dist`. If you see `Cannot GET /`, the build did not produce `web/dist` or static serving code is missing.
