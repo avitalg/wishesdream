@@ -130,7 +130,24 @@
     "addGift": "Add a Gift",
     "addGiftHint": "Paste a product link and we'll fetch the details automatically.",
     "urlPlaceholder": "https://example.com/product",
-    "addToList": "Add to List"
+    "addToList": "Add to List",
+    "enterDetailsManually": "Enter gift details manually",
+    "manualDetailsHint": "Edit the gift name, price, or image before adding to your list.",
+    "giftTitleLabel": "Gift name",
+    "giftTitlePlaceholder": "e.g. Inflatable swimming pool",
+    "giftPriceLabel": "Price (optional)",
+    "giftPricePlaceholder": "e.g. ₪256",
+    "giftImageLabel": "Image URL (optional)",
+    "giftImagePlaceholder": "https://example.com/image.jpg",
+    "parseErrors": {
+      "invalidUrl": "That link does not look like a valid product URL.",
+      "blockedUrl": "This URL cannot be fetched for security reasons.",
+      "tooManyRedirects": "The store redirected too many times. Try the direct product page link, or enter details manually below.",
+      "redirectLoop": "The store kept redirecting in a loop. Try the direct product page link, or enter details manually below.",
+      "fetchFailed": "We could not reach that page. Check the link and try again, or enter details manually below.",
+      "noProductData": "We could not read product details from that link. Enter them manually below.",
+      "parseFailed": "We could not read product details from that link. Enter them manually below."
+    }
   },
   "content": {
     "howItWorks": {

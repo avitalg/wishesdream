@@ -23,11 +23,13 @@ export {
 
 export class ApiError extends Error {
   status: number;
+  code?: string;
 
-  constructor(message: string, status: number) {
+  constructor(message: string, status: number, code?: string) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
+    this.code = code;
   }
 }
 
@@ -70,7 +72,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new ApiError(data.error ?? 'Request failed', response.status);
+    throw new ApiError(data.error ?? 'Request failed', response.status, data.code as string | undefined);
   }
 
   return data as T;

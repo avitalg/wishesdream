@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ApiError } from '../api/client.js';
 import { useAddItem } from '../hooks/mutations/useAddItem.js';
 import { useParseUrl } from '../hooks/mutations/useParseUrl.js';
 
@@ -7,21 +8,73 @@ interface AddItemFormProps {
   listId: string;
 }
 
+interface GiftDetails {
+  title: string;
+  price: string;
+  imageUrl: string;
+}
+
+const PARSE_ERROR_KEYS: Record<string, string> = {
+  INVALID_URL: 'list.parseErrors.invalidUrl',
+  BLOCKED_URL: 'list.parseErrors.blockedUrl',
+  TOO_MANY_REDIRECTS: 'list.parseErrors.tooManyRedirects',
+  REDIRECT_LOOP: 'list.parseErrors.redirectLoop',
+  FETCH_FAILED: 'list.parseErrors.fetchFailed',
+  NO_PRODUCT_DATA: 'list.parseErrors.noProductData',
+  PARSE_FAILED: 'list.parseErrors.parseFailed',
+};
+
+function emptyDetails(): GiftDetails {
+  return { title: '', price: '', imageUrl: '' };
+}
+
 export function AddItemForm({ listId }: AddItemFormProps) {
   const { t } = useTranslation();
   const [url, setUrl] = useState('');
+  const [details, setDetails] = useState<GiftDetails>(emptyDetails);
+  const [showDetails, setShowDetails] = useState(false);
   const parseUrl = useParseUrl();
   const addItem = useAddItem();
 
-  const preview = parseUrl.data
-    ? { title: parseUrl.data.title, price: parseUrl.data.price, imageUrl: parseUrl.data.image_url }
-    : null;
+  function resetForm() {
+    setUrl('');
+    setDetails(emptyDetails());
+    setShowDetails(false);
+    parseUrl.reset();
+  }
+
+  function applyParsedDetails(title: string, price: string | null, imageUrl: string | null) {
+    setDetails({
+      title,
+      price: price ?? '',
+      imageUrl: imageUrl ?? '',
+    });
+    setShowDetails(true);
+  }
+
+  function resolveErrorMessage(error: unknown): string | null {
+    if (!(error instanceof ApiError)) {
+      return error instanceof Error ? error.message : null;
+    }
+
+    if (error.code && PARSE_ERROR_KEYS[error.code]) {
+      return t(PARSE_ERROR_KEYS[error.code]);
+    }
+
+    return error.message;
+  }
 
   async function handlePreview() {
     if (!url.trim()) {
       return;
     }
-    await parseUrl.mutateAsync(url.trim());
+
+    try {
+      const parsed = await parseUrl.mutateAsync(url.trim());
+      applyParsedDetails(parsed.title, parsed.price, parsed.image_url);
+    } catch {
+      setShowDetails(true);
+    }
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -30,21 +83,26 @@ export function AddItemForm({ listId }: AddItemFormProps) {
       return;
     }
 
+    const title = details.title.trim();
+    if (!title) {
+      setShowDetails(true);
+      return;
+    }
+
     await addItem.mutateAsync({
       publicId: listId,
       productUrl: url.trim(),
-      title: preview?.title,
-      imageUrl: preview?.imageUrl,
-      price: preview?.price ?? null,
+      title,
+      imageUrl: details.imageUrl.trim() || null,
+      price: details.price.trim() || null,
     });
-    setUrl('');
-    parseUrl.reset();
+    resetForm();
   }
 
   const loading = parseUrl.isPending || addItem.isPending;
   const errorMessage =
-    (parseUrl.error instanceof Error ? parseUrl.error.message : null) ??
-    (addItem.error instanceof Error ? addItem.error.message : null);
+    resolveErrorMessage(parseUrl.error) ?? resolveErrorMessage(addItem.error);
+  const canSubmit = Boolean(url.trim() && details.title.trim());
 
   return (
     <form className="add-item-form" onSubmit={handleSubmit}>
@@ -58,6 +116,7 @@ export function AddItemForm({ listId }: AddItemFormProps) {
           onChange={(e) => {
             setUrl(e.target.value);
             parseUrl.reset();
+            addItem.reset();
           }}
           placeholder={t('list.urlPlaceholder')}
           required
@@ -67,19 +126,67 @@ export function AddItemForm({ listId }: AddItemFormProps) {
         </button>
       </div>
 
-      {preview && (
-        <div className="preview-card">
-          {preview.imageUrl && (
-            <img src={preview.imageUrl} alt="" className="preview-card__image" loading="lazy" />
+      {errorMessage && (
+        <p className="error-text" role="alert">
+          {errorMessage}
+        </p>
+      )}
+
+      {(showDetails || errorMessage) && (
+        <div className="gift-details-fields">
+          <p className="form-hint">{t('list.manualDetailsHint')}</p>
+
+          <label className="field-label" htmlFor="gift-title">
+            {t('list.giftTitleLabel')}
+          </label>
+          <input
+            id="gift-title"
+            type="text"
+            value={details.title}
+            onChange={(e) => setDetails((current) => ({ ...current, title: e.target.value }))}
+            placeholder={t('list.giftTitlePlaceholder')}
+            required
+          />
+
+          <label className="field-label" htmlFor="gift-price">
+            {t('list.giftPriceLabel')}
+          </label>
+          <input
+            id="gift-price"
+            type="text"
+            value={details.price}
+            onChange={(e) => setDetails((current) => ({ ...current, price: e.target.value }))}
+            placeholder={t('list.giftPricePlaceholder')}
+          />
+
+          <label className="field-label" htmlFor="gift-image">
+            {t('list.giftImageLabel')}
+          </label>
+          <input
+            id="gift-image"
+            type="url"
+            value={details.imageUrl}
+            onChange={(e) => setDetails((current) => ({ ...current, imageUrl: e.target.value }))}
+            placeholder={t('list.giftImagePlaceholder')}
+          />
+
+          {details.imageUrl && (
+            <img src={details.imageUrl} alt="" className="preview-card__image" loading="lazy" />
           )}
-          <strong>{preview.title}</strong>
-          {preview.price && <span>{preview.price}</span>}
         </div>
       )}
 
-      {errorMessage && <p className="error-text">{errorMessage}</p>}
+      {!showDetails && !errorMessage && (
+        <button
+          type="button"
+          className="btn-text btn-sm manual-details-toggle"
+          onClick={() => setShowDetails(true)}
+        >
+          {t('list.enterDetailsManually')}
+        </button>
+      )}
 
-      <button type="submit" className="btn-primary" disabled={loading || !url.trim()}>
+      <button type="submit" className="btn-primary" disabled={loading || !canSubmit}>
         {addItem.isPending ? t('common.adding') : t('list.addToList')}
       </button>
     </form>

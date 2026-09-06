@@ -1,11 +1,13 @@
-export const AMAZON_HOST_PATTERN =
-  /(?:amazon\.(?:com|co\.uk|de|fr|ca|com\.au|co\.jp|in|it|es|com\.mx|com\.br|nl|se|pl|com\.tr|ae|sa|sg)|amzn\.to|a\.co)\b/i;
+const AMAZON_DOMAIN_PATTERN =
+  /^amazon\.(?:com|co\.uk|de|fr|ca|com\.au|co\.jp|in|it|es|com\.mx|com\.br|nl|se|pl|com\.tr|ae|sa|sg)$/i;
+
 export const ASIN_PATTERN =
   /(?:\/dp\/|\/gp\/product\/|\/gp\/aw\/d\/|\/exec\/obidos\/ASIN\/|\/product\/)([A-Z0-9]{10})/i;
 
 export function isAmazonUrl(url: string): boolean {
   try {
-    return AMAZON_HOST_PATTERN.test(new URL(url).hostname);
+    const hostname = new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+    return hostname === 'a.co' || hostname === 'amzn.to' || AMAZON_DOMAIN_PATTERN.test(hostname);
   } catch {
     return false;
   }

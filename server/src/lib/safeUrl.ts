@@ -1,7 +1,13 @@
 import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
+import { ParseUrlError, parseErrorMessage } from './parseErrors.js';
 
-const MAX_REDIRECTS = 5;
+const MAX_REDIRECTS = 8;
+
+function redirectKey(urlString: string): string {
+  const url = new URL(urlString);
+  return `${url.origin}${url.pathname}`;
+}
 
 function isBlockedIpv4(a: number, b: number): boolean {
   if (a === 0 || a === 10 || a === 127) {
@@ -137,8 +143,15 @@ export async function safeFetch(
   urlString: string,
   init: RequestInit = {},
   redirectCount = 0,
+  visited: Set<string> = new Set(),
 ): Promise<Response> {
   await assertSafeFetchUrl(urlString);
+
+  const key = redirectKey(urlString);
+  if (visited.has(key)) {
+    throw new ParseUrlError('REDIRECT_LOOP', parseErrorMessage('REDIRECT_LOOP'));
+  }
+  visited.add(key);
 
   const response = await fetch(urlString, {
     ...init,
@@ -147,16 +160,16 @@ export async function safeFetch(
 
   if (response.status >= 300 && response.status < 400) {
     if (redirectCount >= MAX_REDIRECTS) {
-      throw new Error('Too many redirects');
+      throw new ParseUrlError('TOO_MANY_REDIRECTS', parseErrorMessage('TOO_MANY_REDIRECTS'));
     }
 
     const location = response.headers.get('location');
     if (!location) {
-      throw new Error('Redirect missing location header');
+      throw new ParseUrlError('FETCH_FAILED', parseErrorMessage('FETCH_FAILED'));
     }
 
     const nextUrl = new URL(location, urlString).toString();
-    return safeFetch(nextUrl, init, redirectCount + 1);
+    return safeFetch(nextUrl, init, redirectCount + 1, visited);
   }
 
   return response;

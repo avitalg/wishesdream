@@ -31,6 +31,7 @@ import {
 } from './listRouteHelpers.js';
 import { parsePositiveInt } from '../lib/validators.js';
 import { assertSafeFetchUrl, isSafeHttpUrl, sanitizeHttpUrl } from '../lib/safeUrl.js';
+import { ParseUrlError, toParseUrlError, isIncompleteProduct } from '../lib/parseErrors.js';
 
 const router = Router();
 
@@ -74,8 +75,8 @@ router.post('/parse-url', requireAuth, async (req, res) => {
       image_url: sanitizeHttpUrl(parsed.image_url),
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Failed to parse URL';
-    res.status(422).json({ error: message });
+    const parseError = toParseUrlError(error);
+    res.status(422).json({ error: parseError.message, code: parseError.code });
   }
 });
 
@@ -127,31 +128,41 @@ router.post('/:id/items', requireAuth, async (req: AuthenticatedRequest, res) =>
     return;
   }
 
+  const clientTitle = title?.trim() ?? '';
+
   let parsed = {
-    title: title?.trim() ?? '',
+    title: clientTitle,
     image_url: sanitizeHttpUrl(image_url),
-    price: price ?? null,
+    price: price?.trim() || null,
   };
 
   const needsFetch =
-    !parsed.title ||
-    isGenericProductTitle(parsed.title) ||
-    !parsed.image_url;
+    !clientTitle || isGenericProductTitle(clientTitle) || !parsed.image_url;
 
   if (needsFetch) {
     try {
       await assertSafeFetchUrl(trimmedProductUrl);
       const metadata = await parseProductUrl(trimmedProductUrl);
       parsed = {
-        title: metadata.title,
-        image_url: sanitizeHttpUrl(metadata.image_url),
+        title: !clientTitle || isGenericProductTitle(clientTitle) ? metadata.title : clientTitle,
+        image_url: sanitizeHttpUrl(metadata.image_url) ?? parsed.image_url,
         price: metadata.price ?? parsed.price,
       };
-    } catch {
-      if (!parsed.title || isGenericProductTitle(parsed.title)) {
-        parsed.title = 'Gift Item';
+    } catch (error) {
+      if (!clientTitle || isGenericProductTitle(clientTitle)) {
+        const parseError = toParseUrlError(error);
+        res.status(422).json({ error: parseError.message, code: parseError.code });
+        return;
       }
     }
+  }
+
+  if (isIncompleteProduct(parsed)) {
+    res.status(422).json({
+      error: 'Could not fetch product details. Enter a gift name manually.',
+      code: 'NO_PRODUCT_DATA',
+    });
+    return;
   }
 
   const item = addGiftItem(list.id, {

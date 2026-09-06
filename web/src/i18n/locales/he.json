@@ -130,7 +130,24 @@
     "addGift": "הוספת מתנה",
     "addGiftHint": "הדביקו קישור למוצר ונמלא את הפרטים בשבילכם.",
     "urlPlaceholder": "https://example.com/product",
-    "addToList": "הוספה לרשימה"
+    "addToList": "הוספה לרשימה",
+    "enterDetailsManually": "הזנה ידנית של פרטי המתנה",
+    "manualDetailsHint": "אפשר לערוך את שם המתנה, המחיר או התמונה לפני ההוספה לרשימה.",
+    "giftTitleLabel": "שם המתנה",
+    "giftTitlePlaceholder": "לדוגמה: בריכת שחייה מתנפחת",
+    "giftPriceLabel": "מחיר (לא חובה)",
+    "giftPricePlaceholder": "לדוגמה: ₪256",
+    "giftImageLabel": "קישור לתמונה (לא חובה)",
+    "giftImagePlaceholder": "https://example.com/image.jpg",
+    "parseErrors": {
+      "invalidUrl": "הקישור לא נראה כמו כתובת מוצר תקינה.",
+      "blockedUrl": "לא ניתן לטעון את הקישור הזה מסיבות אבטחה.",
+      "tooManyRedirects": "האתר ביצע יותר מדי הפניות. נסו קישור ישיר לדף המוצר, או הזינו פרטים ידנית.",
+      "redirectLoop": "האתר נכנס ללולאת הפניות. נסו קישור ישיר לדף המוצר, או הזינו פרטים ידנית.",
+      "fetchFailed": "לא הצלחנו להגיע לדף. בדקו את הקישור ונסו שוב, או הזינו פרטים ידנית.",
+      "noProductData": "לא הצלחנו לקרוא פרטי מוצר מהקישור. אפשר להזין אותם ידנית.",
+      "parseFailed": "לא הצלחנו לקרוא פרטי מוצר מהקישור. אפשר להזין אותם ידנית."
+    }
   },
   "content": {
     "howItWorks": {

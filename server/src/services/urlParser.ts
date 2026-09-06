@@ -2,6 +2,7 @@ import { isAmazonUrl, parseAmazonProductUrl } from './amazonParser.js';
 import { parseGenericProductHtml } from './genericParser.js';
 import { isNextUrl, parseNextProductUrl } from './nextParser.js';
 import { normalizeProductUrl } from '../lib/productUrlNormalize.js';
+import { ParseUrlError, parseErrorMessage, isIncompleteProduct } from '../lib/parseErrors.js';
 import { safeFetch } from '../lib/safeUrl.js';
 
 export type { ParsedProduct } from './parsedProduct.js';
@@ -30,9 +31,15 @@ export async function parseProductUrl(url: string) {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch URL (${response.status})`);
+    throw new ParseUrlError('FETCH_FAILED', parseErrorMessage('FETCH_FAILED'));
   }
 
   const html = await response.text();
-  return parseGenericProductHtml(html);
+  const parsed = parseGenericProductHtml(html);
+
+  if (isIncompleteProduct(parsed)) {
+    throw new ParseUrlError('NO_PRODUCT_DATA', parseErrorMessage('NO_PRODUCT_DATA'));
+  }
+
+  return parsed;
 }

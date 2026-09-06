@@ -974,6 +974,43 @@ input:focus {
   flex-shrink: 0;
 }
 
+.gift-details-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0.75rem 0 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg);
+}
+
+.gift-details-fields .field-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.gift-details-fields input {
+  width: 100%;
+}
+
+.manual-details-toggle {
+  margin: 0.25rem 0 1rem;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--primary-hover);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .my-claims-banner {
   border-color: rgba(196, 164, 148, 0.4);
   background: var(--primary-soft);

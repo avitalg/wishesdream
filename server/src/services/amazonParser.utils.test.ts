@@ -13,7 +13,34 @@ import {
 describe('amazonParser.utils', () => {
   it('detects Amazon URLs', () => {
     assert.equal(isAmazonUrl('https://www.amazon.com/dp/B012345678'), true);
+    assert.equal(isAmazonUrl('https://a.co/dp/B012345678'), true);
+    assert.equal(isAmazonUrl('https://amzn.to/abc123'), true);
+    assert.equal(isAmazonUrl('https://amazon.co.uk/dp/B012345678'), true);
     assert.equal(isAmazonUrl('https://www.next.co.il/en/style/su775634/h53742'), false);
+    assert.equal(isAmazonUrl('https://www.nautica.co.il/kds33504sp25-crl'), false);
+  });
+
+  it('regression: hostnames containing "a.co" are not Amazon', () => {
+    const falsePositives = [
+      'https://www.nautica.co.il/kds33504sp25-crl?utm_source=google&utm_medium=cpc&gclid=CjwKCAjwnvTUBhBoEiwAZNDxZ5yx',
+      'https://nautica.co.il/kds33504sp25-crl',
+      'https://www.data.co.il/product/123',
+      'https://shop.marca.co.il/item',
+      'https://www.example.co.il/path',
+      'https://a.co.example.com/product',
+      'https://notamazon.com/dp/B012345678',
+      'https://amazonfake.com/dp/B012345678',
+      'https://www.amazon.com.evil.com/dp/B012345678',
+    ];
+
+    for (const url of falsePositives) {
+      assert.equal(isAmazonUrl(url), false, `expected non-Amazon: ${url}`);
+    }
+
+    assert.equal(
+      extractAmazonAsin('https://www.nautica.co.il/kds33504sp25-crl'),
+      null,
+    );
   });
 
   it('extracts ASIN from product URLs', () => {
