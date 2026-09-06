@@ -183,18 +183,24 @@ export function AddItemForm({ listId }: AddItemFormProps) {
       )}
 
       {!showDetails && !errorMessage && (
-        <button
-          type="button"
-          className="btn-text btn-sm manual-details-toggle"
-          onClick={() => setShowDetails(true)}
-        >
-          {t('list.enterDetailsManually')}
-        </button>
+        <div className="add-item-form__actions">
+          <button
+            type="button"
+            className="btn-text manual-details-toggle"
+            onClick={() => setShowDetails(true)}
+          >
+            {t('list.enterDetailsManually')}
+          </button>
+        </div>
       )}
 
-      <button type="submit" className="btn-primary" disabled={loading || !canSubmit}>
-        {addItem.isPending ? t('common.adding') : t('list.addToList')}
-      </button>
+      {(showDetails || errorMessage) && (
+        <div className="add-item-form__actions">
+          <button type="submit" className="btn-primary add-item-form__submit" disabled={loading || !canSubmit}>
+            {addItem.isPending ? t('common.adding') : t('list.addToList')}
+          </button>
+        </div>
+      )}
     </form>
   );
 }
