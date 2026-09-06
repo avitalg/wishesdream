@@ -20,6 +20,7 @@ import {
 } from '../services/listService.js';
 import { buildExportRows } from '../services/exportService.js';
 import { parseProductUrl } from '../services/urlParser.js';
+import { isGenericProductTitle } from '../services/genericParser.js';
 import { wsManager } from '../services/websocket.js';
 import {
   findListOrRespond,
@@ -131,17 +132,25 @@ router.post('/:id/items', requireAuth, async (req: AuthenticatedRequest, res) =>
     image_url: sanitizeHttpUrl(image_url),
     price: price ?? null,
   };
-  if (!parsed.title) {
+
+  const needsFetch =
+    !parsed.title ||
+    isGenericProductTitle(parsed.title) ||
+    !parsed.image_url;
+
+  if (needsFetch) {
     try {
       await assertSafeFetchUrl(trimmedProductUrl);
       const metadata = await parseProductUrl(trimmedProductUrl);
       parsed = {
         title: metadata.title,
         image_url: sanitizeHttpUrl(metadata.image_url),
-        price: metadata.price,
+        price: metadata.price ?? parsed.price,
       };
     } catch {
-      parsed.title = 'Gift Item';
+      if (!parsed.title || isGenericProductTitle(parsed.title)) {
+        parsed.title = 'Gift Item';
+      }
     }
   }
 

@@ -9,7 +9,8 @@ function areaServedNodes() {
 }
 
 function stripContext(node: Record<string, unknown>): Record<string, unknown> {
-  const { '@context': _context, ...rest } = node;
+  const rest = { ...node };
+  delete rest['@context'];
   return rest;
 }
 

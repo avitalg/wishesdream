@@ -1,6 +1,7 @@
 import { isAmazonUrl, parseAmazonProductUrl } from './amazonParser.js';
 import { parseGenericProductHtml } from './genericParser.js';
 import { isNextUrl, parseNextProductUrl } from './nextParser.js';
+import { normalizeProductUrl } from '../lib/productUrlNormalize.js';
 import { safeFetch } from '../lib/safeUrl.js';
 
 export type { ParsedProduct } from './parsedProduct.js';
@@ -13,15 +14,17 @@ const BROWSER_HEADERS = {
 };
 
 export async function parseProductUrl(url: string) {
-  if (isAmazonUrl(url)) {
-    return parseAmazonProductUrl(url);
+  const normalizedUrl = normalizeProductUrl(url);
+
+  if (isAmazonUrl(normalizedUrl)) {
+    return parseAmazonProductUrl(normalizedUrl);
   }
 
-  if (isNextUrl(url)) {
-    return parseNextProductUrl(url);
+  if (isNextUrl(normalizedUrl)) {
+    return parseNextProductUrl(normalizedUrl);
   }
 
-  const response = await safeFetch(url, {
+  const response = await safeFetch(normalizedUrl, {
     headers: BROWSER_HEADERS,
     signal: AbortSignal.timeout(15000),
   });

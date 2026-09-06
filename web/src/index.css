@@ -966,6 +966,14 @@ input:focus {
   background: var(--bg);
 }
 
+.preview-card__image {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
 .my-claims-banner {
   border-color: rgba(196, 164, 148, 0.4);
   background: var(--primary-soft);

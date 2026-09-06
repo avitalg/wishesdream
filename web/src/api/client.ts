@@ -122,10 +122,18 @@ export const api = {
     });
   },
 
-  addItem(publicId: string, productUrl: string) {
-    return request<{ items: GiftItem[] }>(`/api/lists/${publicId}/items`, {
+  addItem(
+    publicId: string,
+    payload: {
+      product_url: string;
+      title?: string;
+      image_url?: string | null;
+      price?: string | null;
+    },
+  ) {
+    return request<{ item: GiftItem }>(`/api/lists/${publicId}/items`, {
       method: 'POST',
-      body: { product_url: productUrl },
+      body: payload,
       auth: true,
     });
   },

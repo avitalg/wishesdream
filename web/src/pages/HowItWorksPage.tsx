@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
-import { useAuth } from '../context/AuthContext.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { useSeo } from '../hooks/useSeo.js';
 import { buildBreadcrumbJsonLd, buildJsonLdGraph } from '../lib/seoJsonLd.js';
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { mainNavItems } from '../config/navigation.js';
@@ -16,14 +16,11 @@ interface SiteHeaderProps {
 export function SiteHeader({ isLoggedIn, onLogout }: SiteHeaderProps) {
   const { t } = useTranslation();
   const location = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location.pathname]);
+  const [menuOpenPath, setMenuOpenPath] = useState<string | null>(null);
+  const menuOpen = menuOpenPath === location.pathname;
 
   function closeMenu() {
-    setMenuOpen(false);
+    setMenuOpenPath(null);
   }
 
   function handleLogout() {
@@ -44,7 +41,9 @@ export function SiteHeader({ isLoggedIn, onLogout }: SiteHeaderProps) {
         aria-expanded={menuOpen}
         aria-controls="site-nav"
         aria-label={menuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
-        onClick={() => setMenuOpen((open) => !open)}
+        onClick={() =>
+          setMenuOpenPath(menuOpen ? null : location.pathname)
+        }
       >
         <span className="nav-toggle__bar" aria-hidden="true" />
         <span className="nav-toggle__bar" aria-hidden="true" />

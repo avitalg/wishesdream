@@ -1,7 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext.js';
+import { AuthProvider } from './context/AuthProvider.js';
 import { queryClient } from './lib/queryClient.js';
 import { HomePage } from './pages/HomePage.js';
 import { HowItWorksPage } from './pages/HowItWorksPage.js';

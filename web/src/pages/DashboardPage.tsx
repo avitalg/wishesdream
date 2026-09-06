@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
-import { useAuth } from '../context/AuthContext.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { useCreateList } from '../hooks/mutations/useCreateList.js';
 import { useMyLists } from '../hooks/queries/useMyLists.js';
 import { useSeo } from '../hooks/useSeo.js';

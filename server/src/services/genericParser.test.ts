@@ -27,4 +27,31 @@ describe('genericParser', () => {
     assert.equal(result.image_url, null);
     assert.equal(result.price, null);
   });
+
+  it('parses ProductGroup JSON-LD used by SHEIN', () => {
+    const html = `
+      <html><head><title>SHEIN</title>
+      <script type="application/ld+json">
+      [{
+        "@type": "ProductGroup",
+        "name": "Inflatable Swimming Pool",
+        "image": ["https://cdn.example.com/pool.webp"],
+        "hasVariant": [{
+          "@type": "Product",
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "ILS",
+            "price": "256.30"
+          }
+        }]
+      }]
+      </script>
+      </head></html>
+    `;
+
+    const result = parseGenericProductHtml(html);
+    assert.equal(result.title, 'Inflatable Swimming Pool');
+    assert.equal(result.image_url, 'https://cdn.example.com/pool.webp');
+    assert.equal(result.price, 'ILS 256.30');
+  });
 });

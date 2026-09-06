@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
-import { useAuth } from '../context/AuthContext.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { api, getGuestToken } from '../api/client.js';
 import { AddItemForm } from '../components/AddItemForm.js';
 import { ItemCard } from '../components/ItemCard.js';

@@ -14,7 +14,7 @@ export function AddItemForm({ listId }: AddItemFormProps) {
   const addItem = useAddItem();
 
   const preview = parseUrl.data
-    ? { title: parseUrl.data.title, price: parseUrl.data.price }
+    ? { title: parseUrl.data.title, price: parseUrl.data.price, imageUrl: parseUrl.data.image_url }
     : null;
 
   async function handlePreview() {
@@ -30,7 +30,13 @@ export function AddItemForm({ listId }: AddItemFormProps) {
       return;
     }
 
-    await addItem.mutateAsync({ publicId: listId, productUrl: url.trim() });
+    await addItem.mutateAsync({
+      publicId: listId,
+      productUrl: url.trim(),
+      title: preview?.title,
+      imageUrl: preview?.imageUrl,
+      price: preview?.price ?? null,
+    });
     setUrl('');
     parseUrl.reset();
   }
@@ -63,6 +69,9 @@ export function AddItemForm({ listId }: AddItemFormProps) {
 
       {preview && (
         <div className="preview-card">
+          {preview.imageUrl && (
+            <img src={preview.imageUrl} alt="" className="preview-card__image" loading="lazy" />
+          )}
           <strong>{preview.title}</strong>
           {preview.price && <span>{preview.price}</span>}
         </div>

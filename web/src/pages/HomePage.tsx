@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
-import { useAuth } from '../context/AuthContext.js';
+import { useAuth } from '../hooks/useAuth.js';
 import { useSeo } from '../hooks/useSeo.js';
 import {
   buildOrganizationJsonLd,
