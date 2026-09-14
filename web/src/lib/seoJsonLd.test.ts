@@ -8,20 +8,20 @@ describe('seoJsonLd', () => {
       {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'WishesDream',
+        name: 'WishGather',
       },
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'WishesDream',
+        name: 'WishGather',
       },
     ]);
 
     expect(graph).toEqual({
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'Organization', name: 'WishesDream' },
-        { '@type': 'WebSite', name: 'WishesDream' },
+        { '@type': 'Organization', name: 'WishGather' },
+        { '@type': 'WebSite', name: 'WishGather' },
       ],
     });
   });

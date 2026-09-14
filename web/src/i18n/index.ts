@@ -7,7 +7,7 @@ import he from './locales/he.json';
 export const SUPPORTED_LANGUAGES = ['en', 'he'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
-export const LANGUAGE_STORAGE_KEY = 'wishesdream_lang';
+export const LANGUAGE_STORAGE_KEY = 'wishgather_lang';
 
 const LOCALE_MAP: Record<SupportedLanguage, string> = {
   en: 'en_US',

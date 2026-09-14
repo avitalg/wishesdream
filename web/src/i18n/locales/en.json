@@ -1,6 +1,6 @@
 {
   "common": {
-    "siteName": "WishesDream",
+    "siteName": "WishGather",
     "available": "Available",
     "claimedByYou": "Claimed by You",
     "claimedBy": "Claimed by {{name}}",
@@ -66,7 +66,7 @@
     "eyebrow": "Gift Registry for Every Celebration",
     "title": "Curated gifts.<br/>Private claims.",
     "heroText": "Build a beautiful wish list for birthdays, baby showers, weddings, and more. Guests see what's available — never who claimed what — while you stay informed for every thank-you note.",
-    "screenshotAlt": "WishesDream gift list showing add gift form and product cards",
+    "screenshotAlt": "WishGather gift list showing add gift form and product cards",
     "previewTitle": "Cherished Ballerina Doll",
     "guestEyebrow": "For Guests",
     "guestTitle": "Claim a gift in seconds",
@@ -79,7 +79,7 @@
     "step3Text": "Your name is private — other guests only see \"Already Selected,\" not who claimed it.",
     "step4Title": "Changed your mind?",
     "step4Text": "Unclaim anytime from the same browser. The gift opens back up for everyone instantly.",
-    "featuresEyebrow": "Why WishesDream",
+    "featuresEyebrow": "Why WishGather",
     "featuresTitle": "Designed for modern celebrations",
     "privacyTitle": "Privacy-first",
     "privacyText": "Guests only see Available or Already Selected — never each other's names.",
@@ -171,7 +171,7 @@
     "howItWorks": {
       "eyebrow": "How It Works",
       "title": "Simple for hosts. Private for guests.",
-      "lead": "WishesDream helps you build a gift registry from any store for birthdays, baby showers, and other events — share one link with guests and keep claim details private until you need them.",
+      "lead": "WishGather helps you build a gift registry from any store for birthdays, baby showers, and other events — share one link with guests and keep claim details private until you need them.",
       "hostsTitle": "For hosts",
       "hostsStep1": "Create a free account and start a new gift list.",
       "hostsStep2": "Paste product links — we fetch the title, image, and price automatically.",
@@ -227,7 +227,7 @@
           "answer": "Yes. Hosts can export a PDF from the manage page with every item, claim status, guest name, and claim date — handy for thank-you notes."
         },
         {
-          "question": "Is WishesDream free?",
+          "question": "Is WishGather free?",
           "answer": "Yes. Create a list, share it with guests, and manage claims at no cost."
         }
       ]
@@ -235,7 +235,7 @@
     "privacy": {
       "eyebrow": "Privacy",
       "title": "Your data, handled with care",
-      "lead": "WishesDream is built for private gifting. We collect only what's needed to run your registry and never sell guest information.",
+      "lead": "WishGather is built for private gifting. We collect only what's needed to run your registry and never sell guest information.",
       "collectTitle": "What we collect",
       "collectHosts": "Hosts: name, email, and password (hashed) when you create an account.",
       "collectGuests": "Guests: first name when claiming a gift, plus an anonymous browser token so you can unclaim your own selection.",
@@ -252,18 +252,18 @@
     "cookies": {
       "eyebrow": "Cookie Policy",
       "title": "How we use cookies and browser storage",
-      "lead": "WishesDream uses a small amount of browser storage to keep you signed in and to remember guest claims. We do not use advertising or tracking cookies.",
+      "lead": "WishGather uses a small amount of browser storage to keep you signed in and to remember guest claims. We do not use advertising or tracking cookies.",
       "whatTitle": "What are cookies?",
-      "whatText": "Cookies are small text files stored by your browser. Similar technologies — such as local storage — can also save data on your device. This policy covers both cookies and the browser storage WishesDream uses.",
+      "whatText": "Cookies are small text files stored by your browser. Similar technologies — such as local storage — can also save data on your device. This policy covers both cookies and the browser storage WishGather uses.",
       "storageTitle": "Storage we use",
       "storageHost": "Host login (local storage): When you sign in, your session token and basic profile are stored in local storage so you stay logged in on that browser.",
       "storageGuest": "Guest claims (local storage): When a guest claims a gift, an anonymous token is saved in local storage so they can unclaim their selection from the same browser.",
       "notUsedTitle": "Cookies we do not use",
-      "notUsedText": "WishesDream does not set marketing, analytics, or social-media tracking cookies. Host authentication is handled with a token in local storage, not a login cookie.",
+      "notUsedText": "WishGather does not set marketing, analytics, or social-media tracking cookies. Host authentication is handled with a token in local storage, not a login cookie.",
       "thirdPartyTitle": "Third-party content",
-      "thirdPartyText": "Gift lists may display product images loaded from retailer CDNs (for example Amazon or Next). Those providers may use their own cookies if you follow a product link to their site. Fonts are loaded from Google Fonts when you visit WishesDream.",
+      "thirdPartyText": "Gift lists may display product images loaded from retailer CDNs (for example Amazon or Next). Those providers may use their own cookies if you follow a product link to their site. Fonts are loaded from Google Fonts when you visit WishGather.",
       "managingTitle": "Managing storage",
-      "managingText": "You can clear WishesDream data by signing out (hosts), clearing site data in your browser settings, or using a private browsing window. Clearing storage will sign you out and remove guest claim tokens on that device.",
+      "managingText": "You can clear WishGather data by signing out (hosts), clearing site data in your browser settings, or using a private browsing window. Clearing storage will sign you out and remove guest claim tokens on that device.",
       "moreTitle": "More information",
       "moreText": "For details on what personal data we collect and how it is used, see our <privacyLink>Privacy Policy</privacyLink>."
     }
@@ -276,27 +276,27 @@
     },
     "howItWorks": {
       "title": "How It Works",
-      "description": "Learn how WishesDream gift registries work for hosts and guests — create a list, share one link, and keep claims private."
+      "description": "Learn how WishGather gift registries work for hosts and guests — create a list, share one link, and keep claims private."
     },
     "faq": {
       "title": "FAQ",
-      "description": "Answers about WishesDream gift registries — guest privacy, product imports, unclaiming gifts, and sharing your list."
+      "description": "Answers about WishGather gift registries — guest privacy, product imports, unclaiming gifts, and sharing your list."
     },
     "privacy": {
       "title": "Privacy Policy",
-      "description": "How WishesDream handles your data — what we collect for gift registries, guest privacy, and your rights."
+      "description": "How WishGather handles your data — what we collect for gift registries, guest privacy, and your rights."
     },
     "cookies": {
       "title": "Cookie Policy",
-      "description": "How WishesDream uses cookies and browser storage for sign-in and guest gift claims — no advertising trackers."
+      "description": "How WishGather uses cookies and browser storage for sign-in and guest gift claims — no advertising trackers."
     },
     "login": {
       "title": "Host Login",
-      "description": "Sign in to manage your WishesDream gift registry."
+      "description": "Sign in to manage your WishGather gift registry."
     },
     "register": {
       "title": "Create Account",
-      "description": "Create a free WishesDream account and start your gift registry."
+      "description": "Create a free WishGather account and start your gift registry."
     },
     "dashboard": {
       "title": "Dashboard"
@@ -306,13 +306,13 @@
     },
     "publicList": {
       "title": "Gift Registry",
-      "description": "View and claim gifts from a shared WishesDream registry."
+      "description": "View and claim gifts from a shared WishGather registry."
     },
     "notFound": {
       "title": "Page Not Found",
-      "description": "The page you requested does not exist on WishesDream."
+      "description": "The page you requested does not exist on WishGather."
     },
-    "defaultImageAlt": "WishesDream gift registry — curated gifts with private guest claims"
+    "defaultImageAlt": "WishGather gift registry — curated gifts with private guest claims"
   },
   "notFound": {
     "title": "Page not found",

@@ -1,8 +1,8 @@
 import type { User } from '../types/index.js';
 
-const AUTH_TOKEN_KEY = 'wishesdream_auth_token';
-const AUTH_USER_KEY = 'wishesdream_auth_user';
-const GUEST_TOKEN_KEY = 'wishesdream_guest_token';
+const AUTH_TOKEN_KEY = 'wishgather_auth_token';
+const AUTH_USER_KEY = 'wishgather_auth_user';
+const GUEST_TOKEN_KEY = 'wishgather_guest_token';
 
 export function getAuthToken(): string | null {
   return localStorage.getItem(AUTH_TOKEN_KEY);

@@ -1,4 +1,6 @@
-export const SITE_NAME = 'WishesDream';
+export const SITE_NAME = 'WishGather';
+export const SITE_DOMAIN = 'wishgather.com';
+export const DEFAULT_SITE_URL = `https://${SITE_DOMAIN}`;
 export const SITE_TAGLINE = 'Gift Registry for Every Celebration';
 export const DEFAULT_TITLE = `${SITE_NAME} — Gift Registry`;
 export const DEFAULT_DESCRIPTION =

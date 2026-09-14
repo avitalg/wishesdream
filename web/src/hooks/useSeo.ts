@@ -21,7 +21,7 @@ export interface SeoOptions {
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const JSON_LD_ID = 'wishesdream-jsonld';
+const JSON_LD_ID = 'wishgather-jsonld';
 
 function upsertMeta(attribute: 'name' | 'property', key: string, content: string): void {
   let element = document.head.querySelector<HTMLMetaElement>(

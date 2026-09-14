@@ -1,4 +1,4 @@
-# WishesDream — Gift Registry
+# WishGather — Gift Registry
 
 A privacy-conscious collaborative gift registry for birthdays, baby showers, weddings, and other celebrations. Hosts import product links, guests claim items anonymously, and real-time updates keep everyone in sync.
 
@@ -57,7 +57,7 @@ Required variables in Railway:
 |----------|--------|
 | `NODE_ENV` | `production` |
 | `JWT_SECRET` | Long random string |
-| `SITE_URL` | Your public app URL (e.g. `https://your-app.up.railway.app`) |
+| `SITE_URL` | `https://wishgather.com` |
 | `DATABASE_PATH` | `/data/wishesdream.db` (with a Volume mounted at `/data`) |
 
 After deploy, logs should include `Serving web app from .../web/dist`. If you see `Cannot GET /`, the build did not produce `web/dist` or static serving code is missing.

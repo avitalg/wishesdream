@@ -1,6 +1,6 @@
 {
-  "name": "WishesDream",
-  "short_name": "WishesDream",
+  "name": "WishGather",
+  "short_name": "WishGather",
   "description": "Privacy-first gift registry for every celebration.",
   "start_url": "/",
   "display": "standalone",
