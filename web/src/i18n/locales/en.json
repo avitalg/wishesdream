@@ -252,14 +252,16 @@
     "cookies": {
       "eyebrow": "Cookie Policy",
       "title": "How we use cookies and browser storage",
-      "lead": "WishGather uses a small amount of browser storage to keep you signed in and to remember guest claims. We do not use advertising or tracking cookies.",
+      "lead": "WishGather uses browser storage for sign-in and guest claims, and Google Analytics in production to understand how the site is used. We do not use advertising cookies.",
       "whatTitle": "What are cookies?",
       "whatText": "Cookies are small text files stored by your browser. Similar technologies — such as local storage — can also save data on your device. This policy covers both cookies and the browser storage WishGather uses.",
       "storageTitle": "Storage we use",
       "storageHost": "Host login (local storage): When you sign in, your session token and basic profile are stored in local storage so you stay logged in on that browser.",
       "storageGuest": "Guest claims (local storage): When a guest claims a gift, an anonymous token is saved in local storage so they can unclaim their selection from the same browser.",
+      "analyticsTitle": "Analytics",
+      "analyticsText": "We use Google Analytics (Google tag) on wishgather.com to collect aggregated usage data such as pages visited and general traffic patterns. Google may set cookies or use similar technologies. You can learn more in Google's privacy policy and use browser extensions or settings to opt out of Analytics.",
       "notUsedTitle": "Cookies we do not use",
-      "notUsedText": "WishGather does not set marketing, analytics, or social-media tracking cookies. Host authentication is handled with a token in local storage, not a login cookie.",
+      "notUsedText": "WishGather does not set marketing or social-media advertising cookies. Host authentication is handled with a token in local storage, not a login cookie.",
       "thirdPartyTitle": "Third-party content",
       "thirdPartyText": "Gift lists may display product images loaded from retailer CDNs (for example Amazon or Next). Those providers may use their own cookies if you follow a product link to their site. Fonts are loaded from Google Fonts when you visit WishGather.",
       "managingTitle": "Managing storage",
@@ -288,7 +290,7 @@
     },
     "cookies": {
       "title": "Cookie Policy",
-      "description": "How WishGather uses cookies and browser storage for sign-in and guest gift claims — no advertising trackers."
+      "description": "How WishGather uses cookies, browser storage, and Google Analytics — no advertising trackers."
     },
     "login": {
       "title": "Host Login",

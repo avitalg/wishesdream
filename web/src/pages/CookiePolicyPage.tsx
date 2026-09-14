@@ -40,6 +40,11 @@ export function CookiePolicyPage() {
         </section>
 
         <section className="content-section">
+          <h2>{t('content.cookies.analyticsTitle')}</h2>
+          <p>{t('content.cookies.analyticsText')}</p>
+        </section>
+
+        <section className="content-section">
           <h2>{t('content.cookies.notUsedTitle')}</h2>
           <p>{t('content.cookies.notUsedText')}</p>
         </section>
