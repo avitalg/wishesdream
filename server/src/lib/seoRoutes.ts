@@ -27,7 +27,7 @@ function buildRobotsTxt(siteUrl: string): string {
   return `${lines.join('\n')}\n`;
 }
 
-function buildSitemapXml(siteUrl: string): string {
+export function buildSitemapXml(siteUrl: string): string {
   const lastmod = new Date().toISOString().slice(0, 10);
   const priorityFor = (path: (typeof INDEXABLE_PATHS)[number]) => {
     if (path === '/') {
@@ -37,7 +37,10 @@ function buildSitemapXml(siteUrl: string): string {
       path === '/gift-registry' ||
       path === '/baby-shower-registry' ||
       path === '/birthday-wish-list' ||
-      path === '/gift-list' ||
+      path === '/blog' ||
+      path.startsWith('/blog/') ||
+      path === '/he/blog' ||
+      path.startsWith('/he/blog/') ||
       path === '/compare'
     ) {
       return '0.9';
@@ -49,20 +52,39 @@ function buildSitemapXml(siteUrl: string): string {
     const loc = path === '/' ? siteUrl : `${siteUrl}${path}`;
     const priority = priorityFor(path);
     const changefreq = path === '/' ? 'weekly' : 'monthly';
+    const alternates = hreflangLinks(siteUrl, path);
 
     return `  <url>
     <loc>${loc}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
+    <priority>${priority}</priority>${alternates}
   </url>`;
   });
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls.join('\n')}
 </urlset>
 `;
+}
+
+const BLOG_ENGLISH_PATHS = new Set(['/blog', '/blog/gift-list', '/blog/wishlist']);
+
+function hreflangLinks(siteUrl: string, path: string): string {
+  const englishPath = path.startsWith('/he/') ? path.slice(3) : path;
+  if (!BLOG_ENGLISH_PATHS.has(englishPath)) {
+    return '';
+  }
+
+  const englishUrl = `${siteUrl}${englishPath}`;
+  const hebrewUrl = `${siteUrl}/he${englishPath}`;
+
+  return `
+    <xhtml:link rel="alternate" hreflang="en" href="${englishUrl}" />
+    <xhtml:link rel="alternate" hreflang="he" href="${hebrewUrl}" />
+    <xhtml:link rel="alternate" hreflang="he-IL" href="${hebrewUrl}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${englishUrl}" />`;
 }
 
 export function registerSeoRoutes(app: import('express').Express): void {

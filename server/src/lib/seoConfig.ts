@@ -4,10 +4,16 @@ export const INDEXABLE_PATHS = [
   '/faq',
   '/privacy',
   '/cookies',
+  '/sitemap',
   '/gift-registry',
   '/baby-shower-registry',
   '/birthday-wish-list',
-  '/gift-list',
+  '/blog',
+  '/blog/gift-list',
+  '/blog/wishlist',
+  '/he/blog',
+  '/he/blog/gift-list',
+  '/he/blog/wishlist',
   '/compare',
 ] as const;
 

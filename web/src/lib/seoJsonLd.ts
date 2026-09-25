@@ -1,11 +1,26 @@
 import i18n from '../i18n/index.js';
-import { AREA_SERVED, SITE_NAME, absoluteUrl } from '../config/site.js';
+import { AREA_SERVED, SITE_NAME, absoluteUrl, type ServiceArea } from '../config/site.js';
+
+function placeNode(area: ServiceArea) {
+  return {
+    '@type': area.type,
+    name: area.name,
+    sameAs: area.sameAs,
+    ...(area.code ? { identifier: area.code } : {}),
+  };
+}
 
 function areaServedNodes() {
-  return AREA_SERVED.map((name) => ({
-    '@type': 'Country',
-    name,
-  }));
+  return AREA_SERVED.map(placeNode);
+}
+
+function spatialCoverageForPath(path: string) {
+  if (path.startsWith('/he/') || path === '/he') {
+    const israel = AREA_SERVED.find((area) => area.code === 'IL');
+    return israel ? placeNode(israel) : undefined;
+  }
+
+  return areaServedNodes();
 }
 
 function stripContext(node: Record<string, unknown>): Record<string, unknown> {
@@ -42,9 +57,10 @@ export function buildArticleJsonLd(options: {
   headline: string;
   description: string;
   path: string;
+  blog?: { name: string; path: string };
 }) {
   return {
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: options.headline,
     description: options.description,
     image: absoluteUrl('/og-image.png'),
@@ -60,18 +76,54 @@ export function buildArticleJsonLd(options: {
         url: absoluteUrl('/og-image.png'),
       },
     },
+    inLanguage: options.path.startsWith('/he/') ? 'he' : 'en',
+    spatialCoverage: spatialCoverageForPath(options.path),
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': absoluteUrl(options.path),
     },
+    ...(options.blog
+      ? {
+          isPartOf: {
+            '@type': 'Blog',
+            name: options.blog.name,
+            url: absoluteUrl(options.blog.path),
+          },
+        }
+      : {}),
+  };
+}
+
+export function buildBlogJsonLd(options: {
+  name: string;
+  description: string;
+  path?: string;
+  posts: Array<{ headline: string; description: string; path: string }>;
+}) {
+  const path = options.path ?? '/blog';
+  return {
+    '@type': 'Blog',
+    name: options.name,
+    description: options.description,
+    inLanguage: path.startsWith('/he/') ? 'he' : 'en',
+    spatialCoverage: spatialCoverageForPath(path),
+    url: absoluteUrl(path),
+    blogPost: options.posts.map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.headline,
+      description: post.description,
+      url: absoluteUrl(post.path),
+    })),
   };
 }
 
 export function buildFaqPageJsonLdFromItems(
   items: Array<{ question: string; answer: string }>,
+  path = '/',
 ) {
   return {
     '@type': 'FAQPage',
+    spatialCoverage: spatialCoverageForPath(path),
     mainEntity: items.map((item) => ({
       '@type': 'Question',
       name: item.question,
@@ -102,6 +154,7 @@ export function buildWebSiteJsonLd() {
     name: SITE_NAME,
     url: absoluteUrl('/'),
     inLanguage: ['en', 'he'],
+    spatialCoverage: areaServedNodes(),
     description: i18n.t('seo.defaultDescription'),
     publisher: {
       '@type': 'Organization',
@@ -124,6 +177,8 @@ export function buildWebApplicationJsonLd() {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'USD',
+      areaServed: areaServedNodes(),
+      eligibleRegion: areaServedNodes(),
     },
     areaServed: areaServedNodes(),
     availableLanguage: ['en', 'he'],
@@ -136,9 +191,12 @@ export function buildFaqPageJsonLd() {
     answer: string;
   }>;
 
+  const language = i18n.language.startsWith('he') ? 'he' : 'en';
+
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    spatialCoverage: spatialCoverageForPath(language === 'he' ? '/he' : '/'),
     mainEntity: items.map((item) => ({
       '@type': 'Question',
       name: item.question,

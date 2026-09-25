@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { localizeHref } from '../content/blog.js';
 import { mainNavItems } from '../config/navigation.js';
 import { LanguageSwitcher } from './LanguageSwitcher.js';
 
@@ -14,7 +15,8 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ isLoggedIn, onLogout }: SiteHeaderProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language.startsWith('he') ? 'he' : 'en';
   const location = useLocation();
   const [menuOpenPath, setMenuOpenPath] = useState<string | null>(null);
   const menuOpen = menuOpenPath === location.pathname;
@@ -54,7 +56,7 @@ export function SiteHeader({ isLoggedIn, onLogout }: SiteHeaderProps) {
         {mainNavItems.map((item) => (
           <NavLink
             key={item.to}
-            to={item.to}
+            to={localizeHref(item.to, locale)}
             end={item.end}
             className={({ isActive }) => navLinkClass(isActive)}
             onClick={closeMenu}

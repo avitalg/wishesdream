@@ -35,10 +35,26 @@ export function applyDocumentLanguage(language: string): void {
   document.documentElement.dir = getDirection(lang);
 }
 
+function languageFromPath(): SupportedLanguage | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  if (path === '/he/blog' || path.startsWith('/he/blog/')) {
+    return 'he';
+  }
+
+  return undefined;
+}
+
+const pathLanguage = languageFromPath();
+
 void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    ...(pathLanguage ? { lng: pathLanguage } : {}),
     resources: {
       en: { translation: en },
       he: { translation: he },

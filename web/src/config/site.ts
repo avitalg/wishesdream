@@ -11,15 +11,30 @@ export const SITE_LANGUAGE = 'en';
 export const GEO_REGION = 'US';
 export const GEO_PLACENAME = 'United States';
 
+export interface ServiceArea {
+  type: 'Country' | 'Place';
+  name: string;
+  code?: string;
+  sameAs: string;
+}
+
 /** Regions served — used in structured data for geographic discoverability. */
-export const AREA_SERVED = [
-  'United States',
-  'United Kingdom',
-  'Canada',
-  'Australia',
-  'Israel',
-  'Europe',
-] as const;
+export const AREA_SERVED: readonly ServiceArea[] = [
+  { type: 'Country', name: 'United States', code: 'US', sameAs: 'https://www.wikidata.org/wiki/Q30' },
+  { type: 'Country', name: 'United Kingdom', code: 'GB', sameAs: 'https://www.wikidata.org/wiki/Q145' },
+  { type: 'Country', name: 'Canada', code: 'CA', sameAs: 'https://www.wikidata.org/wiki/Q16' },
+  { type: 'Country', name: 'Australia', code: 'AU', sameAs: 'https://www.wikidata.org/wiki/Q408' },
+  { type: 'Country', name: 'Israel', code: 'IL', sameAs: 'https://www.wikidata.org/wiki/Q801' },
+  { type: 'Place', name: 'Europe', sameAs: 'https://www.wikidata.org/wiki/Q46' },
+];
+
+export function geoForLanguage(language: 'en' | 'he'): { region: string; placename: string } {
+  if (language === 'he') {
+    return { region: 'IL', placename: 'Israel' };
+  }
+
+  return { region: GEO_REGION, placename: GEO_PLACENAME };
+}
 
 export const INDEXABLE_PATHS = [
   '/',
@@ -30,7 +45,12 @@ export const INDEXABLE_PATHS = [
   '/gift-registry',
   '/baby-shower-registry',
   '/birthday-wish-list',
-  '/gift-list',
+  '/blog',
+  '/blog/gift-list',
+  '/blog/wishlist',
+  '/he/blog',
+  '/he/blog/gift-list',
+  '/he/blog/wishlist',
   '/compare',
 ] as const;
 

@@ -2,13 +2,17 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   DEFAULT_OG_IMAGE_PATH,
-  GEO_PLACENAME,
-  GEO_REGION,
   SITE_NAME,
   absoluteUrl,
+  geoForLanguage,
 } from '../config/site.js';
-import { getAlternateOgLocale, getOgLocale } from '../i18n/index.js';
+import { applyDocumentLanguage, getAlternateOgLocale, getOgLocale } from '../i18n/index.js';
 import { buildJsonLdGraph } from '../lib/seoJsonLd.js';
+
+export interface SeoAlternate {
+  hreflang: string;
+  path: string;
+}
 
 export interface SeoOptions {
   title?: string;
@@ -18,6 +22,8 @@ export interface SeoOptions {
   type?: 'website' | 'article';
   image?: string;
   imageAlt?: string;
+  language?: 'en' | 'he';
+  alternates?: SeoAlternate[];
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
@@ -49,10 +55,22 @@ function upsertLink(rel: string, href: string): void {
   element.href = href;
 }
 
-function removeHreflangLinks(): void {
+function setHreflangLinks(alternates: SeoAlternate[] | undefined): void {
   document.head
     .querySelectorAll('link[rel="alternate"][hreflang]')
     .forEach((element) => element.remove());
+
+  if (!alternates) {
+    return;
+  }
+
+  for (const alternate of alternates) {
+    const element = document.createElement('link');
+    element.rel = 'alternate';
+    element.hreflang = alternate.hreflang;
+    element.href = absoluteUrl(alternate.path);
+    document.head.appendChild(element);
+  }
 }
 
 function setJsonLd(data: SeoOptions['jsonLd']): void {
@@ -80,11 +98,14 @@ export function useSeo({
   type = 'website',
   image,
   imageAlt,
+  language: languageOverride,
+  alternates,
   jsonLd,
 }: SeoOptions = {}): void {
   const { t, i18n } = useTranslation();
   const jsonLdSerialized = jsonLd ? JSON.stringify(jsonLd) : '';
-  const language = i18n.language.startsWith('he') ? 'he' : 'en';
+  const alternatesSerialized = alternates ? JSON.stringify(alternates) : '';
+  const language = languageOverride ?? (i18n.language.startsWith('he') ? 'he' : 'en');
 
   useEffect(() => {
     const resolvedDescription = description ?? t('seo.defaultDescription');
@@ -99,12 +120,15 @@ export function useSeo({
       ? (JSON.parse(jsonLdSerialized) as SeoOptions['jsonLd'])
       : undefined;
 
+    applyDocumentLanguage(language);
     document.title = pageTitle;
+
+    const geo = geoForLanguage(language);
 
     upsertMeta('name', 'description', resolvedDescription);
     upsertMeta('name', 'robots', robots);
-    upsertMeta('name', 'geo.region', GEO_REGION);
-    upsertMeta('name', 'geo.placename', GEO_PLACENAME);
+    upsertMeta('name', 'geo.region', geo.region);
+    upsertMeta('name', 'geo.placename', geo.placename);
     upsertMeta('name', 'language', language);
 
     upsertMeta('property', 'og:title', pageTitle);
@@ -124,12 +148,16 @@ export function useSeo({
     upsertMeta('name', 'twitter:image:alt', resolvedImageAlt);
 
     upsertLink('canonical', canonical);
-    removeHreflangLinks();
+    setHreflangLinks(
+      alternatesSerialized
+        ? (JSON.parse(alternatesSerialized) as SeoAlternate[])
+        : undefined,
+    );
 
     setJsonLd(parsedJsonLd);
 
     return () => {
       document.getElementById(JSON_LD_ID)?.remove();
     };
-  }, [title, description, path, noindex, type, image, imageAlt, jsonLdSerialized, t, language]);
+  }, [title, description, path, noindex, type, image, imageAlt, jsonLdSerialized, alternatesSerialized, t, language]);
 }

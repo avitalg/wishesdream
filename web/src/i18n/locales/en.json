@@ -39,6 +39,8 @@
   "nav": {
     "home": "Home",
     "howItWorks": "How It Works",
+    "blog": "Blog",
+    "breadcrumb": "Breadcrumb",
     "faq": "FAQ",
     "myLists": "My Lists",
     "logOut": "Log Out",
@@ -47,6 +49,7 @@
     "createList": "Create a List",
     "privacy": "Privacy",
     "cookiePolicy": "Cookie Policy",
+    "sitemap": "Sitemap",
     "topBar": "Soft, thoughtful gifting — keep every claim private",
     "footerTagline": "Celebrate with grace. Gift with privacy.",
     "product": "Product",
@@ -65,7 +68,8 @@
     "babyShowerRegistry": "Baby shower registry",
     "birthdayWishList": "Birthday wish list",
     "compareSpreadsheet": "WishGather vs spreadsheet",
-    "giftListGuide": "Gift list guide"
+    "giftListGuide": "Gift list guide",
+    "giftWishlistGuide": "Why create a wishlist?"
   },
   "home": {
     "eyebrow": "Gift Registry for Every Celebration",
@@ -73,6 +77,7 @@
     "heroText": "Build a beautiful gift list for birthdays, baby showers, weddings, and more. Guests see what's available — never who claimed what — while you stay informed for every thank-you note.",
     "giftListGuideLead": "New to group gifting?",
     "giftListGuideLink": "Read our gift list guide",
+    "giftWishlistGuideLink": "Why create a gift wishlist?",
     "screenshotAlt": "WishGather gift list showing add gift form and product cards",
     "previewTitle": "Cherished Ballerina Doll",
     "guestEyebrow": "For Guests",
@@ -175,6 +180,12 @@
     }
   },
   "content": {
+    "blog": {
+      "eyebrow": "Blog",
+      "title": "Guides for gift lists and wishlists",
+      "lead": "Practical articles on planning a gift list, sharing a wishlist, and hosting celebrations without duplicate presents.",
+      "readArticle": "Read article"
+    },
     "howItWorks": {
       "eyebrow": "How It Works",
       "title": "Simple for hosts. Private for guests.",
@@ -286,7 +297,7 @@
         ],
         "relatedTitle": "Explore more",
         "related": [
-          { "labelKey": "nav.giftListGuide", "to": "/gift-list" },
+          { "labelKey": "nav.giftListGuide", "to": "/blog/gift-list" },
           { "labelKey": "nav.babyShowerRegistry", "to": "/baby-shower-registry" },
           { "labelKey": "nav.birthdayWishList", "to": "/birthday-wish-list" },
           { "labelKey": "nav.compareSpreadsheet", "to": "/compare" }
@@ -317,7 +328,7 @@
           },
           {
             "question": "What if two people claim the same gift?",
-            "body": "Claims update in real time. Once an item is selected, others see it as unavailable immediately."
+            "answer": "Claims update in real time. Once an item is selected, others see it as unavailable immediately."
           },
           {
             "question": "Can I export thank-you data?",
@@ -416,9 +427,57 @@
         ],
         "relatedTitle": "Related guides",
         "related": [
+          { "labelKey": "nav.giftWishlistGuide", "to": "/blog/wishlist" },
           { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
           { "labelKey": "nav.howItWorks", "to": "/how-it-works" },
           { "labelKey": "nav.compareSpreadsheet", "to": "/compare" }
+        ]
+      },
+      "giftWishlist": {
+        "eyebrow": "Gift wishlist",
+        "title": "Why Create a Gift Wishlist?",
+        "lead": "A gift wishlist is more than a shopping list — it is a friendly way to tell people what you would love to receive. Whether you call it a wishlist, gift list, or registry, sharing curated ideas helps guests choose thoughtfully, saves everyone time, and cuts down on duplicate or unwanted gifts.",
+        "sections": [
+          {
+            "title": "Avoid unwanted gifts",
+            "body": "Without a wishlist, guests guess — and well-meaning surprises do not always match your taste or needs. A clear gift wishlist steers people toward items you actually want, from the right size and color to experiences you have been hoping for. You stay gracious; they stay confident."
+          },
+          {
+            "title": "Make gift shopping easier",
+            "body": "Hunting for ideas is the hardest part of buying a present. When you publish a gift wishlist with links, photos, and prices, shoppers skip the scroll and go straight to checkout. That is especially helpful for busy friends, family abroad, or anyone shopping from a phone between meetings."
+          },
+          {
+            "title": "Share your preferences",
+            "body": "Your wishlist reflects your personality — favorite brands, hobbies, and little luxuries you would never buy for yourself. Sharing a gift wishlist is softer than sending a direct hint, and it gives guests room to pick something that still feels personal within your guidelines."
+          },
+          {
+            "title": "Organize gift ideas in one place",
+            "body": "Screenshots, bookmarks, and chat threads scatter fast. A single gift wishlist keeps every idea together, easy to update, and simple to share with one link. Add items as inspiration strikes, remove what you have already bought yourself, and let guests see what is still available."
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Is a gift wishlist the same as a registry?",
+            "answer": "Often yes in practice. Registries are common for weddings and baby showers; a gift wishlist works for birthdays, holidays, and any event where you want guests to see curated ideas in one place."
+          },
+          {
+            "question": "Will a wishlist feel impersonal?",
+            "answer": "Not when you mix price points and leave room for surprise. A wishlist guides guests; it does not replace their judgment. Many people appreciate the clarity."
+          },
+          {
+            "question": "Can guests still pick something not on my wishlist?",
+            "answer": "Of course. A wishlist is a helpful map, not a rulebook. Guests who know you well may go off-list — and that is fine."
+          },
+          {
+            "question": "How does WishGather improve a basic wishlist?",
+            "answer": "Guests claim items privately so others see what is still available, product links import details when possible, and your list updates in real time — fewer duplicates and less awkward guesswork."
+          }
+        ],
+        "relatedTitle": "Related guides",
+        "related": [
+          { "labelKey": "nav.giftListGuide", "to": "/blog/gift-list" },
+          { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
+          { "labelKey": "nav.createYourList", "to": "/register" }
         ]
       },
       "compare": {
@@ -455,12 +514,18 @@
         ],
         "relatedTitle": "Next steps",
         "related": [
-          { "labelKey": "nav.giftListGuide", "to": "/gift-list" },
+          { "labelKey": "nav.giftListGuide", "to": "/blog/gift-list" },
+          { "labelKey": "nav.giftWishlistGuide", "to": "/blog/wishlist" },
           { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
           { "labelKey": "nav.howItWorks", "to": "/how-it-works" },
           { "labelKey": "nav.createYourList", "to": "/register" }
         ]
       }
+    },
+    "sitemap": {
+      "eyebrow": "Sitemap",
+      "title": "Sitemap",
+      "lead": "Every public page on WishGather, in one place."
     },
     "privacy": {
       "eyebrow": "Privacy",
@@ -522,6 +587,10 @@
       "title": "Cookie Policy",
       "description": "How WishGather uses cookies, browser storage, and Google Analytics — no advertising trackers."
     },
+    "sitemap": {
+      "title": "Sitemap",
+      "description": "Every public WishGather page — gift lists, guides, and policies."
+    },
     "login": {
       "title": "Host Login",
       "description": "Sign in to manage your WishGather gift registry."
@@ -560,9 +629,17 @@
       "title": "WishGather vs Spreadsheet",
       "description": "Compare WishGather to Google Sheets for gift lists — privacy, mobile UX, live updates, and product imports."
     },
+    "blog": {
+      "title": "Blog",
+      "description": "WishGather blog: guides on gift lists, wishlists, and sharing a registry guests will actually use."
+    },
     "giftList": {
       "title": "Gift List",
       "description": "Gift list guide: how to create and share the perfect gift wishlist. Plan items, share one link, and keep guest claims private with WishGather."
+    },
+    "giftWishlist": {
+      "title": "Gift Wishlist",
+      "description": "Why create a gift wishlist? Avoid unwanted gifts, make shopping easier, share your preferences, and organize ideas in one place with WishGather."
     },
     "defaultImageAlt": "WishGather gift list and registry — curated gifts with private guest claims"
   },

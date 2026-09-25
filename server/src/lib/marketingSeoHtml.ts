@@ -64,8 +64,8 @@ export function injectMarketingSeo(html: string, pathname: string, siteUrl: stri
     return html;
   }
 
-  const canonical =
-    payload.path === '/' ? siteUrl.replace(/\/$/, '') : `${siteUrl.replace(/\/$/, '')}${payload.path}`;
+  const siteOrigin = siteUrl.replace(/\/$/, '');
+  const canonical = payload.path === '/' ? siteOrigin : `${siteOrigin}${payload.path}`;
   const imageUrl = absoluteOgImage(siteUrl);
   const imageAlt = getDefaultOgImageAlt();
 
@@ -80,10 +80,47 @@ export function injectMarketingSeo(html: string, pathname: string, siteUrl: stri
   result = replaceMetaContent(result, 'name', 'twitter:description', payload.description);
   result = replaceMetaContent(result, 'name', 'twitter:image', imageUrl);
   result = replaceMetaContent(result, 'name', 'twitter:image:alt', imageAlt);
+  result = replaceMetaContent(result, 'name', 'geo.region', payload.geo.region);
+  result = replaceMetaContent(result, 'name', 'geo.placename', payload.geo.placename);
   result = upsertCanonical(result, canonical);
+  result = upsertHreflang(result, siteOrigin, payload.alternates);
   result = upsertJsonLd(result, payload.jsonLd);
 
+  if (payload.language === 'he') {
+    result = result.replace('<html lang="en">', '<html lang="he" dir="rtl">');
+    result = replaceMetaContent(result, 'name', 'language', 'he');
+    result = replaceMetaContent(result, 'property', 'og:locale', 'he_IL');
+    result = replaceMetaContent(result, 'property', 'og:locale:alternate', 'en_US');
+  }
+
+  if (payload.bodyHtml) {
+    result = result.replace('<div id="root"></div>', `<div id="root">${payload.bodyHtml}</div>`);
+  }
+
   return result;
+}
+
+function upsertHreflang(
+  html: string,
+  siteOrigin: string,
+  alternates: Array<{ hreflang: string; path: string }> | undefined,
+): string {
+  const withoutExisting = html.replace(
+    /\s*<link\s+rel="alternate"\s+hreflang="[^"]*"\s+href="[^"]*"\s*\/?>/gi,
+    '',
+  );
+  if (!alternates || alternates.length === 0) {
+    return withoutExisting;
+  }
+
+  const links = alternates
+    .map((alternate) => {
+      const href = alternate.path === '/' ? siteOrigin : `${siteOrigin}${alternate.path}`;
+      return `<link rel="alternate" hreflang="${alternate.hreflang}" href="${escapeHtml(href)}" />`;
+    })
+    .join('\n    ');
+
+  return withoutExisting.replace('</head>', `    ${links}\n  </head>`);
 }
 
 export function loadIndexHtmlTemplate(webDist: string): string {

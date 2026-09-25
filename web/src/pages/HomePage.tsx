@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
+import { localizeHref } from '../content/blog.js';
 import { Layout } from '../components/Layout.js';
 import { useAuth } from '../hooks/useAuth.js';
 import { useSeo } from '../hooks/useSeo.js';
@@ -13,7 +14,8 @@ import dollImage from '../assets/doll.jpg';
 
 export function HomePage() {
   const { user } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language.startsWith('he') ? 'he' : 'en';
 
   useSeo({
     description: t('seo.home.description'),
@@ -176,7 +178,9 @@ export function HomePage() {
         </div>
         <p className="home-gift-list-guide">
           {t('home.giftListGuideLead')}{' '}
-          <Link to="/gift-list">{t('home.giftListGuideLink')}</Link>.
+          <Link to={localizeHref('/blog/gift-list', locale)}>{t('home.giftListGuideLink')}</Link>
+          {' · '}
+          <Link to={localizeHref('/blog/wishlist', locale)}>{t('home.giftWishlistGuideLink')}</Link>
         </p>
       </section>
     </Layout>

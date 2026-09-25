@@ -7,6 +7,7 @@ export interface NavItem {
 export const mainNavItems: NavItem[] = [
   { labelKey: 'nav.home', to: '/', end: true },
   { labelKey: 'nav.howItWorks', to: '/how-it-works' },
+  { labelKey: 'nav.blog', to: '/blog' },
   { labelKey: 'nav.faq', to: '/faq' },
 ];
 
@@ -15,7 +16,7 @@ export const footerNavGroups = {
     { labelKey: 'nav.home', to: '/' },
     { labelKey: 'nav.howItWorks', to: '/how-it-works' },
     { labelKey: 'nav.faq', to: '/faq' },
-    { labelKey: 'nav.giftListGuide', to: '/gift-list' },
+    { labelKey: 'nav.blog', to: '/blog' },
     { labelKey: 'nav.giftRegistry', to: '/gift-registry' },
     { labelKey: 'nav.babyShowerRegistry', to: '/baby-shower-registry' },
     { labelKey: 'nav.birthdayWishList', to: '/birthday-wish-list' },

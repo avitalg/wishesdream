@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { localizeHref } from '../content/blog.js';
 import { footerNavGroups } from '../config/navigation.js';
 
 interface SiteFooterProps {
@@ -8,7 +9,8 @@ interface SiteFooterProps {
 }
 
 export function SiteFooter({ isLoggedIn, onLogout }: SiteFooterProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language.startsWith('he') ? 'he' : 'en';
 
   const productLinks = footerNavGroups.product.map((item) =>
     item.labelKey === 'nav.createList'
@@ -32,7 +34,7 @@ export function SiteFooter({ isLoggedIn, onLogout }: SiteFooterProps) {
             <ul className="footer-menu__list">
               {productLinks.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to} className="footer-menu__link">
+                  <Link to={localizeHref(item.to, locale)} className="footer-menu__link">
                     {t(item.labelKey)}
                   </Link>
                 </li>
@@ -45,7 +47,7 @@ export function SiteFooter({ isLoggedIn, onLogout }: SiteFooterProps) {
             <ul className="footer-menu__list">
               {accountLinks.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to} className="footer-menu__link">
+                  <Link to={localizeHref(item.to, locale)} className="footer-menu__link">
                     {t(item.labelKey)}
                   </Link>
                 </li>
@@ -65,7 +67,7 @@ export function SiteFooter({ isLoggedIn, onLogout }: SiteFooterProps) {
             <ul className="footer-menu__list">
               {footerNavGroups.legal.map((item) => (
                 <li key={item.to}>
-                  <Link to={item.to} className="footer-menu__link">
+                  <Link to={localizeHref(item.to, locale)} className="footer-menu__link">
                     {t(item.labelKey)}
                   </Link>
                 </li>
