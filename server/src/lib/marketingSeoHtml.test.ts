@@ -49,4 +49,13 @@ describe('injectMarketingSeo', () => {
     const html = injectMarketingSeo(SAMPLE_HTML, '/register', SITE_URL);
     assert.equal(html, SAMPLE_HTML);
   });
+
+  it('injects gift list article meta and Article JSON-LD', () => {
+    const html = injectMarketingSeo(SAMPLE_HTML, '/gift-list', SITE_URL);
+
+    assert.match(html, /<title>Gift List — WishGather<\/title>/);
+    assert.match(html, /Gift list guide: how to create and share/);
+    assert.match(html, /"@type":"Article"/);
+    assert.match(html, /Gift List: How to Create and Share the Perfect Gift Wishlist/);
+  });
 });

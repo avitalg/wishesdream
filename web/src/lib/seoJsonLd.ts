@@ -38,6 +38,35 @@ export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
   };
 }
 
+export function buildArticleJsonLd(options: {
+  headline: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    '@type': 'Article',
+    headline: options.headline,
+    description: options.description,
+    image: absoluteUrl('/og-image.png'),
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: absoluteUrl('/og-image.png'),
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': absoluteUrl(options.path),
+    },
+  };
+}
+
 export function buildFaqPageJsonLdFromItems(
   items: Array<{ question: string; answer: string }>,
 ) {

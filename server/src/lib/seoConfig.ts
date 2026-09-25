@@ -7,6 +7,7 @@ export const INDEXABLE_PATHS = [
   '/gift-registry',
   '/baby-shower-registry',
   '/birthday-wish-list',
+  '/gift-list',
   '/compare',
 ] as const;
 

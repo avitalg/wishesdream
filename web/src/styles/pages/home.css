@@ -95,6 +95,25 @@
   margin: 0.75rem 0 0;
 }
 
+.home-gift-list-guide {
+  max-width: 640px;
+  margin: 2rem auto 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.home-gift-list-guide a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-gift-list-guide a:hover {
+  text-decoration: underline;
+}
+
 .features {
   padding: 2rem 0 4rem;
 }

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { useSeo } from '../hooks/useSeo.js';
 import {
+  buildArticleJsonLd,
   buildBreadcrumbJsonLd,
   buildFaqPageJsonLdFromItems,
   buildJsonLdGraph,
@@ -12,6 +13,7 @@ export type LandingContentKey =
   | 'giftRegistry'
   | 'babyShowerRegistry'
   | 'birthdayWishList'
+  | 'giftList'
   | 'compare';
 
 interface MarketingLandingPageProps {
@@ -43,16 +45,29 @@ export function MarketingLandingPage({ landingKey, path }: MarketingLandingPageP
   const related = t(`${prefix}.related`, { returnObjects: true }) as RelatedLink[];
 
   const seoTitle = t(`seo.${landingKey}.title`);
+  const seoDescription = t(`seo.${landingKey}.description`);
+  const articleHeadline = t(`${prefix}.title`);
+  const isArticle = landingKey === 'giftList';
 
   useSeo({
     title: seoTitle,
-    description: t(`seo.${landingKey}.description`),
+    description: seoDescription,
     path,
+    type: isArticle ? 'article' : 'website',
     jsonLd: buildJsonLdGraph([
       buildBreadcrumbJsonLd([
         { name: t('nav.home'), path: '/' },
         { name: seoTitle, path },
       ]),
+      ...(isArticle
+        ? [
+            buildArticleJsonLd({
+              headline: articleHeadline,
+              description: seoDescription,
+              path,
+            }),
+          ]
+        : []),
       buildFaqPageJsonLdFromItems(faqs),
     ]),
   });

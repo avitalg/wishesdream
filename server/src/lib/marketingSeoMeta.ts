@@ -19,6 +19,7 @@ const LANDING_SEO_KEYS: Record<string, keyof typeof en.seo> = {
   '/gift-registry': 'giftRegistry',
   '/baby-shower-registry': 'babyShowerRegistry',
   '/birthday-wish-list': 'birthdayWishList',
+  '/gift-list': 'giftList',
   '/compare': 'compare',
 };
 
@@ -147,6 +148,45 @@ function buildWebPage(siteUrl: string, path: string, name: string, description: 
   };
 }
 
+function buildArticle(
+  siteUrl: string,
+  path: string,
+  headline: string,
+  description: string,
+) {
+  return {
+    '@type': 'Article',
+    headline,
+    description,
+    image: absoluteUrl(siteUrl, '/og-image.png'),
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: absoluteUrl(siteUrl, '/og-image.png'),
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': absoluteUrl(siteUrl, path),
+    },
+  };
+}
+
+function articleHeadline(path: IndexablePath): string | null {
+  if (path !== '/gift-list') {
+    return null;
+  }
+
+  const content = en.content.landing as Record<string, { title?: string }>;
+  return content.giftList?.title ?? null;
+}
+
 function resolveTitleAndDescription(path: IndexablePath): { title: string; description: string } {
   if (path === '/') {
     return {
@@ -211,10 +251,16 @@ function buildJsonLdForPath(
   }
 
   const landingFaq = landingFaqs(path);
+  const headline = articleHeadline(path);
   const nodes: Array<Record<string, unknown>> = [
     buildBreadcrumb(siteUrl, [homeCrumb, { name: pageName, path }]),
-    buildWebPage(siteUrl, path, pageName, description),
   ];
+
+  if (headline) {
+    nodes.push(buildArticle(siteUrl, path, headline, description));
+  } else {
+    nodes.push(buildWebPage(siteUrl, path, pageName, description));
+  }
 
   if (landingFaq && landingFaq.length > 0) {
     nodes.push(buildFaqPage(landingFaq));

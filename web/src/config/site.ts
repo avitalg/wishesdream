@@ -4,7 +4,7 @@ export const DEFAULT_SITE_URL = `https://${SITE_DOMAIN}`;
 export const SITE_TAGLINE = 'Gift Registry for Every Celebration';
 export const DEFAULT_TITLE = `${SITE_NAME} — Gift Registry`;
 export const DEFAULT_DESCRIPTION =
-  'Create a free, privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what.';
+  'Create a free gift list and privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what.';
 
 export const SITE_LOCALE = 'en_US';
 export const SITE_LANGUAGE = 'en';
@@ -30,6 +30,7 @@ export const INDEXABLE_PATHS = [
   '/gift-registry',
   '/baby-shower-registry',
   '/birthday-wish-list',
+  '/gift-list',
   '/compare',
 ] as const;
 

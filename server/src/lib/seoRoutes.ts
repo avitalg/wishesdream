@@ -37,6 +37,7 @@ function buildSitemapXml(siteUrl: string): string {
       path === '/gift-registry' ||
       path === '/baby-shower-registry' ||
       path === '/birthday-wish-list' ||
+      path === '/gift-list' ||
       path === '/compare'
     ) {
       return '0.9';

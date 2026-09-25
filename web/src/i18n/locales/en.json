@@ -64,12 +64,15 @@
     "giftRegistry": "Gift registry",
     "babyShowerRegistry": "Baby shower registry",
     "birthdayWishList": "Birthday wish list",
-    "compareSpreadsheet": "WishGather vs spreadsheet"
+    "compareSpreadsheet": "WishGather vs spreadsheet",
+    "giftListGuide": "Gift list guide"
   },
   "home": {
     "eyebrow": "Gift Registry for Every Celebration",
     "title": "Curated gifts.<br/>Private claims.",
-    "heroText": "Build a beautiful wish list for birthdays, baby showers, weddings, and more. Guests see what's available — never who claimed what — while you stay informed for every thank-you note.",
+    "heroText": "Build a beautiful gift list for birthdays, baby showers, weddings, and more. Guests see what's available — never who claimed what — while you stay informed for every thank-you note.",
+    "giftListGuideLead": "New to group gifting?",
+    "giftListGuideLink": "Read our gift list guide",
     "screenshotAlt": "WishGather gift list showing add gift form and product cards",
     "previewTitle": "Cherished Ballerina Doll",
     "guestEyebrow": "For Guests",
@@ -241,6 +244,10 @@
         {
           "question": "Can I use WishGather instead of a store registry?",
           "answer": "Yes. Add gifts from any store by link or manually. You keep full control and privacy without tying your list to one retailer."
+        },
+        {
+          "question": "How do I make a gift list guests will actually use?",
+          "answer": "Keep items clear, share one guest link, and let people claim gifts privately. Our Gift List guide on WishGather walks through planning, sharing, and updates step by step."
         }
       ]
     },
@@ -279,6 +286,7 @@
         ],
         "relatedTitle": "Explore more",
         "related": [
+          { "labelKey": "nav.giftListGuide", "to": "/gift-list" },
           { "labelKey": "nav.babyShowerRegistry", "to": "/baby-shower-registry" },
           { "labelKey": "nav.birthdayWishList", "to": "/birthday-wish-list" },
           { "labelKey": "nav.compareSpreadsheet", "to": "/compare" }
@@ -362,6 +370,57 @@
           { "labelKey": "nav.createYourList", "to": "/register" }
         ]
       },
+      "giftList": {
+        "eyebrow": "Gift list guide",
+        "title": "Gift List: How to Create and Share the Perfect Gift Wishlist",
+        "lead": "A great gift list helps guests buy confidently without duplicate presents. This guide walks through planning, sharing, and managing a gift list (or wishlist) that works on phones, keeps claims private, and stays easy to update until the big day.",
+        "sections": [
+          {
+            "title": "What is a gift list?",
+            "body": "A gift list — sometimes called a wishlist or registry — is a single place where you collect ideas for presents you would love to receive. Unlike a scattered group chat or spreadsheet, a dedicated gift list shows photos, prices, and what is still available. When guests can claim items privately, everyone avoids buying the same thing twice."
+          },
+          {
+            "title": "Step 1: Plan before you publish",
+            "body": "Start with the event in mind: birthday party, baby shower, wedding, or holiday. Aim for a mix of price points so every guest can participate. Group similar items, note sizes or colors if they matter, and leave a few open slots for last-minute ideas. A focused gift list of 10–25 items is easier for guests to scan than an endless catalog."
+          },
+          {
+            "title": "Step 2: Add gifts with clear details",
+            "body": "For each entry on your gift list, include a short title, optional photo, and link to the store when you have one. WishGather can import product details from many URLs so your gift list looks polished without manual copy-paste. If a link fails, add the item manually — clarity matters more than perfect automation."
+          },
+          {
+            "title": "Step 3: Share one guest link",
+            "body": "Send the public gift list URL — not your private manage link — in invitations, email, or text. One link keeps everyone on the same version of the list. Ask guests to claim what they plan to buy so the gift list updates in real time and others see what is still available."
+          },
+          {
+            "title": "Step 4: Keep the gift list alive until the event",
+            "body": "Add items as you think of them, and remind guests that unclaimed gifts are still up for grabs. After the celebration, export a summary for thank-you notes. A well-maintained gift list reduces stress for you and makes shopping simpler for everyone who cares about you."
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Gift list vs wishlist — is there a difference?",
+            "answer": "People use the terms interchangeably. A gift list usually emphasizes items others can buy for you; a wishlist can include dreams or experiences. WishGather supports both — add products, notes, or flexible ideas in one place."
+          },
+          {
+            "question": "How many items should my gift list include?",
+            "answer": "Enough variety that guests find something in their budget, but not so many that the list feels overwhelming. Many hosts land between 12 and 30 items depending on guest count."
+          },
+          {
+            "question": "Should guests see each other's names on the gift list?",
+            "answer": "On WishGather, only the host sees claimer names. Guests see Available or Already Selected, which keeps the gift list friendly and private."
+          },
+          {
+            "question": "Can I use a gift list for a virtual party?",
+            "answer": "Yes. Share the link digitally; guests can shop online and mark items claimed from anywhere."
+          }
+        ],
+        "relatedTitle": "Related guides",
+        "related": [
+          { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
+          { "labelKey": "nav.howItWorks", "to": "/how-it-works" },
+          { "labelKey": "nav.compareSpreadsheet", "to": "/compare" }
+        ]
+      },
       "compare": {
         "eyebrow": "Compare",
         "title": "WishGather vs Google Sheets for gift lists",
@@ -396,6 +455,7 @@
         ],
         "relatedTitle": "Next steps",
         "related": [
+          { "labelKey": "nav.giftListGuide", "to": "/gift-list" },
           { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
           { "labelKey": "nav.howItWorks", "to": "/how-it-works" },
           { "labelKey": "nav.createYourList", "to": "/register" }
@@ -442,9 +502,9 @@
   },
   "seo": {
     "defaultTitle": "Gift Registry",
-    "defaultDescription": "Create a free, privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what.",
+    "defaultDescription": "Create a free gift list and privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what.",
     "home": {
-      "description": "Create a free, privacy-first gift registry for birthdays, baby showers, weddings, and every celebration. Guests claim gifts anonymously; hosts see who picked what."
+      "description": "Create a free online gift list and gift registry for any celebration. Private guest claims, product import, and live updates on WishGather."
     },
     "howItWorks": {
       "title": "How It Works",
@@ -500,7 +560,11 @@
       "title": "WishGather vs Spreadsheet",
       "description": "Compare WishGather to Google Sheets for gift lists — privacy, mobile UX, live updates, and product imports."
     },
-    "defaultImageAlt": "WishGather gift registry — curated gifts with private guest claims"
+    "giftList": {
+      "title": "Gift List",
+      "description": "Gift list guide: how to create and share the perfect gift wishlist. Plan items, share one link, and keep guest claims private with WishGather."
+    },
+    "defaultImageAlt": "WishGather gift list and registry — curated gifts with private guest claims"
   },
   "notFound": {
     "title": "Page not found",

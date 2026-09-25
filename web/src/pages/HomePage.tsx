@@ -174,6 +174,10 @@ export function HomePage() {
             <p>{t('home.liveText')}</p>
           </article>
         </div>
+        <p className="home-gift-list-guide">
+          {t('home.giftListGuideLead')}{' '}
+          <Link to="/gift-list">{t('home.giftListGuideLink')}</Link>.
+        </p>
       </section>
     </Layout>
   );
