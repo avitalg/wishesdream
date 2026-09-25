@@ -68,3 +68,35 @@
   color: var(--muted);
   line-height: 1.7;
 }
+
+.content-related {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.content-related__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.content-related__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.25rem;
+}
+
+.content-related__list a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.content-related__list a:hover {
+  text-decoration: underline;
+}

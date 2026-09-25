@@ -2,6 +2,7 @@ import { useState, useCallback, type ReactNode } from 'react';
 import { api, setAuthToken, clearAuthToken, getAuthToken, getStoredUser, setStoredUser } from '../api/client.js';
 import type { User } from '../types/index.js';
 import { AuthContext } from './auth-context.js';
+import { trackGaEvent } from '../lib/googleAnalytics.js';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -31,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setAuthToken(result.token);
       setStoredUser(result.user);
       setUser(result.user);
+      trackGaEvent('sign_up', { method: 'email' });
     } finally {
       setIsLoading(false);
     }

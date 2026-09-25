@@ -27,6 +27,10 @@ export const INDEXABLE_PATHS = [
   '/faq',
   '/privacy',
   '/cookies',
+  '/gift-registry',
+  '/baby-shower-registry',
+  '/birthday-wish-list',
+  '/compare',
 ] as const;
 
 /** Default Open Graph / Twitter share image (1200×630 recommended). */

@@ -58,7 +58,16 @@ Required variables in Railway:
 | `NODE_ENV` | `production` |
 | `JWT_SECRET` | Long random string |
 | `SITE_URL` | `https://wishgather.com` |
+| `VITE_SITE_URL` | `https://wishgather.com` (build-time; must match `SITE_URL`) |
 | `DATABASE_PATH` | `/data/wishesdream.db` (with a Volume mounted at `/data`) |
+
+### SEO checklist (after deploy)
+
+1. Open [Google Search Console](https://search.google.com/search-console) for `https://wishgather.com` (HTML file verification: `web/public/googlea1e65380b17a02dd.html`).
+2. Submit sitemap: `https://wishgather.com/sitemap.xml`.
+3. Use URL Inspection on `/`, `/faq`, and `/how-it-works` → Request indexing.
+4. Confirm GA4 Realtime on wishgather.com (measurement ID in `VITE_GA_MEASUREMENT_ID` or default in code).
+5. Search Google for `site:wishgather.com` after a few days to confirm indexing.
 
 After deploy, logs should include `Serving web app from .../web/dist`. If you see `Cannot GET /`, the build did not produce `web/dist` or static serving code is missing.
 

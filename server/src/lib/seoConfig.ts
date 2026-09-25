@@ -1,4 +1,14 @@
-export const INDEXABLE_PATHS = ['/', '/how-it-works', '/faq', '/privacy', '/cookies'] as const;
+export const INDEXABLE_PATHS = [
+  '/',
+  '/how-it-works',
+  '/faq',
+  '/privacy',
+  '/cookies',
+  '/gift-registry',
+  '/baby-shower-registry',
+  '/birthday-wish-list',
+  '/compare',
+] as const;
 
 export const DISALLOWED_PATHS = ['/dashboard', '/login', '/register', '/lists/'] as const;
 

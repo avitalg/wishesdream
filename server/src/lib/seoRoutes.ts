@@ -29,9 +29,24 @@ function buildRobotsTxt(siteUrl: string): string {
 
 function buildSitemapXml(siteUrl: string): string {
   const lastmod = new Date().toISOString().slice(0, 10);
+  const priorityFor = (path: (typeof INDEXABLE_PATHS)[number]) => {
+    if (path === '/') {
+      return '1.0';
+    }
+    if (
+      path === '/gift-registry' ||
+      path === '/baby-shower-registry' ||
+      path === '/birthday-wish-list' ||
+      path === '/compare'
+    ) {
+      return '0.9';
+    }
+    return '0.8';
+  };
+
   const urls = INDEXABLE_PATHS.map((path) => {
     const loc = path === '/' ? siteUrl : `${siteUrl}${path}`;
-    const priority = path === '/' ? '1.0' : '0.8';
+    const priority = priorityFor(path);
     const changefreq = path === '/' ? 'weekly' : 'monthly';
 
     return `  <url>

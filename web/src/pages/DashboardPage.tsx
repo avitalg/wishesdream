@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth.js';
 import { useCreateList } from '../hooks/mutations/useCreateList.js';
 import { useMyLists } from '../hooks/queries/useMyLists.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { trackGaEvent } from '../lib/googleAnalytics.js';
 
 export function DashboardPage() {
   const { user } = useAuth();
@@ -35,6 +36,7 @@ export function DashboardPage() {
 
     try {
       const result = await createList.mutateAsync(title.trim());
+      trackGaEvent('list_created');
       navigate(`/lists/${result.list.public_id}/manage`);
     } catch {
       // Error surfaced via createList.error

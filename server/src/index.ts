@@ -10,6 +10,27 @@ import { wsManager } from './services/websocket.js';
 import './db/database.js';
 import { isKnownClientRoute } from './lib/seoConfig.js';
 import { registerSeoRoutes } from './lib/seoRoutes.js';
+import { getSiteUrl } from './lib/envConfig.js';
+import {
+  injectMarketingSeo,
+  loadIndexHtmlTemplate,
+} from './lib/marketingSeoHtml.js';
+import { isIndexableMarketingPath } from './lib/marketingSeoMeta.js';
+
+function resolveSiteUrl(req: express.Request): string {
+  const configured = getSiteUrl();
+  if (configured) {
+    return configured;
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('SITE_URL is required in production');
+  }
+
+  const protocol = req.get('x-forwarded-proto') ?? req.protocol;
+  const host = req.get('x-forwarded-host') ?? req.get('host');
+  return `${protocol}://${host}`;
+}
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3010;
@@ -29,11 +50,20 @@ registerSeoRoutes(app);
 
 if (isWebDistAvailable()) {
   const webDist = getWebDistPath();
+  const indexHtmlTemplate = loadIndexHtmlTemplate(webDist);
 
   app.use(express.static(webDist, { index: false }));
 
   app.get(/^(?!\/api\/|\/api$|\/ws).*/, (req, res) => {
     const status = isKnownClientRoute(req.path) ? 200 : 404;
+
+    if (status === 200 && isIndexableMarketingPath(req.path)) {
+      const siteUrl = resolveSiteUrl(req);
+      const html = injectMarketingSeo(indexHtmlTemplate, req.path, siteUrl);
+      res.status(status).type('html').send(html);
+      return;
+    }
+
     res.status(status).sendFile(path.join(webDist, 'index.html'));
   });
 

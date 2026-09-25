@@ -16,6 +16,7 @@ import { useUpdateItem } from '../hooks/mutations/useUpdateItem.js';
 import { useUnclaimItem } from '../hooks/mutations/useUnclaimItem.js';
 import { useGiftList } from '../hooks/queries/useGiftList.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { trackGaEvent } from '../lib/googleAnalytics.js';
 
 export function CreatorManagePage() {
   const { listId } = useParams<{ listId: string }>();
@@ -160,7 +161,10 @@ export function CreatorManagePage() {
           <button
             type="button"
             className="btn-primary btn-sm"
-            onClick={() => navigator.clipboard.writeText(shareUrl)}
+            onClick={() => {
+              void navigator.clipboard.writeText(shareUrl);
+              trackGaEvent('share_link_copied');
+            }}
           >
             {t('common.copy')}
           </button>

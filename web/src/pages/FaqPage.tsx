@@ -41,6 +41,9 @@ export function FaqPage() {
         </div>
 
         <div className="content-actions">
+          <Link to="/compare" className="btn-outline">
+            {t('nav.compareSpreadsheet')}
+          </Link>
           <Link to="/how-it-works" className="btn-outline">
             {t('nav.howItWorks')}
           </Link>

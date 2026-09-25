@@ -60,7 +60,11 @@
     "goToMyLists": "Go to My Lists",
     "createYourList": "Create Your List",
     "hostLogin": "Host Login",
-    "seeFullGuide": "See Full Guide"
+    "seeFullGuide": "See Full Guide",
+    "giftRegistry": "Gift registry",
+    "babyShowerRegistry": "Baby shower registry",
+    "birthdayWishList": "Birthday wish list",
+    "compareSpreadsheet": "WishGather vs spreadsheet"
   },
   "home": {
     "eyebrow": "Gift Registry for Every Celebration",
@@ -229,8 +233,174 @@
         {
           "question": "Is WishGather free?",
           "answer": "Yes. Create a list, share it with guests, and manage claims at no cost."
+        },
+        {
+          "question": "How is WishGather different from a shared spreadsheet?",
+          "answer": "Spreadsheets show every edit to everyone and are easy to break. WishGather gives guests a simple claim flow, hides names from other guests, and updates in real time — no version conflicts."
+        },
+        {
+          "question": "Can I use WishGather instead of a store registry?",
+          "answer": "Yes. Add gifts from any store by link or manually. You keep full control and privacy without tying your list to one retailer."
         }
       ]
+    },
+    "landing": {
+      "giftRegistry": {
+        "eyebrow": "Free gift registry",
+        "title": "A free online gift registry that keeps guest claims private",
+        "lead": "WishGather helps you build a beautiful wish list for any celebration. Share one link, let guests claim gifts without accounts, and see who picked what — while other guests only see what's still available.",
+        "sections": [
+          {
+            "title": "Why hosts choose WishGather",
+            "body": "Traditional registries lock you into one store. Shared spreadsheets expose every name and duplicate gift. WishGather is a privacy-first gift registry: guests get a clean mobile page, you get a host dashboard with live updates, and nobody sees each other's choices."
+          },
+          {
+            "title": "Add gifts from anywhere",
+            "body": "Paste a product URL from Amazon, Next, or most online shops and we pull title, image, and price when possible. You can always edit details or add items manually — perfect for experiences, cash funds, or local boutiques."
+          },
+          {
+            "title": "One link for every guest",
+            "body": "Copy the guest link from your manage page and drop it in invitations, group chats, or email. Guests claim in seconds with no sign-up. If plans change, they can unclaim from the same browser and the gift opens back up instantly."
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Is WishGather really free?",
+            "answer": "Yes. Creating a registry, sharing with guests, and managing claims costs nothing."
+          },
+          {
+            "question": "Do guests need an account?",
+            "answer": "No. They open your guest link, choose a gift, and enter their name."
+          },
+          {
+            "question": "Can I use this for weddings and showers?",
+            "answer": "Absolutely. Many hosts use WishGather for baby showers, birthdays, weddings, and housewarmings."
+          }
+        ],
+        "relatedTitle": "Explore more",
+        "related": [
+          { "labelKey": "nav.babyShowerRegistry", "to": "/baby-shower-registry" },
+          { "labelKey": "nav.birthdayWishList", "to": "/birthday-wish-list" },
+          { "labelKey": "nav.compareSpreadsheet", "to": "/compare" }
+        ]
+      },
+      "babyShowerRegistry": {
+        "eyebrow": "Baby shower registry",
+        "title": "Baby shower gift registry with private guest claims",
+        "lead": "Collect exactly what you need for baby — without duplicate onesies or awkward spreadsheet rows. WishGather keeps shower guests aligned while protecting everyone's privacy.",
+        "sections": [
+          {
+            "title": "Built for shower guests on their phones",
+            "body": "Most shower guests shop from a text message link on mobile. WishGather loads fast, shows clear Available badges, and makes claiming a gift a two-tap flow — no app install and no account."
+          },
+          {
+            "title": "You see names; guests do not",
+            "body": "Only you, the host, see who claimed each item. Other guests see Available or Already Selected, which prevents pile-ons and keeps the surprise for thank-you notes."
+          },
+          {
+            "title": "Mix registry staples and boutique finds",
+            "body": "Add big-box links, Etsy finds, or hand-entered items like diaper service credits. Import helpers fetch product details when retailers allow it; everything else is a quick manual add."
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Can co-hosts manage the same list?",
+            "answer": "Share your host login credentials with a trusted co-host, or coordinate from one manage screen during the shower."
+          },
+          {
+            "question": "What if two people claim the same gift?",
+            "body": "Claims update in real time. Once an item is selected, others see it as unavailable immediately."
+          },
+          {
+            "question": "Can I export thank-you data?",
+            "answer": "Yes. Export a PDF from manage with item, guest name, and claim date."
+          }
+        ],
+        "relatedTitle": "Explore more",
+        "related": [
+          { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
+          { "labelKey": "nav.birthdayWishList", "to": "/birthday-wish-list" },
+          { "labelKey": "nav.howItWorks", "to": "/how-it-works" }
+        ]
+      },
+      "birthdayWishList": {
+        "eyebrow": "Birthday wish list",
+        "title": "Birthday wish list your guests will actually use",
+        "lead": "Skip the group chat chaos. Publish a birthday wish list with photos and prices, share one link, and let friends claim gifts privately so you avoid duplicates.",
+        "sections": [
+          {
+            "title": "Perfect for kids' parties and milestone birthdays",
+            "body": "Parents love clear lists for classmates; adults love linking favorite brands or experiences. WishGather works for both — one registry tool for every age."
+          },
+          {
+            "title": "Guests stay anonymous to each other",
+            "body": "Friends see what's left to buy, not who already bought it. You still get full visibility to plan the party and write thank-you notes."
+          },
+          {
+            "title": "Update anytime before the party",
+            "body": "Add last-minute ideas from your manage page. Guests' open tabs refresh automatically when something new is claimed or released."
+          }
+        ],
+        "faqs": [
+          {
+            "question": "Can guests shop anywhere?",
+            "answer": "Yes. Add links from any store or describe an item manually. Guests buy off-site and mark the gift claimed on your list."
+          },
+          {
+            "question": "Is there an age limit?",
+            "answer": "No. Hosts must create an account, but guests of any age can claim with a name."
+          },
+          {
+            "question": "Does it work for surprise parties?",
+            "answer": "Yes. Share the guest link only with people who should see the list; keep your manage URL private."
+          }
+        ],
+        "relatedTitle": "Explore more",
+        "related": [
+          { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
+          { "labelKey": "nav.faq", "to": "/faq" },
+          { "labelKey": "nav.createYourList", "to": "/register" }
+        ]
+      },
+      "compare": {
+        "eyebrow": "Compare",
+        "title": "WishGather vs Google Sheets for gift lists",
+        "lead": "Spreadsheets are flexible but fragile for group gifting. Here's how a purpose-built registry compares for privacy, mobile guests, and real-time updates.",
+        "sections": [
+          {
+            "title": "Privacy",
+            "body": "Sheets often show every guest name in column B. WishGather hides claimer names from other guests while giving the host full detail — better for showers, offices, and classroom parties."
+          },
+          {
+            "title": "Mobile experience",
+            "body": "Pinching and zooming a spreadsheet on a phone frustrates guests. WishGather is a mobile-first guest page with large tap targets and clear Available badges."
+          },
+          {
+            "title": "Real-time updates",
+            "body": "Sheets rely on manual edits and refresh. WishGather pushes claim changes live so two people rarely buy the same gift."
+          },
+          {
+            "title": "Product details",
+            "body": "Paste a store link and WishGather can import title, image, and price. Sheets need copy-paste for every field unless you build formulas yourself."
+          }
+        ],
+        "faqs": [
+          {
+            "question": "When is a spreadsheet still fine?",
+            "answer": "Tiny, trusted groups who do not mind visible names may prefer Sheets. For larger guest lists, WishGather reduces mistakes."
+          },
+          {
+            "question": "Can I export from WishGather?",
+            "answer": "Yes. Download a PDF summary from your manage page after the event."
+          }
+        ],
+        "relatedTitle": "Next steps",
+        "related": [
+          { "labelKey": "nav.giftRegistry", "to": "/gift-registry" },
+          { "labelKey": "nav.howItWorks", "to": "/how-it-works" },
+          { "labelKey": "nav.createYourList", "to": "/register" }
+        ]
+      }
     },
     "privacy": {
       "eyebrow": "Privacy",
@@ -313,6 +483,22 @@
     "notFound": {
       "title": "Page Not Found",
       "description": "The page you requested does not exist on WishGather."
+    },
+    "giftRegistry": {
+      "title": "Free Online Gift Registry",
+      "description": "Create a free online gift registry for any celebration. Private guest claims, product import, and live updates — no store lock-in."
+    },
+    "babyShowerRegistry": {
+      "title": "Baby Shower Gift Registry",
+      "description": "Free baby shower registry with mobile-friendly guest claims, duplicate prevention, and host-only name visibility."
+    },
+    "birthdayWishList": {
+      "title": "Birthday Wish List",
+      "description": "Share a birthday wish list with one link. Guests claim gifts privately; you avoid duplicate presents."
+    },
+    "compare": {
+      "title": "WishGather vs Spreadsheet",
+      "description": "Compare WishGather to Google Sheets for gift lists — privacy, mobile UX, live updates, and product imports."
     },
     "defaultImageAlt": "WishGather gift registry — curated gifts with private guest claims"
   },

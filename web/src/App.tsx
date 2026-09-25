@@ -8,6 +8,10 @@ import { HowItWorksPage } from './pages/HowItWorksPage.js';
 import { PrivacyPage } from './pages/PrivacyPage.js';
 import { CookiePolicyPage } from './pages/CookiePolicyPage.js';
 import { FaqPage } from './pages/FaqPage.js';
+import { GiftRegistryPage } from './pages/GiftRegistryPage.js';
+import { BabyShowerRegistryPage } from './pages/BabyShowerRegistryPage.js';
+import { BirthdayWishListPage } from './pages/BirthdayWishListPage.js';
+import { ComparePage } from './pages/ComparePage.js';
 import { LoginPage } from './pages/LoginPage.js';
 import { RegisterPage } from './pages/RegisterPage.js';
 import { DashboardPage } from './pages/DashboardPage.js';
@@ -26,6 +30,10 @@ export default function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/cookies" element={<CookiePolicyPage />} />
+            <Route path="/gift-registry" element={<GiftRegistryPage />} />
+            <Route path="/baby-shower-registry" element={<BabyShowerRegistryPage />} />
+            <Route path="/birthday-wish-list" element={<BirthdayWishListPage />} />
+            <Route path="/compare" element={<ComparePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />

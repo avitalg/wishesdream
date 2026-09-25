@@ -34,3 +34,14 @@ export function initGoogleAnalytics(): void {
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(script);
 }
+
+export function trackGaEvent(
+  eventName: string,
+  params?: Record<string, string | number | boolean>,
+): void {
+  if (import.meta.env.DEV || typeof window.gtag !== 'function') {
+    return;
+  }
+
+  window.gtag('event', eventName, params);
+}
