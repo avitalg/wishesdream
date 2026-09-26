@@ -1,4 +1,5 @@
 import i18n from '../i18n/index.js';
+import { blogPublishedDate } from '../content/blog.js';
 import { AREA_SERVED, SITE_NAME, absoluteUrl, type ServiceArea } from '../config/site.js';
 
 function placeNode(area: ServiceArea) {
@@ -21,6 +22,15 @@ function spatialCoverageForPath(path: string) {
   }
 
   return areaServedNodes();
+}
+
+function articleDateFields(path: string) {
+  const published = blogPublishedDate(path);
+  if (!published) {
+    return {};
+  }
+
+  return { datePublished: published, dateModified: published };
 }
 
 function stripContext(node: Record<string, unknown>): Record<string, unknown> {
@@ -77,6 +87,7 @@ export function buildArticleJsonLd(options: {
       },
     },
     inLanguage: options.path.startsWith('/he/') ? 'he' : 'en',
+    ...articleDateFields(options.path),
     spatialCoverage: spatialCoverageForPath(options.path),
     mainEntityOfPage: {
       '@type': 'WebPage',
@@ -113,6 +124,7 @@ export function buildBlogJsonLd(options: {
       headline: post.headline,
       description: post.description,
       url: absoluteUrl(post.path),
+      ...articleDateFields(post.path),
     })),
   };
 }

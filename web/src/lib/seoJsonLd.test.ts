@@ -58,6 +58,8 @@ describe('seoJsonLd', () => {
     });
 
     expect(article.inLanguage).toBe('he');
+    expect(article.datePublished).toBe('2026-09-26');
+    expect(article.dateModified).toBe('2026-09-26');
     expect(article.spatialCoverage).toMatchObject({
       '@type': 'Country',
       name: 'Israel',

@@ -66,6 +66,7 @@ export function CreatorManagePage() {
       guest_token: getGuestToken() ?? undefined,
       on_behalf: claimOnBehalf,
     });
+    trackGaEvent('gift_claimed', { on_behalf: claimOnBehalf });
   }
 
   async function handleUnclaim(itemId: number) {

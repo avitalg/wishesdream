@@ -43,5 +43,8 @@ describe('buildSitemapXml', () => {
     assert.match(xml, /hreflang="he" href="https:\/\/wishgather.com\/he\/blog\/gift-list"/);
     assert.match(xml, /hreflang="he-IL" href="https:\/\/wishgather.com\/he\/blog\/gift-list"/);
     assert.match(xml, /hreflang="en" href="https:\/\/wishgather.com\/blog\/gift-list"/);
+    assert.match(xml, /<loc>https:\/\/wishgather.com\/blog\/gift-list<\/loc>\s*<lastmod>2026-09-26<\/lastmod>/);
+    assert.match(xml, /<loc>https:\/\/wishgather.com\/he\/blog\/wishlist<\/loc>\s*<lastmod>2026-09-26<\/lastmod>/);
+    assert.doesNotMatch(xml, /<loc>https:\/\/wishgather.com\/faq<\/loc>\s*<lastmod>/);
   });
 });

@@ -20,6 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setAuthToken(result.token);
       setStoredUser(result.user);
       setUser(result.user);
+      trackGaEvent('login', { method: 'email' });
     } finally {
       setIsLoading(false);
     }

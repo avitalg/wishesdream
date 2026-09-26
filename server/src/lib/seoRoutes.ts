@@ -1,4 +1,5 @@
 import { DISALLOWED_PATHS, INDEXABLE_PATHS } from './seoConfig.js';
+import { blogLastmod } from './marketingSeoMeta.js';
 import { getSiteUrl } from './envConfig.js';
 
 function resolveSiteUrl(req: import('express').Request): string {
@@ -28,7 +29,6 @@ function buildRobotsTxt(siteUrl: string): string {
 }
 
 export function buildSitemapXml(siteUrl: string): string {
-  const lastmod = new Date().toISOString().slice(0, 10);
   const priorityFor = (path: (typeof INDEXABLE_PATHS)[number]) => {
     if (path === '/') {
       return '1.0';
@@ -53,10 +53,11 @@ export function buildSitemapXml(siteUrl: string): string {
     const priority = priorityFor(path);
     const changefreq = path === '/' ? 'weekly' : 'monthly';
     const alternates = hreflangLinks(siteUrl, path);
+    const lastmod = blogLastmod(path);
+    const lastmodTag = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : '';
 
     return `  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <loc>${loc}</loc>${lastmodTag}
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>${alternates}
   </url>`;

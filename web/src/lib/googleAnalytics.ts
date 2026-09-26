@@ -27,12 +27,16 @@ export function initGoogleAnalytics(): void {
   };
 
   window.gtag('js', new Date());
-  window.gtag('config', measurementId);
+  window.gtag('config', measurementId, { send_page_view: false });
 
   const script = document.createElement('script');
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(script);
+}
+
+export function trackGaPageView(pagePath: string): void {
+  trackGaEvent('page_view', { page_path: pagePath });
 }
 
 export function trackGaEvent(

@@ -38,9 +38,9 @@ const LANDING_SEO_KEYS: Record<string, keyof typeof en.seo> = {
 
 const BLOG_PATH = '/blog';
 
-const BLOG_POSTS: Array<{ path: string; landingKey: string }> = [
-  { path: '/blog/gift-list', landingKey: 'giftList' },
-  { path: '/blog/wishlist', landingKey: 'giftWishlist' },
+const BLOG_POSTS: Array<{ path: string; landingKey: string; published: string }> = [
+  { path: '/blog/gift-list', landingKey: 'giftList', published: '2026-09-26' },
+  { path: '/blog/wishlist', landingKey: 'giftWishlist', published: '2026-09-26' },
 ];
 
 const ARTICLE_PATHS = new Set<string>(BLOG_POSTS.map((post) => post.path));
@@ -57,9 +57,27 @@ export interface MarketingSeoPayload {
   description: string;
   jsonLd: Record<string, unknown>;
   language: 'en' | 'he';
-  geo: { region: string; placename: string };
+  geo: { region: string; placename: string } | null;
   alternates?: HreflangAlternate[];
   bodyHtml?: string;
+}
+
+function publishedDate(path: string): string | undefined {
+  const englishPath = toContentPath(path);
+  return BLOG_POSTS.find((post) => post.path === englishPath)?.published;
+}
+
+export function blogLastmod(pathname: string): string | undefined {
+  return publishedDate(pathname);
+}
+
+function articleDateFields(path: string) {
+  const published = publishedDate(path);
+  if (!published) {
+    return {};
+  }
+
+  return { datePublished: published, dateModified: published };
 }
 
 function toContentPath(path: string): string {
@@ -117,12 +135,12 @@ function areaServedNodes() {
   return AREA_SERVED.map(placeNode);
 }
 
-function geoForLanguage(language: 'en' | 'he'): { region: string; placename: string } {
+function geoForLanguage(language: 'en' | 'he'): { region: string; placename: string } | null {
   if (language === 'he') {
     return { region: 'IL', placename: 'Israel' };
   }
 
-  return { region: 'US', placename: 'United States' };
+  return null;
 }
 
 function spatialCoverage(language: 'en' | 'he') {
@@ -257,6 +275,7 @@ function buildArticle(
     description,
     articleBody,
     inLanguage: language,
+    ...articleDateFields(path),
     spatialCoverage: spatialCoverage(language),
     image: absoluteUrl(siteUrl, '/og-image.png'),
     author: {
@@ -301,6 +320,7 @@ function buildBlog(siteUrl: string, path: string, name: string, description: str
       description: landing[post.landingKey]?.lead ?? '',
       inLanguage: language,
       url: absoluteUrl(siteUrl, localizedBlogPath(post.path, language)),
+      ...articleDateFields(localizedBlogPath(post.path, language)),
     })),
   };
 }

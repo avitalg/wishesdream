@@ -80,8 +80,7 @@ export function injectMarketingSeo(html: string, pathname: string, siteUrl: stri
   result = replaceMetaContent(result, 'name', 'twitter:description', payload.description);
   result = replaceMetaContent(result, 'name', 'twitter:image', imageUrl);
   result = replaceMetaContent(result, 'name', 'twitter:image:alt', imageAlt);
-  result = replaceMetaContent(result, 'name', 'geo.region', payload.geo.region);
-  result = replaceMetaContent(result, 'name', 'geo.placename', payload.geo.placename);
+  result = applyGeoMeta(result, payload.geo);
   result = upsertCanonical(result, canonical);
   result = upsertHreflang(result, siteOrigin, payload.alternates);
   result = upsertJsonLd(result, payload.jsonLd);
@@ -98,6 +97,22 @@ export function injectMarketingSeo(html: string, pathname: string, siteUrl: stri
   }
 
   return result;
+}
+
+function applyGeoMeta(
+  html: string,
+  geo: { region: string; placename: string } | null,
+): string {
+  const stripped = html
+    .replace(/\s*<meta\s+name="geo\.region"\s+content="[^"]*"\s*\/?>/gi, '')
+    .replace(/\s*<meta\s+name="geo\.placename"\s+content="[^"]*"\s*\/?>/gi, '');
+
+  if (!geo) {
+    return stripped;
+  }
+
+  const withRegion = replaceMetaContent(stripped, 'name', 'geo.region', geo.region);
+  return replaceMetaContent(withRegion, 'name', 'geo.placename', geo.placename);
 }
 
 function upsertHreflang(

@@ -8,8 +8,6 @@ export const DEFAULT_DESCRIPTION =
 
 export const SITE_LOCALE = 'en_US';
 export const SITE_LANGUAGE = 'en';
-export const GEO_REGION = 'US';
-export const GEO_PLACENAME = 'United States';
 
 export interface ServiceArea {
   type: 'Country' | 'Place';
@@ -28,12 +26,12 @@ export const AREA_SERVED: readonly ServiceArea[] = [
   { type: 'Place', name: 'Europe', sameAs: 'https://www.wikidata.org/wiki/Q46' },
 ];
 
-export function geoForLanguage(language: 'en' | 'he'): { region: string; placename: string } {
+export function geoForLanguage(language: 'en' | 'he'): { region: string; placename: string } | null {
   if (language === 'he') {
     return { region: 'IL', placename: 'Israel' };
   }
 
-  return { region: GEO_REGION, placename: GEO_PLACENAME };
+  return null;
 }
 
 export const INDEXABLE_PATHS = [

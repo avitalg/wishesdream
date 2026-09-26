@@ -28,6 +28,11 @@ export interface SeoOptions {
 }
 
 const JSON_LD_ID = 'wishgather-jsonld';
+const SERVER_JSON_LD_ID = 'server-marketing-jsonld';
+
+function removeMeta(attribute: 'name' | 'property', key: string): void {
+  document.head.querySelector(`meta[${attribute}="${key}"]`)?.remove();
+}
 
 function upsertMeta(attribute: 'name' | 'property', key: string, content: string): void {
   let element = document.head.querySelector<HTMLMetaElement>(
@@ -81,6 +86,8 @@ function setJsonLd(data: SeoOptions['jsonLd']): void {
     return;
   }
 
+  document.getElementById(SERVER_JSON_LD_ID)?.remove();
+
   const normalized = Array.isArray(data) ? buildJsonLdGraph(data) : data;
 
   const script = document.createElement('script');
@@ -127,8 +134,13 @@ export function useSeo({
 
     upsertMeta('name', 'description', resolvedDescription);
     upsertMeta('name', 'robots', robots);
-    upsertMeta('name', 'geo.region', geo.region);
-    upsertMeta('name', 'geo.placename', geo.placename);
+    if (geo) {
+      upsertMeta('name', 'geo.region', geo.region);
+      upsertMeta('name', 'geo.placename', geo.placename);
+    } else {
+      removeMeta('name', 'geo.region');
+      removeMeta('name', 'geo.placename');
+    }
     upsertMeta('name', 'language', language);
 
     upsertMeta('property', 'og:title', pageTitle);

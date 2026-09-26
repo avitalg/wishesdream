@@ -6,11 +6,13 @@ export const BLOG_ARTICLES = [
     slug: 'gift-list',
     path: '/blog/gift-list',
     landingKey: 'giftList',
+    published: '2026-09-26',
   },
   {
     slug: 'wishlist',
     path: '/blog/wishlist',
     landingKey: 'giftWishlist',
+    published: '2026-09-26',
   },
 ] as const;
 
@@ -62,6 +64,11 @@ export function blogAlternates(englishPath: string): Array<{ hreflang: string; p
     { hreflang: 'he-IL', path: `/he${englishPath}` },
     { hreflang: 'x-default', path: englishPath },
   ];
+}
+
+export function blogPublishedDate(pathname: string): string | undefined {
+  const englishPath = toEnglishBlogPath(pathname);
+  return BLOG_ARTICLES.find((article) => article.path === englishPath)?.published;
 }
 
 export function blogLocaleFromPath(pathname: string): BlogLocale | null {

@@ -9,6 +9,7 @@ import { useClaimItem } from '../hooks/mutations/useClaimItem.js';
 import { useUnclaimItem } from '../hooks/mutations/useUnclaimItem.js';
 import { useGiftList } from '../hooks/queries/useGiftList.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { trackGaEvent } from '../lib/googleAnalytics.js';
 
 export function PublicListPage() {
   const { listId } = useParams<{ listId: string }>();
@@ -41,6 +42,7 @@ export function PublicListPage() {
       guest_name: name,
       viewAsGuest: true,
     });
+    trackGaEvent('gift_claimed', { on_behalf: false });
   }
 
   async function handleUnclaim(itemId: number) {

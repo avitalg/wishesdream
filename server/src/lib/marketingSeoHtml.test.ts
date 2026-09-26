@@ -14,6 +14,8 @@ const SAMPLE_HTML = `<!doctype html>
     <meta name="twitter:description" content="old tw desc" />
     <meta name="twitter:image" content="/og-image.png" />
     <meta name="twitter:image:alt" content="old tw alt" />
+    <meta name="geo.region" content="US" />
+    <meta name="geo.placename" content="United States" />
     <title>Old Title</title>
   </head>
   <body><div id="root"></div></body>
@@ -35,8 +37,8 @@ describe('injectMarketingSeo', () => {
     assert.match(html, /id="server-marketing-jsonld"/);
     assert.match(html, /"@type":"FAQPage"/);
     assert.match(html, /Do guests need to create an account\?/);
-    assert.match(html, /name="geo.region" content="US"/);
-    assert.match(html, /name="geo.placename" content="United States"/);
+    assert.doesNotMatch(html, /geo\.region/);
+    assert.doesNotMatch(html, /geo\.placename/);
     assert.match(html, /"@type":"Place","name":"Europe"/);
   });
 
@@ -70,6 +72,9 @@ describe('injectMarketingSeo', () => {
     assert.match(html, /link rel="canonical" href="https:\/\/wishgather.com\/blog\/gift-list"/);
     assert.match(html, /Gift list guide: how to create and share/);
     assert.match(html, /"@type":"BlogPosting"/);
+    assert.match(html, /"datePublished":"2026-09-26"/);
+    assert.match(html, /"dateModified":"2026-09-26"/);
+    assert.equal(html.match(/"datePublished"/g)?.length, 1);
     assert.match(html, /Gift List: How to Create and Share the Perfect Gift Wishlist/);
     assert.match(html, /"name":"Blog"/);
   });
@@ -99,6 +104,7 @@ describe('injectMarketingSeo', () => {
     assert.match(html, /hreflang="en" href="https:\/\/wishgather.com\/blog\/gift-list"/);
     assert.match(html, /name="geo.region" content="IL"/);
     assert.match(html, /name="geo.placename" content="Israel"/);
+    assert.match(html, /"datePublished":"2026-09-26"/);
     assert.match(html, /"spatialCoverage":\{"@type":"Country","name":"Israel"/);
     assert.match(html, /property="og:locale" content="he_IL"/);
     assert.match(html, /"inLanguage":"he"/);
