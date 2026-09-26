@@ -2,7 +2,7 @@ const DEFAULT_MEASUREMENT_ID = 'G-S6N20L9X1C';
 
 declare global {
   interface Window {
-    dataLayer?: unknown[];
+    dataLayer?: Array<IArguments | unknown[]>;
     gtag?: (...args: unknown[]) => void;
   }
 }
@@ -22,8 +22,8 @@ export function initGoogleAnalytics(): void {
 
   window.dataLayer = window.dataLayer ?? [];
 
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer?.push(args);
+  window.gtag = function gtag() {
+    window.dataLayer?.push(arguments);
   };
 
   window.gtag('js', new Date());
