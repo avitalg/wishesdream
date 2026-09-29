@@ -1,52 +1,105 @@
-import { useLayoutEffect } from 'react';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { lazy, Suspense, useLayoutEffect, type ComponentType, type ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ScrollToTop } from './components/ScrollToTop.js';
 import { TrackPageView } from './components/TrackPageView.js';
+import { Layout } from './components/Layout.js';
 import { AuthProvider } from './context/AuthProvider.js';
 import { isHebrewBlogPath } from './content/blog.js';
-import { queryClient } from './lib/queryClient.js';
-import i18n from './i18n/index.js';
+import i18n, { ensureHebrewResources } from './i18n/index.js';
 import { HomePage } from './pages/HomePage.js';
-import { HowItWorksPage } from './pages/HowItWorksPage.js';
-import { PrivacyPage } from './pages/PrivacyPage.js';
-import { CookiePolicyPage } from './pages/CookiePolicyPage.js';
-import { SitemapPage } from './pages/SitemapPage.js';
-import { FaqPage } from './pages/FaqPage.js';
-import { GiftRegistryPage } from './pages/GiftRegistryPage.js';
-import { BabyShowerRegistryPage } from './pages/BabyShowerRegistryPage.js';
-import { BirthdayWishListPage } from './pages/BirthdayWishListPage.js';
-import { ComparePage } from './pages/ComparePage.js';
-import { BlogPage } from './pages/BlogPage.js';
-import { BlogArticlePage } from './pages/BlogArticlePage.js';
-import { LoginPage } from './pages/LoginPage.js';
-import { RegisterPage } from './pages/RegisterPage.js';
-import { DashboardPage } from './pages/DashboardPage.js';
-import { CreatorManagePage } from './pages/CreatorManagePage.js';
-import { PublicListPage } from './pages/PublicListPage.js';
-import { NotFoundPage } from './pages/NotFoundPage.js';
+
+function lazyPage<P extends object>(
+  loader: () => Promise<Record<string, ComponentType<P>>>,
+  name: string,
+) {
+  return lazy(() => loader().then((module) => ({ default: module[name] })));
+}
+
+function lazyQueriedPage<P extends object>(
+  loader: () => Promise<Record<string, ComponentType<P>>>,
+  name: string,
+) {
+  return lazy(async () => {
+    const [pageModule, { QueryBoundary }] = await Promise.all([
+      loader(),
+      import('./components/QueryBoundary.js'),
+    ]);
+    const Page = pageModule[name];
+
+    return {
+      default: function QueriedPage(props: P) {
+        return (
+          <QueryBoundary>
+            <Page {...props} />
+          </QueryBoundary>
+        );
+      },
+    };
+  });
+}
+
+const DevQueryTools = import.meta.env.DEV
+  ? lazy(() => import('./components/DevQueryTools.js'))
+  : null;
+
+const HowItWorksPage = lazyPage(() => import('./pages/HowItWorksPage.js'), 'HowItWorksPage');
+const PrivacyPage = lazyPage(() => import('./pages/PrivacyPage.js'), 'PrivacyPage');
+const CookiePolicyPage = lazyPage(() => import('./pages/CookiePolicyPage.js'), 'CookiePolicyPage');
+const SitemapPage = lazyPage(() => import('./pages/SitemapPage.js'), 'SitemapPage');
+const FaqPage = lazyPage(() => import('./pages/FaqPage.js'), 'FaqPage');
+const GiftRegistryPage = lazyPage(() => import('./pages/GiftRegistryPage.js'), 'GiftRegistryPage');
+const BabyShowerRegistryPage = lazyPage(
+  () => import('./pages/BabyShowerRegistryPage.js'),
+  'BabyShowerRegistryPage',
+);
+const BirthdayWishListPage = lazyPage(
+  () => import('./pages/BirthdayWishListPage.js'),
+  'BirthdayWishListPage',
+);
+const ComparePage = lazyPage(() => import('./pages/ComparePage.js'), 'ComparePage');
+const BlogPage = lazyPage(() => import('./pages/BlogPage.js'), 'BlogPage');
+const BlogArticlePage = lazyPage(() => import('./pages/BlogArticlePage.js'), 'BlogArticlePage');
+const LoginPage = lazyPage(() => import('./pages/LoginPage.js'), 'LoginPage');
+const RegisterPage = lazyPage(() => import('./pages/RegisterPage.js'), 'RegisterPage');
+const DashboardPage = lazyQueriedPage(() => import('./pages/DashboardPage.js'), 'DashboardPage');
+const CreatorManagePage = lazyQueriedPage(
+  () => import('./pages/CreatorManagePage.js'),
+  'CreatorManagePage',
+);
+const PublicListPage = lazyQueriedPage(() => import('./pages/PublicListPage.js'), 'PublicListPage');
+const NotFoundPage = lazyPage(() => import('./pages/NotFoundPage.js'), 'NotFoundPage');
+
+function RouteFallback() {
+  const { t } = useTranslation();
+
+  return (
+    <Layout>
+      <p className="loading-text content-page">{t('common.loading')}</p>
+    </Layout>
+  );
+}
 
 function HebrewBlogLanguage() {
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
     if (isHebrewBlogPath(pathname) && !i18n.language.startsWith('he')) {
-      void i18n.changeLanguage('he');
+      void ensureHebrewResources().then(() => i18n.changeLanguage('he'));
     }
   }, [pathname]);
 
   return null;
 }
 
-export default function App() {
+function AppRoutes() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <TrackPageView />
-          <HebrewBlogLanguage />
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <TrackPageView />
+        <HebrewBlogLanguage />
+        <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
@@ -69,9 +122,28 @@ export default function App() {
             <Route path="/lists/:listId" element={<PublicListPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
-    </QueryClientProvider>
+        </Suspense>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+
+function MaybeDevQueryTools({ children }: { children: ReactNode }) {
+  if (!DevQueryTools) {
+    return children;
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <DevQueryTools>{children}</DevQueryTools>
+    </Suspense>
+  );
+}
+
+export default function App() {
+  return (
+    <MaybeDevQueryTools>
+      <AppRoutes />
+    </MaybeDevQueryTools>
   );
 }

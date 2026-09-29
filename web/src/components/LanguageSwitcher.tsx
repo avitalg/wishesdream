@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { isBlogPath, localizedBlogPath, toEnglishBlogPath } from '../content/blog.js';
-import i18n, { type SupportedLanguage } from '../i18n/index.js';
+import i18n, { ensureHebrewResources, type SupportedLanguage } from '../i18n/index.js';
 
 export function LanguageSwitcher() {
   const { t, i18n: i18nInstance } = useTranslation();
@@ -10,15 +10,22 @@ export function LanguageSwitcher() {
   const current = (i18nInstance.language.startsWith('he') ? 'he' : 'en') as SupportedLanguage;
 
   function switchTo(language: SupportedLanguage) {
-    void i18n.changeLanguage(language);
-    if (!isBlogPath(location.pathname)) {
-      return;
-    }
+    void (async () => {
+      if (language === 'he') {
+        await ensureHebrewResources();
+      }
 
-    const target = localizedBlogPath(toEnglishBlogPath(location.pathname), language);
-    if (target !== location.pathname) {
-      navigate(target);
-    }
+      await i18n.changeLanguage(language);
+
+      if (!isBlogPath(location.pathname)) {
+        return;
+      }
+
+      const target = localizedBlogPath(toEnglishBlogPath(location.pathname), language);
+      if (target !== location.pathname) {
+        navigate(target);
+      }
+    })();
   }
 
   return (

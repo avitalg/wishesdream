@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { localizeHref, type BlogLocale } from '../content/blog.js';
 import { Layout } from '../components/Layout.js';
 import { useSeo, type SeoAlternate } from '../hooks/useSeo.js';
+import { suspendUntilHebrewReady } from '../i18n/index.js';
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
@@ -55,6 +56,10 @@ export function MarketingLandingPage({
   alternates,
   section,
 }: MarketingLandingPageProps) {
+  if (locale === 'he') {
+    suspendUntilHebrewReady();
+  }
+
   const { t: translate, i18n } = useTranslation();
   const t = locale === 'he' ? i18n.getFixedT('he') : translate;
   const prefix = `content.landing.${landingKey}`;

@@ -3,9 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Layout } from '../components/Layout.js';
 import { BLOG_ARTICLES, blogAlternates, BLOG_PATH, type BlogLocale, localizedBlogPath } from '../content/blog.js';
 import { useSeo } from '../hooks/useSeo.js';
+import { suspendUntilHebrewReady } from '../i18n/index.js';
 import { buildBlogJsonLd, buildBreadcrumbJsonLd, buildJsonLdGraph } from '../lib/seoJsonLd.js';
 
 export function BlogPage({ locale = 'en' }: { locale?: BlogLocale }) {
+  if (locale === 'he') {
+    suspendUntilHebrewReady();
+  }
+
   const { t: translate, i18n } = useTranslation();
   const t = locale === 'he' ? i18n.getFixedT('he') : translate;
   const path = localizedBlogPath(BLOG_PATH, locale);

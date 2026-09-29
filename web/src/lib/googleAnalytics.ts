@@ -1,4 +1,5 @@
 const DEFAULT_MEASUREMENT_ID = 'G-S6N20L9X1C';
+const LOAD_AFTER_MS = 8000;
 
 declare global {
   interface Window {
@@ -7,32 +8,73 @@ declare global {
   }
 }
 
+function measurementId(): string {
+  return (
+    (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined)?.trim() ||
+    DEFAULT_MEASUREMENT_ID
+  );
+}
+
+let scriptRequested = false;
+
+function loadGoogleAnalyticsScript(id: string): void {
+  if (scriptRequested) {
+    return;
+  }
+
+  scriptRequested = true;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+  script.fetchPriority = 'low';
+  document.head.appendChild(script);
+}
+
 export function initGoogleAnalytics(): void {
   if (import.meta.env.DEV) {
     return;
   }
 
-  const measurementId =
-    (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined)?.trim() ||
-    DEFAULT_MEASUREMENT_ID;
-
-  if (!measurementId) {
+  const id = measurementId();
+  if (!id) {
     return;
   }
 
   window.dataLayer = window.dataLayer ?? [];
 
   window.gtag = function gtag() {
+    // The gtag snippet queues an Arguments object. A rest array is ignored.
+    // eslint-disable-next-line prefer-rest-params
     window.dataLayer?.push(arguments);
   };
 
   window.gtag('js', new Date());
-  window.gtag('config', measurementId, { send_page_view: false });
+  window.gtag('config', id, { send_page_view: false });
 
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-  document.head.appendChild(script);
+  const events = ['pointerdown', 'keydown', 'touchstart'] as const;
+
+  const start = () => {
+    loadGoogleAnalyticsScript(id);
+    for (const event of events) {
+      window.removeEventListener(event, start);
+    }
+  };
+
+  for (const event of events) {
+    window.addEventListener(event, start, { passive: true });
+  }
+
+  const scheduleFallback = () => {
+    window.setTimeout(start, LOAD_AFTER_MS);
+  };
+
+  if (document.readyState === 'complete') {
+    scheduleFallback();
+    return;
+  }
+
+  window.addEventListener('load', scheduleFallback, { once: true });
 }
 
 export function trackGaPageView(pagePath: string): void {

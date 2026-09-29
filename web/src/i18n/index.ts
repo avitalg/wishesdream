@@ -1,8 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './locales/en.json';
-import he from './locales/he.json';
 
 export const SUPPORTED_LANGUAGES = ['en', 'he'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
@@ -48,30 +46,82 @@ function languageFromPath(): SupportedLanguage | undefined {
   return undefined;
 }
 
-const pathLanguage = languageFromPath();
+function readStoredLanguage(): SupportedLanguage | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
 
-void i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    ...(pathLanguage ? { lng: pathLanguage } : {}),
-    resources: {
-      en: { translation: en },
-      he: { translation: he },
-    },
-    fallbackLng: 'en',
-    supportedLngs: [...SUPPORTED_LANGUAGES],
-    interpolation: {
-      escapeValue: false,
-    },
-    detection: {
-      order: ['localStorage'],
-      caches: ['localStorage'],
-      lookupLocalStorage: LANGUAGE_STORAGE_KEY,
-    },
+  try {
+    const value = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (value === 'he' || value === 'en') {
+      return value;
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+}
+
+const initialLanguage = languageFromPath() ?? readStoredLanguage() ?? 'en';
+
+let hebrewResources: Promise<void> | null = null;
+
+export function ensureHebrewResources(): Promise<void> {
+  if (i18n.hasResourceBundle('he', 'translation')) {
+    return Promise.resolve();
+  }
+
+  hebrewResources ??= import('./locales/he.json').then((module) => {
+    i18n.addResourceBundle('he', 'translation', module.default, true, true);
   });
 
-i18n.on('languageChanged', applyDocumentLanguage);
-applyDocumentLanguage(i18n.language);
+  return hebrewResources;
+}
+
+export function suspendUntilHebrewReady(): void {
+  if (!i18n.hasResourceBundle('he', 'translation')) {
+    throw ensureHebrewResources();
+  }
+}
+
+void i18n.use(initReactI18next).init({
+  lng: initialLanguage === 'he' ? 'en' : initialLanguage,
+  partialBundledLanguages: true,
+  resources: {
+    en: { translation: en },
+  },
+  fallbackLng: 'en',
+  supportedLngs: [...SUPPORTED_LANGUAGES],
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+function persistLanguage(language: string): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language.startsWith('he') ? 'he' : 'en');
+  } catch {
+    // Storage can be blocked; language still applies for this visit.
+  }
+}
+
+i18n.on('languageChanged', (language) => {
+  applyDocumentLanguage(language);
+  persistLanguage(language);
+});
+applyDocumentLanguage(initialLanguage === 'he' ? 'he' : i18n.language);
+if (initialLanguage !== 'he') {
+  persistLanguage(i18n.language);
+}
+
+export const i18nReady: Promise<void> =
+  initialLanguage === 'he'
+    ? ensureHebrewResources().then(() => i18n.changeLanguage('he')).then(() => undefined)
+    : Promise.resolve();
 
 export default i18n;

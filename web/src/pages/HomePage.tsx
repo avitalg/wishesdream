@@ -9,8 +9,15 @@ import {
   buildWebApplicationJsonLd,
   buildWebSiteJsonLd,
 } from '../lib/seoJsonLd.js';
-import screenshot from '../assets/Screenshot1.png';
-import dollImage from '../assets/doll.jpg';
+import screenshot640 from '../assets/optimized/screenshot-640.webp';
+import screenshot960 from '../assets/optimized/screenshot-960.webp';
+import screenshot1280 from '../assets/optimized/screenshot-1280.webp';
+import screenshot1386 from '../assets/optimized/screenshot-1386.webp';
+import doll400 from '../assets/optimized/doll-400.webp';
+import doll600 from '../assets/optimized/doll-600.webp';
+
+const screenshotSrcSet = `${screenshot640} 640w, ${screenshot960} 960w, ${screenshot1280} 1280w, ${screenshot1386} 1386w`;
+const dollSrcSet = `${doll400} 400w, ${doll600} 600w`;
 
 export function HomePage() {
   const { user } = useAuth();
@@ -44,9 +51,15 @@ export function HomePage() {
         {!user ? (
           <div className="hero-visual">
             <img
-              src={screenshot}
+              src={screenshot1386}
+              srcSet={screenshotSrcSet}
+              sizes="(max-width: 900px) calc(100vw - 2.5rem), 640px"
+              width={1386}
+              height={1314}
               alt={t('home.screenshotAlt')}
               className="hero-screenshot"
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
         ) : (
@@ -56,7 +69,9 @@ export function HomePage() {
             <div className="hero-card-preview">
               <div className="hero-card-preview__image">
                 <img
-                  src={dollImage}
+                  src={doll600}
+                  srcSet={dollSrcSet}
+                  sizes="300px"
                   alt=""
                   width={600}
                   height={327}
@@ -84,7 +99,9 @@ export function HomePage() {
                 <article className="guest-claim__card item-card">
                   <div className="item-image-wrap">
                     <img
-                      src={dollImage}
+                      src={doll600}
+                      srcSet={dollSrcSet}
+                      sizes="300px"
                       alt=""
                       className="item-image"
                       width={600}
